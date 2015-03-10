@@ -86,8 +86,7 @@ function(rule, value, callback, source, options)
 * `callback`: A callback function to invoke once validation is complete. It expects to be passed an array of `Error` instances to indicate validation failure.
 * `source`: The source object that was passed to the `validate` method.
 * `options`: Additional options.
-* `options.messages`: The object containing validation error messages.
-* `options.error`: A helper function for generating validation errors.
+* `options.messages`: The object containing validation error messages
 
 The options passed to `validate` are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are `messages`, `exception` and `error`.
 
