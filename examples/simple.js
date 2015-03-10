@@ -22,7 +22,7 @@ var schema = new Schema({
       async: {
         validator: function (rule, value, callback) {
           setTimeout(function () {
-            callback([new Error(rule.message)]);
+            callback(rule.message);
           }, 100);
         },
         message: 'address async fails'

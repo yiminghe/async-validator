@@ -120,12 +120,12 @@ It is often useful to test against multiple validation rules for a single field,
 var descriptor = {
   email: [
     {type: "string", required: true, pattern: schema.pattern.email},
-    function(rule, value, callback, source, options) {
+    {validator:function(rule, value, callback, source, options) {
       var errors = [];
       // test if email address already exists in a database
       // and add a validation error to the errors array if it does
       callback(errors);
-    }
+    }}
   ]
 }
 ```
@@ -307,3 +307,24 @@ validator.messages(es); // ensure this schema uses the altered messages
 ```
 
 If you are defining your own validation functions it is better practice to assign the message strings to a messages object and then access the messages via the `options.messages` property within the validation function.
+
+### validator
+
+you can custom validate function for specified field:
+
+```js
+{
+  asyncField:{
+    validator: function(rule,value,callback){
+      ajax({
+        url:'xx',
+        value:value
+      }).then(function(data){
+        callback(null);
+      },function(error){
+        callback(new Error(error))
+      });
+    }
+  }
+}
+```
