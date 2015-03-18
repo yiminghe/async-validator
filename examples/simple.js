@@ -17,6 +17,7 @@ var schema = new Schema({
       },
       city: {
         type: 'string',
+        message:'custom message',
         min: 5
       },
       async: {
