@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   required: require('./required'),
   whitespace: require('./whitespace'),

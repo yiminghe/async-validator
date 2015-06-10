@@ -1,7 +1,9 @@
+'use strict';
+
 var rules = require('../rule/');
 
 /**
- *  Validates a number is a floating point number.
+ *  Validates an object.
  *
  *  @param rule The validation rule.
  *  @param value The value of the field on the source object.
@@ -10,7 +12,7 @@ var rules = require('../rule/');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var float = function (rule, value, callback, source, options) {
+var object = function (rule, value, callback, source, options) {
   var errors = [];
   var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
@@ -18,10 +20,11 @@ var float = function (rule, value, callback, source, options) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    rules.type(rule, value, source, errors, options);
-    rules.range(rule, value, source, errors, options);
+    if (rule.required || value !== undefined) {
+      rules.type(rule, value, source, errors, options);
+    }
   }
   callback(errors);
 };
 
-module.exports = float;
+module.exports = object;

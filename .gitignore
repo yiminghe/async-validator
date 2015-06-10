@@ -19,11 +19,8 @@ Thumbs.db
 *.pyo
 .build
 node_modules
-_site
-sea-modules
-spm_modules
 .cache
 dist
 assets/**/*.css
-examples/**/*.css
-build/
+build
+lib

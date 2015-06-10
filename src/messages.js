@@ -1,15 +1,14 @@
-/**
- *  Default validation error messages.
- */
+'use strict';
+
 var messages = {
   'default': 'Validation error on field %s',
   required: '%s is required',
   'enum': '%s must be one of %s',
   whitespace: '%s cannot be empty',
   date: {
-    format: "%s date %s is invalid for format %s",
-    parse: "%s date could not be parsed, %s is invalid ",
-    invalid: "%s date %s is invalid"
+    format: '%s date %s is invalid for format %s',
+    parse: '%s date could not be parsed, %s is invalid ',
+    invalid: '%s date %s is invalid'
   },
   types: {
     string: '%s is not a %s',

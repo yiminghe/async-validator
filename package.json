@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "validate form asynchronous",
   "keywords": [
     "validator",
@@ -13,32 +13,35 @@
     "type": "git",
     "url": "git@github.com:yiminghe/async-validator.git"
   },
+  "main": "./lib/index",
   "bugs": {
     "url": "http://github.com/yiminghe/async-validator/issues"
   },
   "licenses": "MIT",
-  "spm": {
-  },
   "config": {
     "port": 8010
   },
   "scripts": {
+    "build": "rc-tools run build",
+    "precommit": "rc-tools run precommit",
+    "less": "rc-tools run less",
+    "gh-pages": "rc-tools run gh-pages",
     "history": "rc-tools run history",
     "start": "node --harmony node_modules/.bin/rc-server",
-    "publish": "rc-tools run tag && spm publish",
+    "publish": "rc-tools run tag",
     "lint": "rc-tools run lint",
-    "test": "",
-    "saucelabs": "rc-tools run saucelabs",
-    "browser-test": "rc-tools run browser-test",
-    "browser-test-cover": "rc-tools run browser-test-cover"
+    "saucelabs": "node --harmony node_modules/.bin/rc-tools run saucelabs",
+    "browser-test": "node --harmony node_modules/.bin/rc-tools run browser-test",
+    "browser-test-cover": "node --harmony node_modules/.bin/rc-tools run browser-test-cover"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
     "precommit-hook": "^1.0.7",
-    "rc-server": "^2.0.0",
-    "rc-tools": "^1.1.0"
+    "rc-server": "3.x",
+    "rc-tools": "3.x",
+    "react": "~0.13.3"
   },
   "precommit": [
-    "lint"
+    "precommit"
   ]
 }

@@ -1,7 +1,9 @@
+'use strict';
+
 var rules = require('../rule/');
 
 /**
- *  Performs validation for string types.
+ *  Validates a boolean.
  *
  *  @param rule The validation rule.
  *  @param value The value of the field on the source object.
@@ -10,7 +12,7 @@ var rules = require('../rule/');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var string = function (rule, value, callback, source, options) {
+var boolean = function (rule, value, callback, source, options) {
   var errors = [];
   var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
@@ -19,13 +21,8 @@ var string = function (rule, value, callback, source, options) {
     }
     rules.required(rule, value, source, errors, options);
     rules.type(rule, value, source, errors, options);
-    rules.range(rule, value, source, errors, options);
-    rules.pattern(rule, value, source, errors, options);
-    if (rule.whitespace === true) {
-      rules.whitespace(rule, value, source, errors, options);
-    }
   }
   callback(errors);
 };
 
-module.exports = string;
+module.exports = boolean;

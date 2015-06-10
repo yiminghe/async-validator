@@ -1,7 +1,9 @@
+'use strict';
+
 var util = require('../util');
 
 /**
- *  Rule for validating whitespace.
+ *  Rule for validating required fields.
  *
  *  @param rule The validation rule.
  *  @param value The value of the field on the source object.
@@ -11,10 +13,10 @@ var util = require('../util');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var whitespace = function (rule, value, source, errors, options) {
-  if (/^\s+$/.test(value) || value === "") {
-    errors.push(util.format(options.messages.whitespace, rule.fullField));
+var required = function (rule, value, source, errors, options) {
+  if (rule.required && (!source.hasOwnProperty(rule.field) || value === undefined || value === null)) {
+    errors.push(util.format(options.messages.required, rule.fullField));
   }
 };
 
-module.exports = whitespace;
+module.exports = required;

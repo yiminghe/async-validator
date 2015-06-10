@@ -1,3 +1,5 @@
+'use strict';
+
 var rules = require('../rule/');
 
 var type = function (rule, value, callback, source, options) {

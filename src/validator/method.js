@@ -1,3 +1,5 @@
+'use strict';
+
 var rules = require('../rule/');
 
 /**

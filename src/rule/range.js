@@ -1,3 +1,5 @@
+'use strict';
+
 var util = require('../util');
 
 /**
@@ -17,8 +19,8 @@ var range = function (rule, value, source, errors, options) {
   var max = typeof rule.max === 'number';
   var val = value;
   var key = null;
-  var num = typeof(value) === 'number';
-  var str = typeof(value) === 'string';
+  var num = typeof (value) === 'number';
+  var str = typeof (value) === 'string';
   var arr = Array.isArray(value);
   if (num) {
     key = 'number';

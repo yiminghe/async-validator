@@ -1,7 +1,9 @@
+'use strict';
+
 var util = require('../util');
 
 /**
- *  Rule for validating a value exists in an enumerable list.
+ *  Rule for validating whitespace.
  *
  *  @param rule The validation rule.
  *  @param value The value of the field on the source object.
@@ -11,11 +13,10 @@ var util = require('../util');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var enumerable = function (rule, value, source, errors, options) {
-  rule['enum'] = Array.isArray(rule['enum']) ? rule['enum'] : [];
-  if (rule['enum'].indexOf(value) === -1) {
-    errors.push(util.format(options.messages['enum'], rule.fullField, rule['enum'].join(', ')));
+var whitespace = function (rule, value, source, errors, options) {
+  if (/^\s+$/.test(value) || value === '') {
+    errors.push(util.format(options.messages.whitespace, rule.fullField));
   }
 };
 
-module.exports = enumerable;
+module.exports = whitespace;

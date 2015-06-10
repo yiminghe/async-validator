@@ -1,7 +1,12 @@
+'use strict';
+
 var rules = require('../rule/');
 
 /**
- *  Validates a number is an integer.
+ *  Validates a regular expression pattern.
+ *
+ *  Performs validation when a rule only contains
+ *  a pattern property but is not declared as a string type.
  *
  *  @param rule The validation rule.
  *  @param value The value of the field on the source object.
@@ -10,20 +15,16 @@ var rules = require('../rule/');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var integer = function (rule, value, callback, source, options) {
-  //console.log('integer rule called %j', rule);
+var pattern = function (rule, value, callback, source, options) {
   var errors = [];
   var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
-  //console.log('validate on %s value', value);
   if (validate) {
     if (value === undefined && !rule.required) {
       return callback();
     }
-    rules.required(rule, value, source, errors, options);
-    rules.type(rule, value, source, errors, options);
-    rules.range(rule, value, source, errors, options);
+    rules.pattern(rule, value, source, errors, options);
   }
   callback(errors);
 };
 
-module.exports = integer;
+module.exports = pattern;

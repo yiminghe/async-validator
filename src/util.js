@@ -1,6 +1,8 @@
+'use strict';
+
 var formatRegExp = /%[sdj%]/g;
 
-exports.format = function (f) {
+exports.format =  (f) => {
   var i = 1;
   var args = arguments;
   var len = args.length;
@@ -27,8 +29,8 @@ exports.format = function (f) {
         return x;
     }
   });
-  for (var x = args[i]; i < len; x = args[++i]) {
-    str += ' ' + x;
+  for (var arg = args[i]; i < len; arg = args[++i]) {
+    str += ' ' + arg;
   }
   return str;
 };

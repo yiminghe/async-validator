@@ -1,7 +1,9 @@
+'use strict';
+
 var rules = require('../rule/');
 
 /**
- *  Validates a boolean.
+ *  Validates the regular expression type.
  *
  *  @param rule The validation rule.
  *  @param value The value of the field on the source object.
@@ -10,7 +12,7 @@ var rules = require('../rule/');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var boolean = function (rule, value, callback, source, options) {
+var regexp = function (rule, value, callback, source, options) {
   var errors = [];
   var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
@@ -23,4 +25,4 @@ var boolean = function (rule, value, callback, source, options) {
   callback(errors);
 };
 
-module.exports = boolean;
+module.exports = regexp;

@@ -1,6 +1,8 @@
+'use strict';
+
 var util = require('./util');
 var validators = require('./validator/');
-var messages = require('./messages');
+var defaultMessages = require('./messages');
 var error = require('./rule/').error;
 
 function asyncMap(arr, func, callback) {
@@ -13,7 +15,7 @@ function asyncMap(arr, func, callback) {
     }
   }
 
-  arr.forEach(function (a) {
+  arr.forEach((a) => {
     func(a, count);
   });
 }
@@ -36,7 +38,7 @@ function complementError(rule) {
  */
 var Schema = module.exports = function (descriptor) {
   this.rules = null;
-  this._messages = messages;
+  this._messages = defaultMessages;
   this.define(descriptor);
 };
 
@@ -64,10 +66,10 @@ Schema.prototype.messages = function (messages) {
 Schema.prototype.define = function (rules) {
   if (!rules) {
     throw new Error(
-      "Cannot configure a schema with no rules");
+      'Cannot configure a schema with no rules');
   }
   if (typeof rules !== 'object' || Array.isArray(rules)) {
-    throw new Error("Rules must be an object");
+    throw new Error('Rules must be an object');
   }
   this.rules = {};
   var z, item;
@@ -88,7 +90,7 @@ Schema.prototype.define = function (rules) {
  */
 Schema.prototype.validate = function (source, options, callback) {
   if (!this.rules) {
-    throw new Error("Cannot validate with no rules.");
+    throw new Error('Cannot validate with no rules.');
   }
   options = options || {};
   if (typeof options === 'function') {
@@ -96,7 +98,7 @@ Schema.prototype.validate = function (source, options, callback) {
     options = {};
   }
   var complete = function (results) {
-    //console.log("got validation results %j", results);
+    //console.log('got validation results %j', results);
     var i, field, errors = [], fields = {};
     var add = function (e) {
       if ((e instanceof Error)) {
@@ -123,24 +125,20 @@ Schema.prototype.validate = function (source, options, callback) {
     }
     callback(errors, fields);
   };
-  var messages = options.messages || this.messages();
-  options.messages = messages;
+  options.messages = options.messages || this.messages();
   options.error = error;
-  var j, z, arr, value, i, rule, series = [];
+  var arr, value, series = [];
   var keys = options.keys || Object.keys(this.rules);
-  for (j = 0; j < keys.length; j++) {
-    z = keys[j];
+  keys.forEach((z) => {
     arr = this.rules[z];
     value = source[z];
     //console.log('validate on key %s', z);
-    for (i = 0; i < arr.length; i++) {
-      rule = arr[i];
-
+    arr.forEach((rule) => {
       //console.log('validate on rule %j', rule);
-      if (typeof(rule.transform) === 'function') {
+      if (typeof (rule.transform) === 'function') {
         value = source[z] = rule.transform(value);
       }
-      if (typeof(rule) === 'function') {
+      if (typeof (rule) === 'function') {
         rule = {
           validator: rule
         };
@@ -151,21 +149,21 @@ Schema.prototype.validate = function (source, options, callback) {
       rule.validator = this.getValidationMethod(rule);
       if (!rule.validator) {
         //console.log('no validator found for %s', z);
-        continue;
+        return;
       }
       series.push({rule: rule, value: value, source: source, field: z});
-    }
-  }
-  asyncMap(series, function (data, callback) {
+    });
+  });
+  asyncMap(series, (data, doIt) => {
     var rule = data.rule;
-    var deep = (rule.type === 'object' || rule.type === 'array') && typeof(rule.fields) === 'object';
+    var deep = (rule.type === 'object' || rule.type === 'array') && typeof (rule.fields) === 'object';
     deep = deep && (rule.required || (!rule.required && data.value));
-    //console.log("Validating field %s", rule.field);
+    //console.log('Validating field %s', rule.field);
     rule.field = data.field;
     var cb = function (errors) {
       //delete rule.validator;
       //delete rule.field;
-      //console.log("Completed rule validation...");
+      //console.log('doItd rule validation...');
       if (errors && !Array.isArray(errors)) {
         errors = [errors];
       }
@@ -176,10 +174,10 @@ Schema.prototype.validate = function (source, options, callback) {
         errors = errors.map(complementError(rule));
       }
       if (options.first && errors && errors.length) {
-        return complete(errors);
+        return doIt(errors);
       }
       if (!deep) {
-        callback(null, errors);
+        doIt(null, errors);
       } else {
         errors = errors || [];
         // if rule is required but the target object
@@ -191,7 +189,7 @@ Schema.prototype.validate = function (source, options, callback) {
           } else {
             errors = [options.error(rule, util.format(options.messages.required, rule.field))];
           }
-          return callback(null, errors);
+          return doIt(null, errors);
         }
         var fieldsSchema = data.rule.fields;
         for (var f in fieldsSchema) {
@@ -204,10 +202,9 @@ Schema.prototype.validate = function (source, options, callback) {
           data.rule.options.messages = options.messages;
           data.rule.options.error = options.error;
         }
-        schema.validate(
-          data.value, data.rule.options || options, function (errs) {
-            callback(null, errs && errs.length ? errors.concat(errs) : errs);
-          });
+        schema.validate(data.value, data.rule.options || options, function (errs) {
+          doIt(null, errs && errs.length ? errors.concat(errs) : errs);
+        });
       }
     };
     rule.validator(
@@ -232,8 +229,8 @@ Schema.prototype.getType = function (rule) {
   //return 'function';
   //}
   //console.dir(rule);
-  if (typeof(rule.validator) !== 'function' && (!rule.type || !validators.hasOwnProperty(rule.type))) {
-    throw new Error(util.format("Unknown rule type %s", rule.type));
+  if (typeof (rule.validator) !== 'function' && (!rule.type || !validators.hasOwnProperty(rule.type))) {
+    throw new Error(util.format('Unknown rule type %s', rule.type));
   }
   return rule.type;
 };
@@ -262,9 +259,9 @@ Schema.prototype.getValidationMethod = function (rule) {
  */
 module.exports.register = function (type, validator) {
   if (typeof validator !== 'function') {
-    throw new Error("Cannot register a validator by type, validator is not a function");
+    throw new Error('Cannot register a validator by type, validator is not a function');
   }
   validators[type] = validator;
 };
 
-module.exports.messages = messages;
+module.exports.messages = defaultMessages;
