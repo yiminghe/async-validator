@@ -229,10 +229,10 @@ Schema.prototype.getType = function (rule) {
   //return 'function';
   //}
   //console.dir(rule);
-  if (typeof (rule.validator) !== 'function' && (!rule.type || !validators.hasOwnProperty(rule.type))) {
+  if (typeof (rule.validator) !== 'function' && (rule.type && !validators.hasOwnProperty(rule.type))) {
     throw new Error(util.format('Unknown rule type %s', rule.type));
   }
-  return rule.type;
+  return rule.type || 'string';
 };
 
 /**
