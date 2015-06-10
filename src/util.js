@@ -2,7 +2,7 @@
 
 var formatRegExp = /%[sdj%]/g;
 
-exports.format =  (f) => {
+exports.format = function (f) {
   var i = 1;
   var args = arguments;
   var len = args.length;
