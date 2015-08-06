@@ -63,8 +63,6 @@ var types = {
  *  @param options.messages The validation messages.
  */
 var type = function (rule, value, source, errors, options) {
-  // if value is required and value is undefined
-  // no need  to add this error message
   if (rule.required && value === undefined) {
     required(rule, value, source, errors, options);
     return;
