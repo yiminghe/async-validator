@@ -1,6 +1,7 @@
 'use strict';
 
 var util = require('../util');
+var required = require('./required');
 var pattern = {
   email: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
   url: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
@@ -65,6 +66,7 @@ var type = function (rule, value, source, errors, options) {
   // if value is required and value is undefined
   // no need  to add this error message
   if (rule.required && value === undefined) {
+    required(rule, value, source, errors, options);
     return;
   }
   var custom = ['integer', 'float', 'array', 'regexp', 'object', 'method', 'email', 'number'];
