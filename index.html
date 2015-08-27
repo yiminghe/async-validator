@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
+  <title>async-validator@1.3.1 - validate form asynchronous</title>
+  <style>
+    @font-face {
+      font-family: octicons-anchor;
+      src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+    }
+
+    .markdown-body, .examples, #readme {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      color: #333;
+      overflow: hidden;
+      font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      word-wrap: break-word;
+    }
+
+    .markdown-body a, .examples a {
+      background-color: transparent;
+    }
+
+    .markdown-body a:active,
+    .markdown-body a:hover {
+      outline: 0;
+    }
+
+    .markdown-body strong {
+      font-weight: bold;
+    }
+
+    .markdown-body h1 {
+      font-size: 2em;
+      margin: 0.67em 0;
+    }
+
+    .markdown-body img {
+      border: 0;
+    }
+
+    .markdown-body hr {
+      box-sizing: content-box;
+      height: 0;
+    }
+
+    .markdown-body pre {
+      overflow: auto;
+    }
+
+    .markdown-body code,
+    .markdown-body kbd,
+    .markdown-body pre {
+      font-family: monospace, monospace;
+      font-size: 1em;
+    }
+
+    .markdown-body input {
+      color: inherit;
+      font: inherit;
+      margin: 0;
+    }
+
+    .markdown-body html input[disabled] {
+      cursor: default;
+    }
+
+    .markdown-body input {
+      line-height: normal;
+    }
+
+    .markdown-body input[type="checkbox"] {
+      box-sizing: border-box;
+      padding: 0;
+    }
+
+    .markdown-body table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    .markdown-body td,
+    .markdown-body th {
+      padding: 0;
+    }
+
+    .markdown-body * {
+      box-sizing: border-box;
+    }
+
+    .markdown-body input {
+      font: 13px/1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+
+    .markdown-body a {
+      color: #4078c0;
+      text-decoration: none;
+    }
+
+    .markdown-body a:hover,
+    .markdown-body a:active {
+      text-decoration: underline;
+    }
+
+    .markdown-body hr {
+      height: 0;
+      margin: 15px 0;
+      overflow: hidden;
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .markdown-body hr:before {
+      display: table;
+      content: "";
+    }
+
+    .markdown-body hr:after {
+      display: table;
+      clear: both;
+      content: "";
+    }
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3,
+    .markdown-body h4,
+    .markdown-body h5,
+    .markdown-body h6 {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      line-height: 1.1;
+    }
+
+    .markdown-body h1 {
+      font-size: 30px;
+    }
+
+    .markdown-body h2 {
+      font-size: 21px;
+    }
+
+    .markdown-body h3 {
+      font-size: 16px;
+    }
+
+    .markdown-body h4 {
+      font-size: 14px;
+    }
+
+    .markdown-body h5 {
+      font-size: 12px;
+    }
+
+    .markdown-body h6 {
+      font-size: 11px;
+    }
+
+    .markdown-body blockquote {
+      margin: 0;
+    }
+
+    .markdown-body ul,
+    .markdown-body ol {
+      padding: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .markdown-body ol ol,
+    .markdown-body ul ol {
+      list-style-type: lower-roman;
+    }
+
+    .markdown-body ul ul ol,
+    .markdown-body ul ol ol,
+    .markdown-body ol ul ol,
+    .markdown-body ol ol ol {
+      list-style-type: lower-alpha;
+    }
+
+    .markdown-body dd {
+      margin-left: 0;
+    }
+
+    .markdown-body code {
+      font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      font-size: 12px;
+    }
+
+    .markdown-body pre {
+      margin-top: 0;
+      margin-bottom: 0;
+      font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    }
+
+    .markdown-body .octicon {
+      font: normal normal normal 16px/1 octicons-anchor;
+      display: inline-block;
+      text-decoration: none;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .markdown-body .octicon-link:before {
+      content: '\f05c';
+    }
+
+    .markdown-body > *:first-child {
+      margin-top: 0 !important;
+    }
+
+    .markdown-body > *:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    .markdown-body a:not([href]) {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .markdown-body .anchor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      padding-right: 6px;
+      padding-left: 30px;
+      margin-left: -30px;
+    }
+
+    .markdown-body .anchor:focus {
+      outline: none;
+    }
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3,
+    .markdown-body h4,
+    .markdown-body h5,
+    .markdown-body h6 {
+      position: relative;
+      margin-top: 1em;
+      margin-bottom: 16px;
+      font-weight: bold;
+      line-height: 1.4;
+    }
+
+    .markdown-body h1 .octicon-link,
+    .markdown-body h2 .octicon-link,
+    .markdown-body h3 .octicon-link,
+    .markdown-body h4 .octicon-link,
+    .markdown-body h5 .octicon-link,
+    .markdown-body h6 .octicon-link {
+      display: none;
+      color: #000;
+      vertical-align: middle;
+    }
+
+    .markdown-body h1:hover .anchor,
+    .markdown-body h2:hover .anchor,
+    .markdown-body h3:hover .anchor,
+    .markdown-body h4:hover .anchor,
+    .markdown-body h5:hover .anchor,
+    .markdown-body h6:hover .anchor {
+      padding-left: 8px;
+      margin-left: -30px;
+      text-decoration: none;
+    }
+
+    .markdown-body h1:hover .anchor .octicon-link,
+    .markdown-body h2:hover .anchor .octicon-link,
+    .markdown-body h3:hover .anchor .octicon-link,
+    .markdown-body h4:hover .anchor .octicon-link,
+    .markdown-body h5:hover .anchor .octicon-link,
+    .markdown-body h6:hover .anchor .octicon-link {
+      display: inline-block;
+    }
+
+    .markdown-body h1 {
+      padding-bottom: 0.3em;
+      font-size: 2.25em;
+      line-height: 1.2;
+      border-bottom: 1px solid #eee;
+    }
+
+    .markdown-body h1 .anchor {
+      line-height: 1;
+    }
+
+    .markdown-body h2 {
+      padding-bottom: 0.3em;
+      font-size: 1.75em;
+      line-height: 1.225;
+      border-bottom: 1px solid #eee;
+    }
+
+    .markdown-body h2 .anchor {
+      line-height: 1;
+    }
+
+    .markdown-body h3 {
+      font-size: 1.5em;
+      line-height: 1.43;
+    }
+
+    .markdown-body h3 .anchor {
+      line-height: 1.2;
+    }
+
+    .markdown-body h4 {
+      font-size: 1.25em;
+    }
+
+    .markdown-body h4 .anchor {
+      line-height: 1.2;
+    }
+
+    .markdown-body h5 {
+      font-size: 1em;
+    }
+
+    .markdown-body h5 .anchor {
+      line-height: 1.1;
+    }
+
+    .markdown-body h6 {
+      font-size: 1em;
+      color: #777;
+    }
+
+    .markdown-body h6 .anchor {
+      line-height: 1.1;
+    }
+
+    .markdown-body p,
+    .markdown-body blockquote,
+    .markdown-body ul,
+    .markdown-body ol,
+    .markdown-body dl,
+    .markdown-body table,
+    .markdown-body pre {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+
+    .markdown-body hr {
+      height: 4px;
+      padding: 0;
+      margin: 16px 0;
+      background-color: #e7e7e7;
+      border: 0 none;
+    }
+
+    .markdown-body ul,
+    .markdown-body ol {
+      padding-left: 2em;
+    }
+
+    .markdown-body ul ul,
+    .markdown-body ul ol,
+    .markdown-body ol ol,
+    .markdown-body ol ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .markdown-body li > p {
+      margin-top: 16px;
+    }
+
+    .markdown-body dl {
+      padding: 0;
+    }
+
+    .markdown-body dl dt {
+      padding: 0;
+      margin-top: 16px;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: bold;
+    }
+
+    .markdown-body dl dd {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+
+    .markdown-body blockquote {
+      padding: 0 15px;
+      color: #777;
+      border-left: 4px solid #ddd;
+    }
+
+    .markdown-body blockquote > :first-child {
+      margin-top: 0;
+    }
+
+    .markdown-body blockquote > :last-child {
+      margin-bottom: 0;
+    }
+
+    .markdown-body table {
+      display: block;
+      width: 100%;
+      overflow: auto;
+      word-break: normal;
+      word-break: keep-all;
+    }
+
+    .markdown-body table th {
+      font-weight: bold;
+    }
+
+    .markdown-body table th,
+    .markdown-body table td {
+      padding: 6px 13px;
+      border: 1px solid #ddd;
+    }
+
+    .markdown-body table tr {
+      background-color: #fff;
+      border-top: 1px solid #ccc;
+    }
+
+    .markdown-body table tr:nth-child(2n) {
+      background-color: #f8f8f8;
+    }
+
+    .markdown-body img {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .markdown-body code {
+      padding: 0;
+      padding-top: 0.2em;
+      padding-bottom: 0.2em;
+      margin: 0;
+      font-size: 85%;
+      background-color: rgba(0, 0, 0, 0.04);
+      border-radius: 3px;
+    }
+
+    .markdown-body code:before,
+    .markdown-body code:after {
+      letter-spacing: -0.2em;
+      content: "\00a0";
+    }
+
+    .markdown-body pre > code {
+      padding: 0;
+      margin: 0;
+      font-size: 100%;
+      word-break: normal;
+      white-space: pre;
+      background: transparent;
+      border: 0;
+    }
+
+    .markdown-body .highlight {
+      margin-bottom: 16px;
+    }
+
+    .markdown-body .highlight pre,
+    .markdown-body pre {
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: #f7f7f7;
+      border-radius: 3px;
+    }
+
+    .markdown-body .highlight pre {
+      margin-bottom: 0;
+      word-break: normal;
+    }
+
+    .markdown-body pre {
+      word-wrap: normal;
+    }
+
+    .markdown-body pre code {
+      display: inline;
+      max-width: initial;
+      padding: 0;
+      margin: 0;
+      overflow: initial;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .markdown-body pre code:before,
+    .markdown-body pre code:after {
+      content: normal;
+    }
+
+    .markdown-body kbd {
+      display: inline-block;
+      padding: 3px 5px;
+      font-size: 11px;
+      line-height: 10px;
+      color: #555;
+      vertical-align: middle;
+      background-color: #fcfcfc;
+      border: solid 1px #ccc;
+      border-bottom-color: #bbb;
+      border-radius: 3px;
+      box-shadow: inset 0 -1px 0 #bbb;
+    }
+
+    .markdown-body kbd {
+      display: inline-block;
+      padding: 3px 5px;
+      font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      line-height: 10px;
+      color: #555;
+      vertical-align: middle;
+      background-color: #fcfcfc;
+      border: solid 1px #ccc;
+      border-bottom-color: #bbb;
+      border-radius: 3px;
+      box-shadow: inset 0 -1px 0 #bbb;
+    }
+
+    .markdown-body .task-list-item {
+      list-style-type: none;
+    }
+
+    .markdown-body .task-list-item + .task-list-item {
+      margin-top: 3px;
+    }
+
+    .markdown-body .task-list-item input {
+      margin: 0 0.35em 0.25em -1.6em;
+      vertical-align: middle;
+    }
+
+    .markdown-body:checked + .radio-label {
+      z-index: 1;
+      position: relative;
+      border-color: #4078c0;
+    }
+
+    #readme, .examples {
+      min-width: 200px;
+      max-width: 790px;
+      margin: 30px auto;
+      padding: 0 30px;
+    }
+
+    #readme .boxed-group {
+      position: relative;
+      border-radius: 3px;
+      margin-bottom: 30px;
+    }
+
+    #readme .markdown-body,
+    #readme .plain,
+    .examples .examples-body {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      padding: 30px;
+      word-wrap: break-word;
+    }
+
+    .boxed-group > h3,
+    .examples > h3,
+    .boxed-group .heading {
+      background-color: #f5f5f5;
+      margin: 0;
+      border-radius: 3px 3px 0 0;
+      border: 1px solid #d8d8d8;
+      border-bottom: 0;
+      padding: 9px 10px 10px;
+      font-size: 14px;
+      line-height: 17px;
+      display: block;
+    }
+
+    .examples-body ul {
+      margin: 0;
+    }
+  </style>
+  <style type="text/css">
+    /*
+
+    github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+    */
+
+    .hljs {
+      display: block;
+      overflow-x: auto;
+      padding: 0.5em;
+      color: #333;
+      background: #f8f8f8;
+      -webkit-text-size-adjust: none;
+    }
+
+    .hljs-comment,
+    .diff .hljs-header {
+      color: #998;
+      font-style: italic;
+    }
+
+    .hljs-keyword,
+    .css .rule .hljs-keyword,
+    .hljs-winutils,
+    .nginx .hljs-title,
+    .hljs-subst,
+    .hljs-request,
+    .hljs-status {
+      color: #333;
+      font-weight: bold;
+    }
+
+    .hljs-number,
+    .hljs-hexcolor,
+    .ruby .hljs-constant {
+      color: #008080;
+    }
+
+    .hljs-string,
+    .hljs-tag .hljs-value,
+    .hljs-doctag,
+    .tex .hljs-formula {
+      color: #d14;
+    }
+
+    .hljs-title,
+    .hljs-id,
+    .scss .hljs-preprocessor {
+      color: #900;
+      font-weight: bold;
+    }
+
+    .hljs-list .hljs-keyword,
+    .hljs-subst {
+      font-weight: normal;
+    }
+
+    .hljs-class .hljs-title,
+    .hljs-type,
+    .vhdl .hljs-literal,
+    .tex .hljs-command {
+      color: #458;
+      font-weight: bold;
+    }
+
+    .hljs-tag,
+    .hljs-tag .hljs-title,
+    .hljs-rule .hljs-property,
+    .django .hljs-tag .hljs-keyword {
+      color: #000080;
+      font-weight: normal;
+    }
+
+    .hljs-attribute,
+    .hljs-variable,
+    .lisp .hljs-body,
+    .hljs-name {
+      color: #008080;
+    }
+
+    .hljs-regexp {
+      color: #009926;
+    }
+
+    .hljs-symbol,
+    .ruby .hljs-symbol .hljs-string,
+    .lisp .hljs-keyword,
+    .clojure .hljs-keyword,
+    .scheme .hljs-keyword,
+    .tex .hljs-special,
+    .hljs-prompt {
+      color: #990073;
+    }
+
+    .hljs-built_in {
+      color: #0086b3;
+    }
+
+    .hljs-preprocessor,
+    .hljs-pragma,
+    .hljs-pi,
+    .hljs-doctype,
+    .hljs-shebang,
+    .hljs-cdata {
+      color: #999;
+      font-weight: bold;
+    }
+
+    .hljs-deletion {
+      background: #fdd;
+    }
+
+    .hljs-addition {
+      background: #dfd;
+    }
+
+    .diff .hljs-change {
+      background: #0086b3;
+    }
+
+    .hljs-chunk {
+      color: #aaa;
+    }
+
+    .header {
+      min-width: 200px;
+      max-width: 790px;
+      margin:0 auto;
+    }
+  </style>
+</head>
+
+<body>
+<div class="header">
+  <h1>async-validator@1.3.1</h1>
+</div>
+<div class="examples">
+  <h3>EXAMPLES</h3>
+  <div class="examples-body">
+    <ul>
+      
+      <li><a href="examples/simple.html">simple</a></li>
+      
+    </ul>
+  </div>
+</div>
+<div id="readme" class="boxed-group">
+  <h3>README.md</h3>
+  <div class="markdown-body">
+    <h1>async-validator<a id="user-content-async-validator" name="async-validator" class="anchor" aria-hidden="true" href="#async-validator"><span class="octicon octicon-link"></span></a></h1><hr>
+<p>Validate form asynchronous. A variation of <a href="https://github.com/freeformsystems/async-validate" title="null">https://github.com/freeformsystems/async-validate</a></p>
+<p><a href="http://npmjs.org/package/async-validator" title="null"><img src="http://img.shields.io/npm/v/async-validator.svg?style=flat-square" alt="NPM version"></a>
+<a href="https://travis-ci.org/yiminghe/async-validator" title="null"><img src="https://img.shields.io/travis/yiminghe/async-validator.svg?style=flat-square" alt="build status"></a>
+<a href="https://coveralls.io/r/yiminghe/async-validator?branch=master" title="null"><img src="https://img.shields.io/coveralls/yiminghe/async-validator.svg?style=flat-square" alt="Test coverage"></a>
+<a href="https://gemnasium.com/yiminghe/async-validator" title="null"><img src="http://img.shields.io/gemnasium/yiminghe/async-validator.svg?style=flat-square" alt="gemnasium deps"></a>
+<a href="http://nodejs.org/download/" title="null"><img src="https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square" alt="node version"></a>
+<a href="https://npmjs.org/package/async-validator" title="null"><img src="https://img.shields.io/npm/dm/async-validator.svg?style=flat-square" alt="npm download"></a></p>
+<h2>differences<a id="user-content-differences" name="differences" class="anchor" aria-hidden="true" href="#differences"><span class="octicon octicon-link"></span></a></h2><h3>support<a id="user-content-support" name="support" class="anchor" aria-hidden="true" href="#support"><span class="octicon octicon-link"></span></a></h3><ul>
+<li>support ie8</li>
+<li>support <code>type:url</code> <code>type:email</code> <code>type:hex</code> <code>type:date</code></li>
+<li>support nice nested object validation message</li>
+</ul>
+<h3>remove<a id="user-content-remove" name="remove" class="anchor" aria-hidden="true" href="#remove"><span class="octicon octicon-link"></span></a></h3><ul>
+<li>remove moment and async dependency to run on browser easily</li>
+<li>remove parallel config, defaults to true</li>
+<li>remove .error constructor</li>
+</ul>
+<h2>examples<a id="user-content-examples" name="examples" class="anchor" aria-hidden="true" href="#examples"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre class="hljs"><code class="undefined"><span class="hljs-built_in">npm</span> install
+<span class="hljs-built_in">npm</span> start</code></pre></div><p><a href="http://localhost:8010/examples/simple.html" title="null">http://localhost:8010/examples/simple.html</a></p>
+<h2>docs from <a href="https://github.com/freeformsystems/async-validate" title="null">async-validate</a><a id="user-content-docs-from-<a-href="https://github.com/freeformsystems/async-validate"-title="null">async-validate</a>" name="docs-from-<a-href="https://github.com/freeformsystems/async-validate"-title="null">async-validate</a>" class="anchor" aria-hidden="true" href="#docs-from-<a-href="https://github.com/freeformsystems/async-validate"-title="null">async-validate</a>"><span class="octicon octicon-link"></span></a></h2><h3>Usage<a id="user-content-usage" name="usage" class="anchor" aria-hidden="true" href="#usage"><span class="octicon octicon-link"></span></a></h3><p>Basic usage involves defining a descriptor, assigning it to a schema and passing the object to be validated and a callback function to the <code>validate</code> method of the schema:</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
+<span class="hljs-keyword">var</span> descriptor = {
+  name: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}
+}
+<span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
+validator.validate({name: <span class="hljs-string">"muji"</span>}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">errors, fields</span>) </span>{
+  <span class="hljs-keyword">if</span>(errors) {
+    <span class="hljs-comment">// validation failed, errors is an array of all errors</span>
+    <span class="hljs-comment">// fields is an object keyed by field name with an array of</span>
+    <span class="hljs-comment">// errors per field</span>
+    <span class="hljs-keyword">return</span> handleErrors(errors, fields);
+  }
+  <span class="hljs-comment">// validation passed</span>
+});</code></pre></div><h3>Validate<a id="user-content-validate" name="validate" class="anchor" aria-hidden="true" href="#validate"><span class="octicon octicon-link"></span></a></h3><div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">source, [options], callback</span>)</span></code></pre></div><ul>
+<li><code>source</code>: The object to validate (required).</li>
+<li><code>options</code>: An object describing processing options for the validation (optional).</li>
+<li><code>callback</code>: A callback function to invoke when validation completes (required).</li>
+</ul>
+<h3>Options<a id="user-content-options" name="options" class="anchor" aria-hidden="true" href="#options"><span class="octicon octicon-link"></span></a></h3><ul>
+<li><code>first</code>: Invoke <code>callback</code> when the first validation rule generates an error, no more validation rules are processed. If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.</li>
+<li><code>single</code>: Only ever return a single error. Typically used in conjunction with <code>first</code> when a validation rule could generate multiple errors.</li>
+<li><code>keys</code>: Specifies the keys on the source object to be validated. Use this option to validate fields in a determinate order or to validate a subset of the rules assigned to a schema.</li>
+</ul>
+<p>Consider the rule:</p>
+<div class="highlight"><pre class="hljs"><code class="javascript">{name: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, min: <span class="hljs-number">10</span>, pattern: <span class="hljs-regexp">/^[^-].*$/</span>}}</code></pre></div><p>When supplied with a source object such as <code>{name: &quot;-name&quot;}</code> the validation rule would generate two errors, as the pattern does not match and the string length is less then the required minimum length for the field.</p>
+<p>In this instance when you only want the first error encountered use the <code>single</code> option.</p>
+<h3>Rules<a id="user-content-rules" name="rules" class="anchor" aria-hidden="true" href="#rules"><span class="octicon octicon-link"></span></a></h3><p>Rules may be functions that perform validation.</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">rule, value, callback, source, options</span>)</span></code></pre></div><ul>
+<li><code>rule</code>: The validation rule in the source descriptor that corresponds to the field name being validated. It is always assigned a <code>field</code> property with the name of the field being validated.</li>
+<li><code>value</code>: The value of the source object property being validated.</li>
+<li><code>callback</code>: A callback function to invoke once validation is complete. It expects to be passed an array of <code>Error</code> instances to indicate validation failure.</li>
+<li><code>source</code>: The source object that was passed to the <code>validate</code> method.</li>
+<li><code>options</code>: Additional options.</li>
+<li><code>options.messages</code>: The object containing validation error messages</li>
+</ul>
+<p>The options passed to <code>validate</code> are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are <code>messages</code>, <code>exception</code> and <code>error</code>.</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
+<span class="hljs-keyword">var</span> descriptor = {
+  name: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">rule, value, callback, source, options</span>) </span>{
+    <span class="hljs-keyword">var</span> errors = [];
+    <span class="hljs-keyword">if</span>(!<span class="hljs-regexp">/^[a-z0-9]+$/</span>.test(value)) {
+      errors.push(
+        <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(
+          util.format(<span class="hljs-string">"%s must be lowercase alphanumeric characters"</span>,
+            rule.field)));
+    }
+    callback(errors);
+  }
+}
+<span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
+validator.validate({name: <span class="hljs-string">"Firstname"</span>}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">errors, fields</span>) </span>{
+  <span class="hljs-keyword">if</span>(errors) {
+    <span class="hljs-keyword">return</span> handleErrors(errors, fields);
+  }
+  <span class="hljs-comment">// validation passed</span>
+});</code></pre></div><p>It is often useful to test against multiple validation rules for a single field, to do so make the rule an array of objects, for example:</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-keyword">var</span> descriptor = {
+  email: [
+    {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, pattern: schema.pattern.email},
+    {validator:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">rule, value, callback, source, options</span>) </span>{
+      <span class="hljs-keyword">var</span> errors = [];
+      <span class="hljs-comment">// test if email address already exists in a database</span>
+      <span class="hljs-comment">// and add a validation error to the errors array if it does</span>
+      callback(errors);
+    }}
+  ]
+}</code></pre></div><h4>Type<a id="user-content-type" name="type" class="anchor" aria-hidden="true" href="#type"><span class="octicon octicon-link"></span></a></h4><p>Indicates the <code>type</code> of validator to use. Recognised type values are:</p>
+<ul>
+<li><code>string</code>: Must be of type <code>string</code>.</li>
+<li><code>number</code>: Must be of type <code>number</code>.</li>
+<li><code>boolean</code>: Must be of type <code>boolean</code>.</li>
+<li><code>method</code>: Must be of type <code>function</code>.</li>
+<li><code>regexp</code>: Must be an instance of <code>RegExp</code> or a string that does not generate an exception when creating a new <code>RegExp</code>.</li>
+<li><code>integer</code>: Must be of type <code>number</code> and an integer.</li>
+<li><code>float</code>: Must be of type <code>number</code> and a floating point number.</li>
+<li><code>array</code>: Must be an array as determined by <code>Array.isArray</code>.</li>
+<li><code>object</code>: Must be of type <code>object</code> and not <code>Array.isArray</code>.</li>
+<li><code>enum</code>: Value must exist in the <code>enum</code>.</li>
+<li><code>date</code>: Value must be valid as determined by <code>moment().isValid()</code>.</li>
+<li><code>url</code>: Must be of type <code>url</code>.</li>
+<li><code>hex</code>: Must be of type <code>hex</code>.</li>
+<li><code>email</code>: Must be of type <code>email</code>.</li>
+</ul>
+<h4>Required<a id="user-content-required" name="required" class="anchor" aria-hidden="true" href="#required"><span class="octicon octicon-link"></span></a></h4><p>The <code>required</code> rule property indicates that the field must exist on the source object being validated.</p>
+<h4>Pattern<a id="user-content-pattern" name="pattern" class="anchor" aria-hidden="true" href="#pattern"><span class="octicon octicon-link"></span></a></h4><p>The <code>pattern</code> rule property indicates a regular expression that the value must match to pass validation.</p>
+<h4>Range<a id="user-content-range" name="range" class="anchor" aria-hidden="true" href="#range"><span class="octicon octicon-link"></span></a></h4><p>A range is defined using the <code>min</code> and <code>max</code> properties. For <code>string</code> and <code>array</code> types comparison is performed against the <code>length</code>, for <code>number</code> types the number must not be less than <code>min</code> nor greater than <code>max</code>.</p>
+<h4>Length<a id="user-content-length" name="length" class="anchor" aria-hidden="true" href="#length"><span class="octicon octicon-link"></span></a></h4><p>To validate an exact length of a field specify the <code>len</code> property. For <code>string</code> and <code>array</code> types comparison is performed on the <code>length</code> property, for the <code>number</code> type this property indicates an exact match for the <code>number</code>, ie, it may only be strictly equal to <code>len</code>.</p>
+<p>If the <code>len</code> property is combined with the <code>min</code> and <code>max</code> range properties, <code>len</code> takes precedence.</p>
+<h4>Enumerable<a id="user-content-enumerable" name="enumerable" class="anchor" aria-hidden="true" href="#enumerable"><span class="octicon octicon-link"></span></a></h4><p>To validate a value from a list of possible values use the <code>enum</code> type with a <code>enum</code> property listing the valid values for the field, for example:</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-keyword">var</span> descriptor = {
+  role: {type: <span class="hljs-string">"enum"</span>, enum: [<span class="hljs-string">'admin'</span>, <span class="hljs-string">'user'</span>, <span class="hljs-string">'guest'</span>]}
+}</code></pre></div><h4>Whitespace<a id="user-content-whitespace" name="whitespace" class="anchor" aria-hidden="true" href="#whitespace"><span class="octicon octicon-link"></span></a></h4><p>It is typical to treat required fields that only contain whitespace as errors. To add an additional test for a string that consists solely of whitespace add a <code>whitespace</code> property to a rule with a value of <code>true</code>. The rule must be a <code>string</code> type.</p>
+<p>You may wish to sanitize user input instead of testing for whitespace, see <a href="#transform" title="transform">transform</a> for an example that would allow you to strip whitespace.</p>
+<h4>Deep Rules<a id="user-content-deep-rules" name="deep-rules" class="anchor" aria-hidden="true" href="#deep-rules"><span class="octicon octicon-link"></span></a></h4><p>If you need to validate deep object properties you may do so for validation rules that are of the <code>object</code> or <code>array</code> type by assigning nested rules to a <code>fields</code> property of the rule.</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-keyword">var</span> descriptor = {
+  address: {
+    type: <span class="hljs-string">"object"</span>, required: <span class="hljs-literal">true</span>,
+    fields: {
+      street: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>},
+      city: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>},
+      zip: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, len: <span class="hljs-number">8</span>, message: <span class="hljs-string">"invalid zip"</span>}
+    }
+  },
+  name: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}
+}
+<span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
+validator.validate({ address: {} }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">errors, fields</span>) </span>{
+  <span class="hljs-comment">// errors for street, address.city, address.zip and address.name</span>
+});</code></pre></div><p>Note that if you do not specify the <code>required</code> property on the parent rule it is perfectly valid for the field not to be declared on the source object and the deep validation rules will not be executed as there is nothing to validate against.</p>
+<p>Deep rule validation creates a schema for the nested rules so you can also specify the <code>options</code> passed to the <code>schema.validate()</code> method.</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-keyword">var</span> descriptor = {
+  address: {
+    type: <span class="hljs-string">"object"</span>, required: <span class="hljs-literal">true</span>, options: {single: <span class="hljs-literal">true</span>, first: <span class="hljs-literal">true</span>},
+    fields: {
+      street: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>},
+      city: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>},
+      zip: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, len: <span class="hljs-number">8</span>, message: <span class="hljs-string">"invalid zip"</span>}
+    }
+  },
+  name: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}
+}
+<span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
+validator.validate({ address: {} }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">errors, fields</span>) </span>{
+  <span class="hljs-comment">// now only errors for street and name</span>
+});</code></pre></div><p>The parent rule is also validated so if you have a set of rules such as:</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-keyword">var</span> descriptor = {
+  roles: {
+    type: <span class="hljs-string">"array"</span>, required: <span class="hljs-literal">true</span>, len: <span class="hljs-number">3</span>,
+    fields: {
+      <span class="hljs-number">0</span>: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>},
+      <span class="hljs-number">1</span>: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>},
+      <span class="hljs-number">2</span>: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}
+    }
+  }
+}</code></pre></div><p>And supply a source object of <code>{roles: [&quot;admin&quot;, &quot;user&quot;]}</code> then two errors will be created. One for the array length mismatch and one for the missing required array entry at index 2.</p>
+<h4>Transform<a id="user-content-transform" name="transform" class="anchor" aria-hidden="true" href="#transform"><span class="octicon octicon-link"></span></a></h4><p>Sometimes it is necessary to transform a value before validation, possibly to coerce the value or to sanitize it in some way. To do this add a <code>transform</code> function to the validation rule. The property is transformed prior to validation and re-assigned to the source object to mutate the value of the property in place.</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
+<span class="hljs-keyword">var</span> sanitize = <span class="hljs-built_in">require</span>(<span class="hljs-string">'validator'</span>).sanitize;
+<span class="hljs-keyword">var</span> descriptor = {
+  name: {
+    type: <span class="hljs-string">"string"</span>,
+    required: <span class="hljs-literal">true</span>, pattern: <span class="hljs-regexp">/^[a-z]+$/</span>,
+    transform: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
+      <span class="hljs-keyword">return</span> sanitize(value).trim();
+    }
+  }
+}
+<span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
+<span class="hljs-keyword">var</span> source = {name: <span class="hljs-string">" user  "</span>};
+validator.validate(source, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">errors, fields</span>) </span>{
+  assert.equal(source.name, <span class="hljs-string">"user"</span>);
+});</code></pre></div><p>Without the <code>transform</code> function validation would fail due to the pattern not matching as the input contains leading and trailing whitespace, but by adding the transform function validation passes and the field value is sanitized at the same time.</p>
+<h3>Messages<a id="user-content-messages" name="messages" class="anchor" aria-hidden="true" href="#messages"><span class="octicon octicon-link"></span></a></h3><p>Depending upon your application requirements, you may need i18n support or you may prefer different validation error messages.</p>
+<p>The easiest way to achieve this is to assign a <code>message</code> to a rule:</p>
+<div class="highlight"><pre class="hljs"><code class="javascript">{name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, message: <span class="hljs-string">"Name is required"</span>}}</code></pre></div><p>Potentially you may require the same schema validation rules for different languages, in which case duplicating the schema rules for each language does not make sense.</p>
+<p>In this scenario you could just require your own messages file for the language and assign it to the schema:</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
+<span class="hljs-keyword">var</span> es = <span class="hljs-built_in">require</span>(<span class="hljs-string">'messages-es'</span>);
+<span class="hljs-keyword">var</span> descriptor = {name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}};
+<span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
+validator.messages(es);
+...</code></pre></div><p>Or you could clone a default messages instance and then assign language specific messages to the schema using the <code>messages</code> method.</p>
+<div class="highlight"><pre class="hljs"><code class="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
+<span class="hljs-keyword">var</span> es = schema.messages.clone();
+es.required = <span class="hljs-string">"%s es un campo obligatorio"</span>;  <span class="hljs-comment">// change the message</span>
+<span class="hljs-keyword">var</span> descriptor = {name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}};
+<span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
+validator.messages(es); <span class="hljs-comment">// ensure this schema uses the altered messages</span>
+...</code></pre></div><p>If you are defining your own validation functions it is better practice to assign the message strings to a messages object and then access the messages via the <code>options.messages</code> property within the validation function.</p>
+<h3>validator<a id="user-content-validator" name="validator" class="anchor" aria-hidden="true" href="#validator"><span class="octicon octicon-link"></span></a></h3><p>you can custom validate function for specified field:</p>
+<div class="highlight"><pre class="hljs"><code class="js">{
+  asyncField:{
+    validator: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">rule,value,callback</span>)</span>{
+      ajax({
+        url:<span class="hljs-string">'xx'</span>,
+        value:value
+      }).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>)</span>{
+        callback(<span class="hljs-literal">null</span>);
+      },<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error</span>)</span>{
+        callback(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(error))
+      });
+    }
+  }
+}</code></pre></div>
+  </div>
+</div>
+<a href="http://github.com/yiminghe/async-validator"><img style="position: absolute; top: 0; right: 0; border: 0;"
+                            src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+                            alt="Fork me on GitHub"
+                            data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+</body>
+
+</html>
