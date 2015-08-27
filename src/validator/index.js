@@ -12,7 +12,8 @@ module.exports = {
   object: require('./object'),
   'enum': require('./enum'),
   pattern: require('./pattern'),
-  email:require('./type'),
-  url:require('./type'),
-  hex:require('./type')
+  email: require('./type'),
+  url: require('./type'),
+  date: require('./date'),
+  hex: require('./type')
 };

@@ -6,13 +6,12 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 
 ### support
 - support ie8
-- support ``type:url`` ``type:email`` ``type:hex``
+- support ``type:url`` ``type:email`` ``type:hex`` ``type:date``
 - support nice nested object validation message
 
 ### remove
 - remove moment and async dependency to run on browser easily
 - remove parallel config, defaults to true
-- remove ``type:date`` support
 - remove .error constructor
 
 ## examples
