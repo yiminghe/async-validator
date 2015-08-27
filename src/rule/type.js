@@ -70,7 +70,7 @@ var type = function (rule, value, source, errors, options) {
     required(rule, value, source, errors, options);
     return;
   }
-  var custom = ['integer', 'float', 'array', 'regexp', 'object', 'method', 'email', 'number'];
+  var custom = ['integer', 'float', 'array', 'regexp', 'object', 'method', 'email', 'number', 'date'];
   var ruleType = rule.type;
   if (custom.indexOf(ruleType) > -1) {
     if (!types[ruleType](value)) {
