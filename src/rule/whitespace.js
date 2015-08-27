@@ -1,6 +1,6 @@
-'use strict';
 
-var util = require('../util');
+
+import util from '../util';
 
 /**
  *  Rule for validating whitespace.
@@ -13,10 +13,10 @@ var util = require('../util');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var whitespace = function (rule, value, source, errors, options) {
+function whitespace(rule, value, source, errors, options) {
   if (/^\s+$/.test(value) || value === '') {
     errors.push(util.format(options.messages.whitespace, rule.fullField));
   }
-};
+}
 
-module.exports = whitespace;
+export default whitespace;

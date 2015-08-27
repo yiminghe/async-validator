@@ -1,6 +1,4 @@
-'use strict';
-
-var messages = {
+const messages = {
   'default': 'Validation error on field %s',
   required: '%s is required',
   'enum': '%s must be one of %s',
@@ -8,7 +6,7 @@ var messages = {
   date: {
     format: '%s date %s is invalid for format %s',
     parse: '%s date could not be parsed, %s is invalid ',
-    invalid: '%s date %s is invalid'
+    invalid: '%s date %s is invalid',
   },
   types: {
     string: '%s is not a %s',
@@ -22,33 +20,33 @@ var messages = {
     regexp: '%s is not a valid %s',
     email: '%s is not a valid %s',
     url: '%s is not a valid %s',
-    hex: '%s is not a valid %s'
+    hex: '%s is not a valid %s',
   },
   string: {
     len: '%s must be exactly %s characters',
     min: '%s must be at least %s characters',
     max: '%s cannot be longer than %s characters',
-    range: '%s must be between %s and %s characters'
+    range: '%s must be between %s and %s characters',
   },
   number: {
     len: '%s must equal %s',
     min: '%s cannot be less than %s',
     max: '%s cannot be greater than %s',
-    range: '%s must be between %s and %s'
+    range: '%s must be between %s and %s',
   },
   array: {
     len: '%s must be exactly %s in length',
     min: '%s cannot be less than %s in length',
     max: '%s cannot be greater than %s in length',
-    range: '%s must be between %s and %s in length'
+    range: '%s must be between %s and %s in length',
   },
   pattern: {
-    mismatch: '%s value %s does not match pattern %s'
+    mismatch: '%s value %s does not match pattern %s',
   },
-  clone: function () {
-    var cloned = JSON.parse(JSON.stringify(this));
+  clone() {
+    const cloned = JSON.parse(JSON.stringify(this));
     cloned.clone = this.clone;
     return cloned;
-  }
+  },
 };
-module.exports = messages;
+export default messages;

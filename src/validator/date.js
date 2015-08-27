@@ -1,23 +1,21 @@
-'use strict';
+import rules from '../rule/';
 
-var rules = require('../rule/');
-
-var date = function (rule, value, callback, source, options) {
-  //console.log('integer rule called %j', rule);
-  var errors = [];
-  var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
-  //console.log('validate on %s value', value);
+function date(rule, value, callback, source, options) {
+  // console.log('integer rule called %j', rule);
+  const errors = [];
+  const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
+  // console.log('validate on %s value', value);
   if (validate) {
     if (value === undefined && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    rules.type(rule, value, source, errors, options);
     if (value) {
+      rules.type(rule, value, source, errors, options);
       rules.range(rule, value.getTime(), source, errors, options);
     }
   }
   callback(errors);
-};
+}
 
-module.exports = date;
+export default date;

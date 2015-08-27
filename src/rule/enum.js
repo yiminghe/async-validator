@@ -1,7 +1,7 @@
-'use strict';
 
-var util = require('../util');
-var ENUM = 'enum';
+
+import util from '../util';
+const ENUM = 'enum';
 
 /**
  *  Rule for validating a value exists in an enumerable list.
@@ -14,11 +14,11 @@ var ENUM = 'enum';
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var enumerable = function (rule, value, source, errors, options) {
+function enumerable(rule, value, source, errors, options) {
   rule[ENUM] = Array.isArray(rule[ENUM]) ? rule[ENUM] : [];
   if (rule[ENUM].indexOf(value) === -1) {
     errors.push(util.format(options.messages[ENUM], rule.fullField, rule[ENUM].join(', ')));
   }
-};
+}
 
-module.exports = enumerable;
+export default enumerable;

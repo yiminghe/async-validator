@@ -1,7 +1,5 @@
-'use strict';
-
-var rules = require('../rule/');
-var ENUM = 'enum';
+import rules from '../rule/';
+const ENUM = 'enum';
 
 /**
  *  Validates an enumerable list.
@@ -13,17 +11,19 @@ var ENUM = 'enum';
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var enumerable = function (rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
+function enumerable(rule, value, callback, source, options) {
+  const errors = [];
+  const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (value === undefined && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    rules[ENUM](rule, value, source, errors, options);
+    if (value) {
+      rules[ENUM](rule, value, source, errors, options);
+    }
   }
   callback(errors);
-};
+}
 
-module.exports = enumerable;
+export default enumerable;

@@ -1,6 +1,6 @@
-'use strict';
 
-var rules = require('../rule/');
+
+import rules from '../rule/';
 
 /**
  *  Validates a boolean.
@@ -12,17 +12,19 @@ var rules = require('../rule/');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var boolean = function (rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
+function boolean(rule, value, callback, source, options) {
+  const errors = [];
+  const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (value === undefined && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    rules.type(rule, value, source, errors, options);
+    if (value !== undefined) {
+      rules.type(rule, value, source, errors, options);
+    }
   }
   callback(errors);
-};
+}
 
-module.exports = boolean;
+export default boolean;

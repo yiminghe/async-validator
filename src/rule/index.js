@@ -1,10 +1,10 @@
-'use strict';
 
-module.exports = {
+
+export default {
   required: require('./required'),
   whitespace: require('./whitespace'),
   type: require('./type'),
   range: require('./range'),
   'enum': require('./enum'),
-  pattern: require('./pattern')
+  pattern: require('./pattern'),
 };

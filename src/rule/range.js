@@ -1,6 +1,6 @@
-'use strict';
 
-var util = require('../util');
+
+import util from '../util';
 
 /**
  *  Rule for validating minimum and maximum allowed values.
@@ -13,15 +13,15 @@ var util = require('../util');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var range = function (rule, value, source, errors, options) {
-  var len = typeof rule.len === 'number';
-  var min = typeof rule.min === 'number';
-  var max = typeof rule.max === 'number';
-  var val = value;
-  var key = null;
-  var num = typeof (value) === 'number';
-  var str = typeof (value) === 'string';
-  var arr = Array.isArray(value);
+function range(rule, value, source, errors, options) {
+  const len = typeof rule.len === 'number';
+  const min = typeof rule.min === 'number';
+  const max = typeof rule.max === 'number';
+  let val = value;
+  let key = null;
+  const num = typeof (value) === 'number';
+  const str = typeof (value) === 'string';
+  const arr = Array.isArray(value);
   if (num) {
     key = 'number';
   } else if (str) {
@@ -50,6 +50,6 @@ var range = function (rule, value, source, errors, options) {
     errors.push(util.format(options.messages[key].range,
         rule.fullField, rule.min, rule.max));
   }
-};
+}
 
-module.exports = range;
+export default range;

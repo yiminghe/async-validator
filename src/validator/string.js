@@ -1,6 +1,4 @@
-'use strict';
-
-var rules = require('../rule/');
+import rules from '../rule/';
 
 /**
  *  Performs validation for string types.
@@ -12,22 +10,24 @@ var rules = require('../rule/');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var string = function (rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
+function string(rule, value, callback, source, options) {
+  const errors = [];
+  const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (value === undefined && !rule.required) {
       return callback();
     }
-    rules.required(rule, value, source, errors, options);
-    rules.type(rule, value, source, errors, options);
-    rules.range(rule, value, source, errors, options);
-    rules.pattern(rule, value, source, errors, options);
-    if (rule.whitespace === true) {
-      rules.whitespace(rule, value, source, errors, options);
+    rules.required(rule, value, source, errors, options, 'string');
+    if (value !== undefined) {
+      rules.type(rule, value, source, errors, options);
+      rules.range(rule, value, source, errors, options);
+      rules.pattern(rule, value, source, errors, options);
+      if (rule.whitespace === true) {
+        rules.whitespace(rule, value, source, errors, options);
+      }
     }
   }
   callback(errors);
-};
+}
 
-module.exports = string;
+export default string;

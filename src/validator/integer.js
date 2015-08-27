@@ -1,6 +1,4 @@
-'use strict';
-
-var rules = require('../rule/');
+import rules from '../rule/';
 
 /**
  *  Validates a number is an integer.
@@ -12,20 +10,20 @@ var rules = require('../rule/');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var integer = function (rule, value, callback, source, options) {
-  //console.log('integer rule called %j', rule);
-  var errors = [];
-  var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
-  //console.log('validate on %s value', value);
+function integer(rule, value, callback, source, options) {
+  const errors = [];
+  const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (value === undefined && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    rules.type(rule, value, source, errors, options);
-    rules.range(rule, value, source, errors, options);
+    if (value !== undefined) {
+      rules.type(rule, value, source, errors, options);
+      rules.range(rule, value, source, errors, options);
+    }
   }
   callback(errors);
-};
+}
 
-module.exports = integer;
+export default integer;

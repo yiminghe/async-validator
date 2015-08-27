@@ -1,6 +1,4 @@
-'use strict';
-
-var util = require('../util');
+import util from '../util';
 
 /**
  *  Rule for validating required fields.
@@ -13,10 +11,10 @@ var util = require('../util');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var required = function (rule, value, source, errors, options) {
-  if (rule.required && (!source.hasOwnProperty(rule.field) || value === undefined || value === null)) {
+function required(rule, value, source, errors, options, type) {
+  if (rule.required && (!source.hasOwnProperty(rule.field) || util.isEmptyValue(value, type))) {
     errors.push(util.format(options.messages.required, rule.fullField));
   }
-};
+}
 
-module.exports = required;
+export default required;

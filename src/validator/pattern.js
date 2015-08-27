@@ -1,6 +1,4 @@
-'use strict';
-
-var rules = require('../rule/');
+import rules from '../rule/';
 
 /**
  *  Validates a regular expression pattern.
@@ -15,16 +13,19 @@ var rules = require('../rule/');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var pattern = function (rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
+function pattern(rule, value, callback, source, options) {
+  const errors = [];
+  const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (value === undefined && !rule.required) {
       return callback();
     }
-    rules.pattern(rule, value, source, errors, options);
+    rules.required(rule, value, source, errors, options);
+    if (value !== undefined) {
+      rules.pattern(rule, value, source, errors, options);
+    }
   }
   callback(errors);
-};
+}
 
-module.exports = pattern;
+export default pattern;

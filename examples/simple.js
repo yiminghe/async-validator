@@ -1,4 +1,5 @@
-var Schema = require('async-validator');
+import Schema from 'async-validator';
+
 var schema = new Schema({
   name: {
     type: 'string',

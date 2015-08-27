@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = {
+
+export default {
   string: require('./string'),
   method: require('./method'),
   number: require('./number'),
@@ -15,5 +15,5 @@ module.exports = {
   email: require('./type'),
   url: require('./type'),
   date: require('./date'),
-  hex: require('./type')
+  hex: require('./type'),
 };

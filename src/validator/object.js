@@ -1,6 +1,6 @@
-'use strict';
 
-var rules = require('../rule/');
+
+import rules from '../rule/';
 
 /**
  *  Validates an object.
@@ -12,19 +12,19 @@ var rules = require('../rule/');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var object = function (rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
+function object(rule, value, callback, source, options) {
+  const errors = [];
+  const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (value === undefined && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    if (rule.required || value !== undefined) {
+    if (value !== undefined) {
       rules.type(rule, value, source, errors, options);
     }
   }
   callback(errors);
-};
+}
 
-module.exports = object;
+export default object;

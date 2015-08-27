@@ -1,19 +1,18 @@
-'use strict';
+const formatRegExp = /%[sdj%]/g;
 
-var formatRegExp = /%[sdj%]/g;
-
-exports.format = function (f) {
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
-  var str = String(f).replace(formatRegExp, function (x) {
-    if (x === '%%') {
-      return '%';
-    }
-    if (i >= len) {
-      return x;
-    }
-    switch (x) {
+export default {
+  format(...args) {
+    let i = 1;
+    const f = args[0];
+    const len = args.length;
+    let str = String(f).replace(formatRegExp, (x) => {
+      if (x === '%%') {
+        return '%';
+      }
+      if (i >= len) {
+        return x;
+      }
+      switch (x) {
       case '%s':
         return String(args[i++]);
       case '%d':
@@ -27,10 +26,26 @@ exports.format = function (f) {
         break;
       default:
         return x;
+      }
+    });
+    for (let arg = args[i]; i < len; arg = args[++i]) {
+      str += ' ' + arg;
     }
-  });
-  for (var arg = args[i]; i < len; arg = args[++i]) {
-    str += ' ' + arg;
-  }
-  return str;
+    return str;
+  },
+
+  isEmptyValue(value, type) {
+    if (value === undefined || value === null) {
+      return true;
+    }
+    if (type === 'array' && Array.isArray(value) && !value.length) {
+      return true;
+    }
+    if (type === 'string' && !value) {
+      return true;
+    }
+    return false;
+  },
 };
+
+

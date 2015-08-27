@@ -1,11 +1,9 @@
-'use strict';
+import rules from '../rule/';
 
-var rules = require('../rule/');
-
-var type = function (rule, value, callback, source, options) {
-  var errors = [];
+function type(rule, value, callback, source, options) {
+  const errors = [];
   rules.type(rule, value, source, errors, options);
   callback(errors);
-};
+}
 
-module.exports = type;
+export default type;

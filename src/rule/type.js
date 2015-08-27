@@ -1,16 +1,14 @@
-'use strict';
-
-var util = require('../util');
-var required = require('./required');
-var pattern = {
+import util from '../util';
+import required from './required';
+const pattern = {
   email: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
   url: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-  hex: /^#?([a-f0-9]{6}|[a-f0-9]{3})$/i
+  hex: /^#?([a-f0-9]{6}|[a-f0-9]{3})$/i,
 };
 
-var types = {
+const types = {
   integer(value) {
-    return types.number(value) && parseInt(value) === value;
+    return types.number(value) && parseInt(value, 10) === value;
   },
   float(value) {
     return types.number(value) && !types.integer(value);
@@ -51,7 +49,7 @@ var types = {
   },
   hex(value) {
     return typeof (value) === 'string' && !!value.match(pattern.hex);
-  }
+  },
 };
 
 /**
@@ -65,23 +63,21 @@ var types = {
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var type = function (rule, value, source, errors, options) {
+function type(rule, value, source, errors, options) {
   if (rule.required && value === undefined) {
     required(rule, value, source, errors, options);
     return;
   }
-  var custom = ['integer', 'float', 'array', 'regexp', 'object', 'method', 'email', 'number', 'date'];
-  var ruleType = rule.type;
+  const custom = ['integer', 'float', 'array', 'regexp', 'object', 'method', 'email', 'number', 'date'];
+  const ruleType = rule.type;
   if (custom.indexOf(ruleType) > -1) {
     if (!types[ruleType](value)) {
       errors.push(util.format(options.messages.types[ruleType], rule.fullField, rule.type));
     }
     // straight typeof check
   } else if (ruleType && typeof (value) !== rule.type) {
-    //console.log("checking type %s", type);
-    //console.log("checking value %s", value);
     errors.push(util.format(options.messages.types[ruleType], rule.fullField, rule.type));
   }
-};
+}
 
-module.exports = type;
+export default type;

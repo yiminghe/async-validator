@@ -1,6 +1,6 @@
-'use strict';
 
-var util = require('../util');
+
+import util from '../util';
 
 /**
  *  Rule for validating a regular expression pattern.
@@ -13,15 +13,13 @@ var util = require('../util');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var pattern = function (rule, value, source, errors, options) {
-  //console.log('testing pattern %s', value);
-  //console.log('testing with rule %s', rule.pattern);
+function pattern(rule, value, source, errors, options) {
   if (rule.pattern instanceof RegExp) {
     if (!rule.pattern.test(value)) {
       errors.push(util.format(options.messages.pattern.mismatch,
           rule.fullField, value, rule.pattern));
     }
   }
-};
+}
 
-module.exports = pattern;
+export default pattern;

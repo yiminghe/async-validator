@@ -1,6 +1,4 @@
-'use strict';
-
-var rules = require('../rule/');
+import rules from '../rule/';
 
 /**
  *  Validates an array.
@@ -12,20 +10,20 @@ var rules = require('../rule/');
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-var array = function (rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
+function array(rule, value, callback, source, options) {
+  const errors = [];
+  const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (value === undefined && !rule.required) {
       return callback();
     }
-    rules.required(rule, value, source, errors, options);
-    if (rule.required || value !== undefined) {
+    rules.required(rule, value, source, errors, options, 'array');
+    if (value !== undefined) {
       rules.type(rule, value, source, errors, options);
       rules.range(rule, value, source, errors, options);
     }
   }
   callback(errors);
-};
+}
 
-module.exports = array;
+export default array;
