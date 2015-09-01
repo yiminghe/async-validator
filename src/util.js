@@ -41,7 +41,7 @@ export default {
     if (type === 'array' && Array.isArray(value) && !value.length) {
       return true;
     }
-    if (type === 'string' && !value) {
+    if (type === 'string' && typeof value === 'string' && !value) {
       return true;
     }
     return false;

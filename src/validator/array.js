@@ -1,5 +1,5 @@
 import rules from '../rule/';
-
+import util from '../util';
 /**
  *  Validates an array.
  *
@@ -14,11 +14,11 @@ function array(rule, value, callback, source, options) {
   const errors = [];
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
-    if (value === undefined && !rule.required) {
+    if (util.isEmptyValue(value, 'array') && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options, 'array');
-    if (value !== undefined) {
+    if (!util.isEmptyValue(value, 'array')) {
       rules.type(rule, value, source, errors, options);
       rules.range(rule, value, source, errors, options);
     }

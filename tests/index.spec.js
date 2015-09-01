@@ -3,7 +3,6 @@ var Schema = require('../index');
 
 describe('async-validator', function () {
   describe('string', function () {
-
     it('works for none require', function (done) {
       new Schema({
         v: {
@@ -56,9 +55,8 @@ describe('async-validator', function () {
       }).validate({
           v: null
         }, function (errors) {
-          expect(errors.length).to.be(2);
+          expect(errors.length).to.be(1);
           expect(errors[0].message).to.be('v is required')
-          expect(errors[1].message).to.be('v is not a string')
           done();
         })
     });
@@ -195,9 +193,8 @@ describe('async-validator', function () {
       }).validate({
           v: null
         }, function (errors) {
-          expect(errors.length).to.be(2);
+          expect(errors.length).to.be(1);
           expect(errors[0].message).to.be('v is required')
-          expect(errors[1].message).to.be('v is not an array');
           done();
         })
     });
@@ -213,6 +210,66 @@ describe('async-validator', function () {
           v: [1]
         }, function (errors) {
           expect(errors).to.be(null);
+          done();
+        })
+    });
+  });
+
+  describe('pattern', function () {
+    it('works for non-required empty string', function (done) {
+      new Schema({
+        v: {
+          pattern: /^\d+$/,
+          message: 'haha'
+        }
+      }).validate({
+          // useful for web, input's value defaults to ''
+          v: ''
+        }, function (errors) {
+          expect(errors).to.be(null);
+          done();
+        })
+    });
+
+    it('works for non-required null', function (done) {
+      new Schema({
+        v: {
+          pattern: /^\d+$/,
+          message: 'haha'
+        }
+      }).validate({
+          v: null
+        }, function (errors) {
+          expect(errors).to.be(null);
+          done();
+        })
+    });
+
+    it('works for non-required undefined', function (done) {
+      new Schema({
+        v: {
+          pattern: /^\d+$/,
+          message: 'haha'
+        }
+      }).validate({
+          v: undefined
+        }, function (errors) {
+          expect(errors).to.be(null);
+          done();
+        })
+    });
+
+    it('works', function (done) {
+      new Schema({
+        v: {
+          pattern: /^\d+$/,
+          message: 'haha'
+        }
+      }).validate({
+          v: ' '
+        }, function (errors) {
+          expect(errors.length).to.be(1);
+          expect(errors[0].message).to.be('haha');
           done();
         })
     });
