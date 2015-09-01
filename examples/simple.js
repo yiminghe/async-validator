@@ -386,7 +386,7 @@ webpackJsonp([0,1],[
 	    if (type === 'array' && Array.isArray(value) && !value.length) {
 	      return true;
 	    }
-	    if (type === 'string' && !value) {
+	    if (type === 'string' && typeof value === 'string' && !value) {
 	      return true;
 	    }
 	    return false;
@@ -438,6 +438,10 @@ webpackJsonp([0,1],[
 	
 	var _rule2 = _interopRequireDefault(_rule);
 	
+	var _util = __webpack_require__(4);
+	
+	var _util2 = _interopRequireDefault(_util);
+	
 	/**
 	 *  Performs validation for string types.
 	 *
@@ -452,11 +456,11 @@ webpackJsonp([0,1],[
 	  var errors = [];
 	  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
 	  if (validate) {
-	    if (value === undefined && !rule.required) {
+	    if (_util2['default'].isEmptyValue(value, 'string') && !rule.required) {
 	      return callback();
 	    }
 	    _rule2['default'].required(rule, value, source, errors, options, 'string');
-	    if (value !== undefined) {
+	    if (!_util2['default'].isEmptyValue(value, 'string')) {
 	      _rule2['default'].type(rule, value, source, errors, options);
 	      _rule2['default'].range(rule, value, source, errors, options);
 	      _rule2['default'].pattern(rule, value, source, errors, options);
@@ -1093,6 +1097,10 @@ webpackJsonp([0,1],[
 	
 	var _rule2 = _interopRequireDefault(_rule);
 	
+	var _util = __webpack_require__(4);
+	
+	var _util2 = _interopRequireDefault(_util);
+	
 	/**
 	 *  Validates an array.
 	 *
@@ -1107,11 +1115,11 @@ webpackJsonp([0,1],[
 	  var errors = [];
 	  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
 	  if (validate) {
-	    if (value === undefined && !rule.required) {
+	    if (_util2['default'].isEmptyValue(value, 'array') && !rule.required) {
 	      return callback();
 	    }
 	    _rule2['default'].required(rule, value, source, errors, options, 'array');
-	    if (value !== undefined) {
+	    if (!_util2['default'].isEmptyValue(value, 'array')) {
 	      _rule2['default'].type(rule, value, source, errors, options);
 	      _rule2['default'].range(rule, value, source, errors, options);
 	    }
@@ -1228,6 +1236,10 @@ webpackJsonp([0,1],[
 	
 	var _rule2 = _interopRequireDefault(_rule);
 	
+	var _util = __webpack_require__(4);
+	
+	var _util2 = _interopRequireDefault(_util);
+	
 	/**
 	 *  Validates a regular expression pattern.
 	 *
@@ -1245,11 +1257,11 @@ webpackJsonp([0,1],[
 	  var errors = [];
 	  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
 	  if (validate) {
-	    if (value === undefined && !rule.required) {
+	    if (_util2['default'].isEmptyValue(value, 'string') && !rule.required) {
 	      return callback();
 	    }
 	    _rule2['default'].required(rule, value, source, errors, options);
-	    if (value !== undefined) {
+	    if (!_util2['default'].isEmptyValue(value, 'string')) {
 	      _rule2['default'].pattern(rule, value, source, errors, options);
 	    }
 	  }
