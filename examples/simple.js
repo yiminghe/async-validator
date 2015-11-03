@@ -305,7 +305,7 @@ webpackJsonp([0,1],[
 	    if (rule.type === undefined && rule.pattern instanceof RegExp) {
 	      rule.type = 'pattern';
 	    }
-	    if (typeof rule.validator !== 'function' && (rule.type && !_validator2['default'].hasOwnProperty(rule.type))) {
+	    if (typeof rule.validator !== 'function' && rule.type && !_validator2['default'].hasOwnProperty(rule.type)) {
 	      throw new Error(_util2['default'].format('Unknown rule type %s', rule.type));
 	    }
 	    return rule.type || 'string';
