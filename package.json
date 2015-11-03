@@ -35,12 +35,12 @@
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
-    "precommit-hook": "^1.0.7",
+    "pre-commit": "^1.0.7",
     "rc-server": "3.x",
     "rc-tools": "4.x",
     "react": "~0.13.3"
   },
-  "precommit": [
+  "pre-commit": [
     "lint"
   ]
 }

@@ -47,5 +47,3 @@ export default {
     return false;
   },
 };
-
-

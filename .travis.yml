@@ -7,7 +7,7 @@ notifications:
   - yiminghe@gmail.com
 
 node_js:
-- 0.12
+- 4.0.0
 
 before_install:
 - |
@@ -16,8 +16,6 @@ before_install:
       echo "Only docs were updated, stopping build process."
       exit
     fi
-    npm install mocha-phantomjs -g
-    phantomjs --version
 
 script:
 - |
@@ -32,7 +30,3 @@ env:
   - TEST_TYPE=lint
   - TEST_TYPE=browser-test
   - TEST_TYPE=browser-test-cover
-
-matrix:
-  allow_failures:
-  - env: "TEST_TYPE=saucelabs"
