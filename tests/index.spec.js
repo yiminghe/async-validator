@@ -9,11 +9,11 @@ describe('async-validator', function () {
           type: 'string'
         }
       }).validate({
-          v: ''
-        }, function (errors) {
-          expect(errors).to.be(null);
-          done();
-        })
+        v: ''
+      }, function (errors) {
+        expect(errors).to.be(null);
+        done();
+      })
     });
 
     it('works for empty string', function (done) {
@@ -23,12 +23,12 @@ describe('async-validator', function () {
           type: 'string'
         }
       }).validate({
-          v: ''
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('v is required')
-          done();
-        })
+        v: ''
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('v is required')
+        done();
+      })
     });
 
     it('works for undefined string', function (done) {
@@ -38,12 +38,12 @@ describe('async-validator', function () {
           type: 'string'
         }
       }).validate({
-          v: undefined
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('v is required')
-          done();
-        })
+        v: undefined
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('v is required')
+        done();
+      })
     });
 
     it('works for null string', function (done) {
@@ -53,12 +53,12 @@ describe('async-validator', function () {
           type: 'string'
         }
       }).validate({
-          v: null
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('v is required')
-          done();
-        })
+        v: null
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('v is required')
+        done();
+      })
     });
 
     it('works for message', function (done) {
@@ -69,12 +69,12 @@ describe('async-validator', function () {
           message: 'haha'
         }
       }).validate({
-          v: null
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('haha')
-          done();
-        })
+        v: null
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('haha')
+        done();
+      })
     });
 
     it('works for none empty', function (done) {
@@ -85,11 +85,11 @@ describe('async-validator', function () {
           message: 'haha'
         }
       }).validate({
-          v: ' '
-        }, function (errors) {
-          expect(errors).to.be(null);
-          done();
-        })
+        v: ' '
+      }, function (errors) {
+        expect(errors).to.be(null);
+        done();
+      })
     });
 
     it('works for whitespace empty', function (done) {
@@ -101,12 +101,12 @@ describe('async-validator', function () {
           message: 'haha'
         }
       }).validate({
-          v: ' '
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('haha')
-          done();
-        })
+        v: ' '
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('haha')
+        done();
+      })
     });
   });
 
@@ -117,12 +117,12 @@ describe('async-validator', function () {
           type: 'array'
         }
       }).validate({
-          v: ''
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('v is not an array');
-          done();
-        })
+        v: ''
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('v is not an array');
+        done();
+      })
     });
 
     it('works for type and required', function (done) {
@@ -132,12 +132,12 @@ describe('async-validator', function () {
           type: 'array'
         }
       }).validate({
-          v: ''
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('v is not an array');
-          done();
-        })
+        v: ''
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('v is not an array');
+        done();
+      })
     });
 
 
@@ -147,11 +147,11 @@ describe('async-validator', function () {
           type: 'array'
         }
       }).validate({
-          v: []
-        }, function (errors) {
-          expect(errors).to.be(null);
-          done();
-        })
+        v: []
+      }, function (errors) {
+        expect(errors).to.be(null);
+        done();
+      })
     });
 
     it('works for empty array', function (done) {
@@ -161,12 +161,12 @@ describe('async-validator', function () {
           type: 'array'
         }
       }).validate({
-          v: []
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('v is required')
-          done();
-        })
+        v: []
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('v is required')
+        done();
+      })
     });
 
     it('works for undefined array', function (done) {
@@ -176,12 +176,12 @@ describe('async-validator', function () {
           type: 'array'
         }
       }).validate({
-          v: undefined
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('v is required')
-          done();
-        })
+        v: undefined
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('v is required')
+        done();
+      })
     });
 
     it('works for null array', function (done) {
@@ -191,12 +191,12 @@ describe('async-validator', function () {
           type: 'array'
         }
       }).validate({
-          v: null
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('v is required')
-          done();
-        })
+        v: null
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('v is required')
+        done();
+      })
     });
 
     it('works for none empty', function (done) {
@@ -207,11 +207,11 @@ describe('async-validator', function () {
           message: 'haha'
         }
       }).validate({
-          v: [1]
-        }, function (errors) {
-          expect(errors).to.be(null);
-          done();
-        })
+        v: [1]
+      }, function (errors) {
+        expect(errors).to.be(null);
+        done();
+      })
     });
   });
 
@@ -223,12 +223,12 @@ describe('async-validator', function () {
           message: 'haha'
         }
       }).validate({
-          // useful for web, input's value defaults to ''
-          v: ''
-        }, function (errors) {
-          expect(errors).to.be(null);
-          done();
-        })
+        // useful for web, input's value defaults to ''
+        v: ''
+      }, function (errors) {
+        expect(errors).to.be(null);
+        done();
+      })
     });
 
     it('works for non-required null', function (done) {
@@ -238,11 +238,11 @@ describe('async-validator', function () {
           message: 'haha'
         }
       }).validate({
-          v: null
-        }, function (errors) {
-          expect(errors).to.be(null);
-          done();
-        })
+        v: null
+      }, function (errors) {
+        expect(errors).to.be(null);
+        done();
+      })
     });
 
     it('works for non-required undefined', function (done) {
@@ -252,11 +252,11 @@ describe('async-validator', function () {
           message: 'haha'
         }
       }).validate({
-          v: undefined
-        }, function (errors) {
-          expect(errors).to.be(null);
-          done();
-        })
+        v: undefined
+      }, function (errors) {
+        expect(errors).to.be(null);
+        done();
+      })
     });
 
     it('works', function (done) {
@@ -266,12 +266,27 @@ describe('async-validator', function () {
           message: 'haha'
         }
       }).validate({
-          v: ' '
-        }, function (errors) {
-          expect(errors.length).to.be(1);
-          expect(errors[0].message).to.be('haha');
-          done();
-        })
+        v: ' '
+      }, function (errors) {
+        expect(errors.length).to.be(1);
+        expect(errors[0].message).to.be('haha');
+        done();
+      })
+    });
+  });
+
+  describe('url', function () {
+    it('works for type url', function (done) {
+      new Schema({
+        v: {
+          type: 'url'
+        }
+      }).validate({
+        v: 'http://www.taobao.com'
+      }, function (errors) {
+        expect(errors).to.be(null);
+        done();
+      })
     });
   });
 });

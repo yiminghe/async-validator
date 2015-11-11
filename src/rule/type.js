@@ -68,7 +68,8 @@ function type(rule, value, source, errors, options) {
     required(rule, value, source, errors, options);
     return;
   }
-  const custom = ['integer', 'float', 'array', 'regexp', 'object', 'method', 'email', 'number', 'date'];
+  const custom = ['integer', 'float', 'array', 'regexp', 'object',
+    'method', 'email', 'number', 'date', 'url', 'hex'];
   const ruleType = rule.type;
   if (custom.indexOf(ruleType) > -1) {
     if (!types[ruleType](value)) {
