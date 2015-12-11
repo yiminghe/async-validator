@@ -1,4 +1,4 @@
-import util from '../util';
+import * as util from '../util';
 import required from './required';
 const pattern = {
   email: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,

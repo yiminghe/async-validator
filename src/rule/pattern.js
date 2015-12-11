@@ -1,6 +1,6 @@
 
 
-import util from '../util';
+import * as util from '../util';
 
 /**
  *  Rule for validating a regular expression pattern.

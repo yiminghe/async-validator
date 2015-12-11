@@ -1,4 +1,4 @@
-import util from './util';
+import * as util from './util';
 import validators from './validator/';
 import defaultMessages from './messages';
 import {error} from './rule/';
@@ -224,4 +224,3 @@ Schema.register = function register(type, validator) {
 Schema.messages = defaultMessages;
 
 export default Schema;
-

@@ -1,5 +1,5 @@
 import rules from '../rule/';
-import util from '../util';
+import {isEmptyValue} from '../util';
 
 /**
  *  Validates a regular expression pattern.
@@ -18,11 +18,11 @@ function pattern(rule, value, callback, source, options) {
   const errors = [];
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
-    if (util.isEmptyValue(value, 'string') && !rule.required) {
+    if (isEmptyValue(value, 'string') && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    if (!util.isEmptyValue(value, 'string')) {
+    if (!isEmptyValue(value, 'string')) {
       rules.pattern(rule, value, source, errors, options);
     }
   }

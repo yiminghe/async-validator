@@ -1,5 +1,3 @@
-
-
 import rules from '../rule/';
 
 /**

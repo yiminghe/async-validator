@@ -14,6 +14,7 @@ const messages = {
     array: '%s is not an %s',
     object: '%s is not an %s',
     number: '%s is not a %s',
+    date: '%s is not a %s',
     boolean: '%s is not a %s',
     integer: '%s is not an %s',
     float: '%s is not a %s',

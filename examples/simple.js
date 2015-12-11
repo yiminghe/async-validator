@@ -1,11 +1,13 @@
+/* eslint no-console:0 */
+
 import Schema from 'async-validator';
 
-var schema = new Schema({
+const schema = new Schema({
   name: {
     type: 'string',
     required: true,
     min: 5,
-    max: 10
+    max: 10,
   },
   address: {
     type: 'object',
@@ -14,40 +16,40 @@ var schema = new Schema({
       province: {
         type: 'string',
         required: true,
-        min: 4
+        min: 4,
       },
       city: {
         type: 'string',
-        message:'custom message',
-        min: 5
+        message: 'custom message',
+        min: 5,
       },
       async: {
-        validator: function (rule, value, callback) {
-          setTimeout(function () {
+        validator(rule, value, callback) {
+          setTimeout(() => {
             callback(rule.message);
           }, 100);
         },
-        message: 'address async fails'
-      }
-    }
+        message: 'address async fails',
+      },
+    },
   },
   async: {
-    validator: function (rule, value, callback) {
-      setTimeout(function () {
+    validator(rule, value, callback) {
+      setTimeout(() => {
         callback([new Error(rule.message)]);
       }, 100);
     },
-    message: 'async fails'
-  }
+    message: 'async fails',
+  },
 });
 
 schema.validate({
   name: 2,
   address: {
-    city: 2
+    city: 2,
   },
-  async: '2'
-}, function (errors, fields) {
+  async: '2',
+}, (errors, fields) => {
   console.log('errors');
   console.log(errors);
   console.log('fields');

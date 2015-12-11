@@ -1,4 +1,5 @@
 import rules from '../rule/';
+import {isEmptyValue} from '../util';
 
 /**
  *  Validates the regular expression type.
@@ -14,11 +15,11 @@ function regexp(rule, value, callback, source, options) {
   const errors = [];
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
-    if (value === undefined && !rule.required) {
+    if (isEmptyValue(value) && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    if (value !== undefined) {
+    if (!isEmptyValue(value)) {
       rules.type(rule, value, source, errors, options);
     }
   }

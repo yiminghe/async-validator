@@ -1,5 +1,5 @@
 import rules from '../rule/';
-import util from '../util';
+import {isEmptyValue} from '../util';
 
 /**
  *  Performs validation for string types.
@@ -15,11 +15,11 @@ function string(rule, value, callback, source, options) {
   const errors = [];
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
-    if (util.isEmptyValue(value, 'string') && !rule.required) {
+    if (isEmptyValue(value, 'string') && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options, 'string');
-    if (!util.isEmptyValue(value, 'string')) {
+    if (!isEmptyValue(value, 'string')) {
       rules.type(rule, value, source, errors, options);
       rules.range(rule, value, source, errors, options);
       rules.pattern(rule, value, source, errors, options);
