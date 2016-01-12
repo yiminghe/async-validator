@@ -1,14 +1,19 @@
-import * as util from './util';
+import {format, isEmptyObject} from './util';
 import validators from './validator/';
 import defaultMessages from './messages';
 import {error} from './rule/';
 
 function asyncMap(arr, func, callback) {
   const results = [];
+  let total = 0;
+  const arrLength = arr.length;
 
   function count(_, result) {
-    results.push(result);
-    if (results.length === arr.length) {
+    if (result) {
+      results.push(result);
+    }
+    total++;
+    if (total === arrLength) {
       callback(null, results);
     }
   }
@@ -66,12 +71,12 @@ Schema.prototype = {
       }
     }
   },
-  validate(source, o, oc) {
+  validate(source, o = {}, oc) {
+    let options = o;
     if (!this.rules) {
       throw new Error('Cannot validate with no rules.');
     }
     let callback = oc;
-    let options = o || {};
     if (typeof options === 'function') {
       callback = options;
       options = {};
@@ -97,9 +102,6 @@ Schema.prototype = {
         errors = null;
         fields = null;
       } else {
-        if (options.single) {
-          errors = errors.slice(0, 1);
-        }
         for (i = 0; i < errors.length; i++) {
           field = errors[i].field;
           fields[field] = fields[field] || [];
@@ -127,6 +129,8 @@ Schema.prototype = {
           rule = {
             validator: rule,
           };
+        } else {
+          rule = {...rule};
         }
         rule.field = z;
         rule.fullField = rule.fullField || z;
@@ -135,11 +139,23 @@ Schema.prototype = {
         if (!rule.validator) {
           return;
         }
-        series.push({rule: rule, value: value, source: source, field: z});
+        series.push({
+          rule: rule,
+          value: value,
+          source: source,
+          field: z,
+        });
       });
     });
+    const errorFields = {};
     asyncMap(series, (data, doIt) => {
       const rule = data.rule;
+      if (options.first && !isEmptyObject(errorFields)) {
+        return doIt();
+      }
+      if (options.fieldFirst && errorFields[rule.field]) {
+        return doIt();
+      }
       let deep = (rule.type === 'object' || rule.type === 'array') && typeof (rule.fields) === 'object';
       deep = deep && (rule.required || (!rule.required && data.value));
       rule.field = data.field;
@@ -154,8 +170,9 @@ Schema.prototype = {
         if (errors) {
           errors = errors.map(complementError(rule));
         }
-        if (options.first && errors && errors.length) {
-          return doIt(errors);
+        if ((options.first || options.fieldFirst) && errors && errors.length) {
+          errorFields[rule.field] = 1;
+          return doIt(null, errors);
         }
         if (!deep) {
           doIt(null, errors);
@@ -168,7 +185,7 @@ Schema.prototype = {
             if (rule.message) {
               errors = [].concat(rule.message).map(complementError(rule));
             } else {
-              errors = [options.error(rule, util.format(options.messages.required, rule.field))];
+              errors = [options.error(rule, format(options.messages.required, rule.field))];
             }
             return doIt(null, errors);
           }
@@ -202,7 +219,7 @@ Schema.prototype = {
       rule.type = 'pattern';
     }
     if (typeof (rule.validator) !== 'function' && (rule.type && !validators.hasOwnProperty(rule.type))) {
-      throw new Error(util.format('Unknown rule type %s', rule.type));
+      throw new Error(format('Unknown rule type %s', rule.type));
     }
     return rule.type || 'string';
   },

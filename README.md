@@ -18,33 +18,15 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 [coveralls-url]: https://coveralls.io/r/yiminghe/async-validator?branch=master
 [gemnasium-image]: http://img.shields.io/gemnasium/yiminghe/async-validator.svg?style=flat-square
 [gemnasium-url]: https://gemnasium.com/yiminghe/async-validator
-[node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
+[node-image]: https://img.shields.io/badge/node.js-%3E=4.0.0-green.svg?style=flat-square
 [node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/async-validator.svg?style=flat-square
 [download-url]: https://npmjs.org/package/async-validator
 
-## differences
 
-### support
-- support ie8
-- support ``type:url`` ``type:email`` ``type:hex`` ``type:date``
-- support nice nested object validation message
+## API
 
-### remove
-- remove moment and async dependency to run on browser easily
-- remove parallel config, defaults to true
-- remove .error constructor
-
-## examples
-
-```
-npm install
-npm start
-```
-
-http://localhost:8010/examples/simple.html
-
-## docs from [async-validate](https://github.com/freeformsystems/async-validate)
+The following is modified from earlier version of [async-validate](https://github.com/freeformsystems/async-validate).
 
 ### Usage
 
@@ -56,7 +38,7 @@ var descriptor = {
   name: {type: "string", required: true}
 }
 var validator = new schema(descriptor);
-validator.validate({name: "muji"}, function(errors, fields) {
+validator.validate({name: "muji"}, (errors, fields) => {
   if(errors) {
     // validation failed, errors is an array of all errors
     // fields is an object keyed by field name with an array of
@@ -79,19 +61,12 @@ function(source, [options], callback)
 
 ### Options
 
-* `first`: Invoke `callback` when the first validation rule generates an error, no more validation rules are processed. If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.
-* `single`: Only ever return a single error. Typically used in conjunction with `first` when a validation rule could generate multiple errors.
-* `keys`: Specifies the keys on the source object to be validated. Use this option to validate fields in a determinate order or to validate a subset of the rules assigned to a schema.
+* `first`: Invoke `callback` when the first validation rule generates an error, 
+no more validation rules are processed. 
+If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.
 
-Consider the rule:
-
-```javascript
-{name: {type: "string", required: true, min: 10, pattern: /^[^-].*$/}}
-```
-
-When supplied with a source object such as `{name: "-name"}` the validation rule would generate two errors, as the pattern does not match and the string length is less then the required minimum length for the field.
-
-In this instance when you only want the first error encountered use the `single` option.
+* `fieldFirst`: Invoke `callback` when the first validation rule of the same field generates an error, 
+no more validation rules of the same field are processed. 
 
 ### Rules
 
@@ -113,7 +88,7 @@ The options passed to `validate` are passed on to the validation functions so th
 ```javascript
 var schema = require('async-validator');
 var descriptor = {
-  name: function(rule, value, callback, source, options) {
+  name(rule, value, callback, source, options) {
     var errors = [];
     if(!/^[a-z0-9]+$/.test(value)) {
       errors.push(
@@ -125,7 +100,7 @@ var descriptor = {
   }
 }
 var validator = new schema(descriptor);
-validator.validate({name: "Firstname"}, function(errors, fields) {
+validator.validate({name: "Firstname"}, (errors, fields) => {
   if(errors) {
     return handleErrors(errors, fields);
   }
@@ -139,7 +114,7 @@ It is often useful to test against multiple validation rules for a single field,
 var descriptor = {
   email: [
     {type: "string", required: true, pattern: schema.pattern.email},
-    {validator:function(rule, value, callback, source, options) {
+    {validator(rule, value, callback, source, options) {
       var errors = [];
       // test if email address already exists in a database
       // and add a validation error to the errors array if it does
@@ -220,7 +195,7 @@ var descriptor = {
   name: {type: "string", required: true}
 }
 var validator = new schema(descriptor);
-validator.validate({ address: {} }, function(errors, fields) {
+validator.validate({ address: {} }, (errors, fields) => {
   // errors for street, address.city, address.zip and address.name
 });
 ```
@@ -242,7 +217,7 @@ var descriptor = {
   name: {type: "string", required: true}
 }
 var validator = new schema(descriptor);
-validator.validate({ address: {} }, function(errors, fields) {
+validator.validate({ address: {} }, (errors, fields) => {
   // now only errors for street and name
 });
 ```
@@ -275,14 +250,14 @@ var descriptor = {
   name: {
     type: "string",
     required: true, pattern: /^[a-z]+$/,
-    transform: function(value) {
+    transform(value) {
       return sanitize(value).trim();
     }
   }
 }
 var validator = new schema(descriptor);
 var source = {name: " user  "};
-validator.validate(source, function(errors, fields) {
+validator.validate(source, (errors, fields) => {
   assert.equal(source.name, "user");
 });
 ```
@@ -334,7 +309,7 @@ you can custom validate function for specified field:
 ```js
 {
   asyncField:{
-    validator: function(rule,value,callback){
+    validator(rule,value,callback){
       ajax({
         url:'xx',
         value:value
@@ -347,3 +322,8 @@ you can custom validate function for specified field:
   }
 }
 ```
+
+
+## License
+
+Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License).
