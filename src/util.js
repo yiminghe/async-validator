@@ -49,3 +49,91 @@ export function isEmptyValue(value, type) {
 export function isEmptyObject(obj) {
   return Object.keys(obj).length === 0;
 }
+
+function asyncParallelArray(arr, func, callback) {
+  const results = [];
+  let total = 0;
+  const arrLength = arr.length;
+
+  function count(errors) {
+    results.push.apply(results, errors);
+    total++;
+    if (total === arrLength) {
+      callback(results);
+    }
+  }
+
+  arr.forEach((a) => {
+    func(a, count);
+  });
+}
+
+function asyncSerialArray(arr, func, callback) {
+  let index = 0;
+  const arrLength = arr.length;
+
+  function next(errors) {
+    if (errors.length) {
+      callback(errors);
+      return;
+    }
+    const original = index;
+    index = index + 1;
+    if (original < arrLength) {
+      func(arr[original], next);
+    } else {
+      callback([]);
+    }
+  }
+
+  next([]);
+}
+
+function flattenObjArr(objArr) {
+  const ret = [];
+  Object.keys(objArr).forEach((k)=> {
+    ret.push.apply(ret, objArr[k]);
+  });
+  return ret;
+}
+
+export function asyncMap(objArr, option, func, callback) {
+  if (option.first) {
+    const flattenArr = flattenObjArr(objArr);
+    return asyncSerialArray(flattenArr, func, callback);
+  }
+  let firstFields = option.firstFields || [];
+  if (firstFields === true) {
+    firstFields = Object.keys(objArr);
+  }
+  const objArrKeys = Object.keys(objArr);
+  const objArrLength = objArrKeys.length;
+  let total = 0;
+  const results = [];
+  const next = (errors) => {
+    results.push.apply(results, errors);
+    total++;
+    if (total === objArrLength) {
+      callback(results);
+    }
+  };
+  objArrKeys.forEach((key) => {
+    const arr = objArr[key];
+    if (firstFields.indexOf(key) !== -1) {
+      asyncSerialArray(arr, func, next);
+    } else {
+      asyncParallelArray(arr, func, next);
+    }
+  });
+}
+
+export function complementError(rule) {
+  return (oe) => {
+    let e = oe;
+    if (!e.message) {
+      e = new Error(e);
+    }
+    e.field = e.field || rule.fullField;
+    return e;
+  };
+}

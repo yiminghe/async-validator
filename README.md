@@ -61,12 +61,12 @@ function(source, [options], callback)
 
 ### Options
 
-* `first`: Invoke `callback` when the first validation rule generates an error, 
+* `first`: Boolean, Invoke `callback` when the first validation rule generates an error, 
 no more validation rules are processed. 
 If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.
 
-* `fieldFirst`: Invoke `callback` when the first validation rule of the same field generates an error, 
-no more validation rules of the same field are processed. 
+* `firstFields`: Boolean|String[], Invoke `callback` when the first validation rule of the specified field generates an error, 
+no more validation rules of the same field are processed.  `true` means all fields.
 
 ### Rules
 
