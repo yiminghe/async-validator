@@ -12,25 +12,29 @@ export function format(...args) {
       return x;
     }
     switch (x) {
-    case '%s':
-      return String(args[i++]);
-    case '%d':
-      return Number(args[i++]);
-    case '%j':
-      try {
-        return JSON.stringify(args[i++]);
-      } catch (_) {
-        return '[Circular]';
-      }
-      break;
-    default:
-      return x;
+      case '%s':
+        return String(args[i++]);
+      case '%d':
+        return Number(args[i++]);
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+        break;
+      default:
+        return x;
     }
   });
   for (let arg = args[i]; i < len; arg = args[++i]) {
     str += ' ' + arg;
   }
   return str;
+}
+
+function isNativeStringType(type) {
+  return type === 'string' || type === 'url' || type === 'hex' || type === 'email';
 }
 
 export function isEmptyValue(value, type) {
@@ -40,7 +44,7 @@ export function isEmptyValue(value, type) {
   if (type === 'array' && Array.isArray(value) && !value.length) {
     return true;
   }
-  if (type === 'string' && typeof value === 'string' && !value) {
+  if (isNativeStringType(type) && typeof value === 'string' && !value) {
     return true;
   }
   return false;

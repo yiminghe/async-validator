@@ -2,6 +2,34 @@ const expect = require('expect.js');
 const Schema = require('../index');
 
 describe('url', () => {
+  it('works for empty string', (done) => {
+    new Schema({
+      v: {
+        type: 'url',
+      },
+    }).validate({
+      v: '',
+    }, (errors) => {
+      expect(errors).to.be(null);
+      done();
+    });
+  });
+
+  it('works for required empty string', (done) => {
+    new Schema({
+      v: {
+        type: 'url',
+        required: true,
+      },
+    }).validate({
+      v: '',
+    }, (errors) => {
+      expect(errors.length).to.be(1);
+      expect(errors[0].message).to.be('v is required');
+      done();
+    });
+  });
+
   it('works for type url', (done) => {
     new Schema({
       v: {
