@@ -40,7 +40,8 @@ Schema.prototype = {
       }
     }
   },
-  validate(source, o = {}, oc) {
+  validate(source_, o = {}, oc) {
+    let source = source_;
     let options = o;
     if (!this.rules) {
       throw new Error('Cannot validate with no rules.');
@@ -92,6 +93,9 @@ Schema.prototype = {
       arr.forEach((r) => {
         let rule = r;
         if (typeof (rule.transform) === 'function') {
+          if (source === source_) {
+            source = {...source};
+          }
           value = source[z] = rule.transform(value);
         }
         if (typeof (rule) === 'function') {
