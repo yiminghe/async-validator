@@ -4,33 +4,39 @@ export function format(...args) {
   let i = 1;
   const f = args[0];
   const len = args.length;
-  let str = String(f).replace(formatRegExp, (x) => {
-    if (x === '%%') {
-      return '%';
-    }
-    if (i >= len) {
-      return x;
-    }
-    switch (x) {
-      case '%s':
-        return String(args[i++]);
-      case '%d':
-        return Number(args[i++]);
-      case '%j':
-        try {
-          return JSON.stringify(args[i++]);
-        } catch (_) {
-          return '[Circular]';
-        }
-        break;
-      default:
-        return x;
-    }
-  });
-  for (let arg = args[i]; i < len; arg = args[++i]) {
-    str += ' ' + arg;
+  if (typeof f === 'function') {
+    return f.apply(null, args.slice(1));
   }
-  return str;
+  if (typeof f === 'string') {
+    let str = String(f).replace(formatRegExp, (x) => {
+      if (x === '%%') {
+        return '%';
+      }
+      if (i >= len) {
+        return x;
+      }
+      switch (x) {
+        case '%s':
+          return String(args[i++]);
+        case '%d':
+          return Number(args[i++]);
+        case '%j':
+          try {
+            return JSON.stringify(args[i++]);
+          } catch (_) {
+            return '[Circular]';
+          }
+          break;
+        default:
+          return x;
+      }
+    });
+    for (let arg = args[i]; i < len; arg = args[++i]) {
+      str += ' ' + arg;
+    }
+    return str;
+  }
+  return f;
 }
 
 function isNativeStringType(type) {
@@ -133,11 +139,13 @@ export function asyncMap(objArr, option, func, callback) {
 
 export function complementError(rule) {
   return (oe) => {
-    let e = oe;
-    if (!e.message) {
-      e = new Error(e);
+    if (oe && oe.message) {
+      oe.field = oe.field || rule.fullField;
+      return oe;
     }
-    e.field = e.field || rule.fullField;
-    return e;
+    return {
+      message: oe,
+      field: oe.field || rule.fullField,
+    };
   };
 }

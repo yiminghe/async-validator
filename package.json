@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "validate form asynchronous",
   "keywords": [
     "validator",
@@ -43,5 +43,8 @@
   },
   "pre-commit": [
     "lint"
-  ]
+  ],
+  "dependencies": {
+    "lodash.mergewith": "^4.0.3"
+  }
 }

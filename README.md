@@ -81,7 +81,7 @@ function(rule, value, callback, source, options)
 * `callback`: A callback function to invoke once validation is complete. It expects to be passed an array of `Error` instances to indicate validation failure.
 * `source`: The source object that was passed to the `validate` method.
 * `options`: Additional options.
-* `options.messages`: The object containing validation error messages
+* `options.messages`: The object containing validation error messages, will be deep merged with defaultMessages.
 
 The options passed to `validate` are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are `messages`, `exception` and `error`.
 
@@ -275,28 +275,25 @@ The easiest way to achieve this is to assign a `message` to a rule:
 {name:{type: "string", required: true, message: "Name is required"}}
 ```
 
-Potentially you may require the same schema validation rules for different languages, in which case duplicating the schema rules for each language does not make sense.
-
-In this scenario you could just require your own messages file for the language and assign it to the schema:
+Message can be any type, such as jsx format.
 
 ```javascript
-var schema = require('async-validator');
-var es = require('messages-es');
-var descriptor = {name:{type: "string", required: true}};
-var validator = new schema(descriptor);
-validator.messages(es);
-...
+{name:{type: "string", required: true, message: <b>Name is required</b>}}
 ```
 
-Or you could clone a default messages instance and then assign language specific messages to the schema using the `messages` method.
+Potentially you may require the same schema validation rules for different languages, in which case duplicating the schema rules for each language does not make sense.
+
+In this scenario you could just provide your own messages for the language and assign it to the schema:
 
 ```javascript
 var schema = require('async-validator');
-var es = schema.messages.clone();
-es.required = "%s es un campo obligatorio";  // change the message
+var cn = {
+  required: '%s 必填',
+};
 var descriptor = {name:{type: "string", required: true}};
 var validator = new schema(descriptor);
-validator.messages(es); // ensure this schema uses the altered messages
+// deep merge with defaultMessages
+validator.messages(cn);
 ...
 ```
 

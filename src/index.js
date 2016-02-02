@@ -1,7 +1,14 @@
 import {format, complementError, asyncMap} from './util';
 import validators from './validator/';
-import defaultMessages from './messages';
+import {messages as defaultMessages, newMessages} from './messages';
 import {error} from './rule/';
+import mergeWith from 'lodash.mergewith';
+
+function mergeCustomizer(objValue, srcValue) {
+  if (typeof objValue !== 'object') {
+    return srcValue;
+  }
+}
 
 /**
  *  Encapsulates a validation schema.
@@ -18,7 +25,7 @@ function Schema(descriptor) {
 Schema.prototype = {
   messages(messages) {
     if (messages) {
-      this._messages = messages;
+      this._messages = mergeWith(newMessages(), messages, mergeCustomizer);
     }
     return this._messages;
   },
@@ -58,10 +65,10 @@ Schema.prototype = {
       let fields = {};
 
       function add(e) {
-        if ((e instanceof Error)) {
-          errors.push(e);
-        } else if (Array.isArray(e)) {
+        if (Array.isArray(e)) {
           errors = errors.concat.apply(errors, e);
+        } else {
+          errors.push(e);
         }
       }
 
@@ -81,7 +88,17 @@ Schema.prototype = {
       callback(errors, fields);
     }
 
-    options.messages = options.messages || this.messages();
+    if (options.messages) {
+      let messages = this.messages();
+      if (messages === defaultMessages) {
+        messages = newMessages();
+      }
+      mergeWith(messages, options.messages, mergeCustomizer);
+      options.messages = messages;
+    } else {
+      options.messages = this.messages();
+    }
+
     options.error = error;
     let arr;
     let value;
