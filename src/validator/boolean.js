@@ -1,5 +1,4 @@
-
-
+import {isEmptyValue} from '../util';
 import rules from '../rule/';
 
 /**
@@ -16,7 +15,7 @@ function boolean(rule, value, callback, source, options) {
   const errors = [];
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
-    if (value === undefined && !rule.required) {
+    if (isEmptyValue(value) && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);

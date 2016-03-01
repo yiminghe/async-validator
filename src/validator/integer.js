@@ -1,4 +1,5 @@
 import rules from '../rule/';
+import {isEmptyValue} from '../util';
 
 /**
  *  Validates a number is an integer.
@@ -14,7 +15,7 @@ function integer(rule, value, callback, source, options) {
   const errors = [];
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
-    if (value === undefined && !rule.required) {
+    if (isEmptyValue(value) && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
