@@ -128,7 +128,7 @@ var descriptor = {
 
 Indicates the `type` of validator to use. Recognised type values are:
 
-* `string`: Must be of type `string`.
+* `string`: Must be of type `string`. `This is the default type.`
 * `number`: Must be of type `number`.
 * `boolean`: Must be of type `boolean`.
 * `method`: Must be of type `function`.
