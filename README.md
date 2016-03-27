@@ -239,6 +239,22 @@ var descriptor = {
 
 And supply a source object of `{roles: ["admin", "user"]}` then two errors will be created. One for the array length mismatch and one for the missing required array entry at index 2.
 
+#### Values
+
+The `values` property can be used with the `array` or `object` type for validating all values of the container. 
+It may be an `object` or `array` containing validation rules. For example:
+
+```javascript
+var descriptor = {
+  urls: {
+    type: "array", required: true,
+    values: {type: "url"}
+  }
+}
+```
+
+Note that `values` is expanded to `fields`, see [deep rules](#deep-rules).
+
 #### Transform
 
 Sometimes it is necessary to transform a value before validation, possibly to coerce the value or to sanitize it in some way. To do this add a `transform` function to the validation rule. The property is transformed prior to validation and re-assigned to the source object to mutate the value of the property in place.
