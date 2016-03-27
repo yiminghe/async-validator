@@ -6,3 +6,4 @@ require('./string.spec');
 require('./url.spec');
 require('./date.spec');
 require('./messages.spec');
+require('./deep.spec');
