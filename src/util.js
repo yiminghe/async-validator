@@ -1,5 +1,23 @@
 const formatRegExp = /%[sdj%]/g;
 
+let warning2 = () => {
+};
+
+if (process.env.NODE_ENV !== 'production') {
+  warning2 = (type, message) => {
+    if (typeof console !== 'undefined' && console.warn) {
+      console.warn(type, message);
+    }
+  };
+}
+
+export function warning(type, errors) {
+  // only warn native warning, default type is string, confuses many people...
+  if (errors.every(e => typeof e === 'string')) {
+    warning2(type, errors);
+  }
+}
+
 export function format(...args) {
   let i = 1;
   const f = args[0];

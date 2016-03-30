@@ -1,4 +1,4 @@
-import { format, complementError, asyncMap } from './util';
+import { format, complementError, asyncMap, warning } from './util';
 import validators from './validator/';
 import { messages as defaultMessages, newMessages } from './messages';
 import { error } from './rule/';
@@ -156,6 +156,9 @@ Schema.prototype = {
         let errors = e;
         if (!Array.isArray(errors)) {
           errors = [errors];
+        }
+        if (errors.length) {
+          warning('async-validator:', errors);
         }
         if (errors.length && rule.message) {
           errors = [].concat(rule.message);
