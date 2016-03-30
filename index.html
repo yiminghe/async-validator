@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>async-validator@1.3.5 - validate form asynchronous</title>
+  <title>async-validator@1.6.0 - validate form asynchronous</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>async-validator@1.3.5</h1>
+  <h1>async-validator@1.6.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -758,27 +758,16 @@
 <a href="https://travis-ci.org/yiminghe/async-validator" title="null"><img src="https://img.shields.io/travis/yiminghe/async-validator.svg?style=flat-square" alt="build status"></a>
 <a href="https://coveralls.io/r/yiminghe/async-validator?branch=master" title="null"><img src="https://img.shields.io/coveralls/yiminghe/async-validator.svg?style=flat-square" alt="Test coverage"></a>
 <a href="https://gemnasium.com/yiminghe/async-validator" title="null"><img src="http://img.shields.io/gemnasium/yiminghe/async-validator.svg?style=flat-square" alt="gemnasium deps"></a>
-<a href="http://nodejs.org/download/" title="null"><img src="https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square" alt="node version"></a>
+<a href="http://nodejs.org/download/" title="null"><img src="https://img.shields.io/badge/node.js-%3E=4.0.0-green.svg?style=flat-square" alt="node version"></a>
 <a href="https://npmjs.org/package/async-validator" title="null"><img src="https://img.shields.io/npm/dm/async-validator.svg?style=flat-square" alt="npm download"></a></p>
-<h2>differences<a id="user-content-differences" name="differences" class="anchor" aria-hidden="true" href="#differences"><span class="octicon octicon-link"></span></a></h2><h3>support<a id="user-content-support" name="support" class="anchor" aria-hidden="true" href="#support"><span class="octicon octicon-link"></span></a></h3><ul>
-<li>support ie8</li>
-<li>support <code>type:url</code> <code>type:email</code> <code>type:hex</code> <code>type:date</code></li>
-<li>support nice nested object validation message</li>
-</ul>
-<h3>remove<a id="user-content-remove" name="remove" class="anchor" aria-hidden="true" href="#remove"><span class="octicon octicon-link"></span></a></h3><ul>
-<li>remove moment and async dependency to run on browser easily</li>
-<li>remove parallel config, defaults to true</li>
-<li>remove .error constructor</li>
-</ul>
-<h2>examples<a id="user-content-examples" name="examples" class="anchor" aria-hidden="true" href="#examples"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm install
-npm start</code></pre></div><p><a href="http://localhost:8010/examples/simple.html" title="null">http://localhost:8010/examples/simple.html</a></p>
-<h2>docs from <a href="https://github.com/freeformsystems/async-validate" title="null">async-validate</a><a id="user-content-docs-from-<a-href="https://github.com/freeformsystems/async-validate"-title="null">async-validate</a>" name="docs-from-<a-href="https://github.com/freeformsystems/async-validate"-title="null">async-validate</a>" class="anchor" aria-hidden="true" href="#docs-from-<a-href="https://github.com/freeformsystems/async-validate"-title="null">async-validate</a>"><span class="octicon octicon-link"></span></a></h2><h3>Usage<a id="user-content-usage" name="usage" class="anchor" aria-hidden="true" href="#usage"><span class="octicon octicon-link"></span></a></h3><p>Basic usage involves defining a descriptor, assigning it to a schema and passing the object to be validated and a callback function to the <code>validate</code> method of the schema:</p>
+<h2>API<a id="user-content-api" name="api" class="anchor" aria-hidden="true" href="#api"><span class="octicon octicon-link"></span></a></h2><p>The following is modified from earlier version of <a href="https://github.com/freeformsystems/async-validate" title="null">async-validate</a>.</p>
+<h3>Usage<a id="user-content-usage" name="usage" class="anchor" aria-hidden="true" href="#usage"><span class="octicon octicon-link"></span></a></h3><p>Basic usage involves defining a descriptor, assigning it to a schema and passing the object to be validated and a callback function to the <code>validate</code> method of the schema:</p>
 <div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
 <span class="hljs-keyword">var</span> descriptor = {
   name: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}
 }
 <span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
-validator.validate({name: <span class="hljs-string">"muji"</span>}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">errors, fields</span>) </span>{
+validator.validate({name: <span class="hljs-string">"muji"</span>}, (errors, fields) =&gt; {
   <span class="hljs-keyword">if</span>(errors) {
     <span class="hljs-comment">// validation failed, errors is an array of all errors</span>
     <span class="hljs-comment">// fields is an object keyed by field name with an array of</span>
@@ -792,13 +781,14 @@ validator.validate({name: <span class="hljs-string">"muji"</span>}, <span class=
 <li><code>callback</code>: A callback function to invoke when validation completes (required).</li>
 </ul>
 <h3>Options<a id="user-content-options" name="options" class="anchor" aria-hidden="true" href="#options"><span class="octicon octicon-link"></span></a></h3><ul>
-<li><code>first</code>: Invoke <code>callback</code> when the first validation rule generates an error, no more validation rules are processed. If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.</li>
-<li><code>single</code>: Only ever return a single error. Typically used in conjunction with <code>first</code> when a validation rule could generate multiple errors.</li>
-<li><code>keys</code>: Specifies the keys on the source object to be validated. Use this option to validate fields in a determinate order or to validate a subset of the rules assigned to a schema.</li>
+<li><p><code>first</code>: Boolean, Invoke <code>callback</code> when the first validation rule generates an error, 
+no more validation rules are processed. 
+If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.</p>
+</li>
+<li><p><code>firstFields</code>: Boolean|String[], Invoke <code>callback</code> when the first validation rule of the specified field generates an error, 
+no more validation rules of the same field are processed.  <code>true</code> means all fields.</p>
+</li>
 </ul>
-<p>Consider the rule:</p>
-<div class="highlight"><pre><code language="javascript">{name: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, min: <span class="hljs-number">10</span>, pattern: <span class="hljs-regexp">/^[^-].*$/</span>}}</code></pre></div><p>When supplied with a source object such as <code>{name: &quot;-name&quot;}</code> the validation rule would generate two errors, as the pattern does not match and the string length is less then the required minimum length for the field.</p>
-<p>In this instance when you only want the first error encountered use the <code>single</code> option.</p>
 <h3>Rules<a id="user-content-rules" name="rules" class="anchor" aria-hidden="true" href="#rules"><span class="octicon octicon-link"></span></a></h3><p>Rules may be functions that perform validation.</p>
 <div class="highlight"><pre><code language="javascript"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">rule, value, callback, source, options</span>)</span></code></pre></div><ul>
 <li><code>rule</code>: The validation rule in the source descriptor that corresponds to the field name being validated. It is always assigned a <code>field</code> property with the name of the field being validated.</li>
@@ -806,12 +796,12 @@ validator.validate({name: <span class="hljs-string">"muji"</span>}, <span class=
 <li><code>callback</code>: A callback function to invoke once validation is complete. It expects to be passed an array of <code>Error</code> instances to indicate validation failure.</li>
 <li><code>source</code>: The source object that was passed to the <code>validate</code> method.</li>
 <li><code>options</code>: Additional options.</li>
-<li><code>options.messages</code>: The object containing validation error messages</li>
+<li><code>options.messages</code>: The object containing validation error messages, will be deep merged with defaultMessages.</li>
 </ul>
 <p>The options passed to <code>validate</code> are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are <code>messages</code>, <code>exception</code> and <code>error</code>.</p>
 <div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
 <span class="hljs-keyword">var</span> descriptor = {
-  name: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">rule, value, callback, source, options</span>) </span>{
+  name(rule, value, callback, source, options) {
     <span class="hljs-keyword">var</span> errors = [];
     <span class="hljs-keyword">if</span>(!<span class="hljs-regexp">/^[a-z0-9]+$/</span>.test(value)) {
       errors.push(
@@ -823,7 +813,7 @@ validator.validate({name: <span class="hljs-string">"muji"</span>}, <span class=
   }
 }
 <span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
-validator.validate({name: <span class="hljs-string">"Firstname"</span>}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">errors, fields</span>) </span>{
+validator.validate({name: <span class="hljs-string">"Firstname"</span>}, (errors, fields) =&gt; {
   <span class="hljs-keyword">if</span>(errors) {
     <span class="hljs-keyword">return</span> handleErrors(errors, fields);
   }
@@ -832,7 +822,7 @@ validator.validate({name: <span class="hljs-string">"Firstname"</span>}, <span c
 <div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> descriptor = {
   email: [
     {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, pattern: schema.pattern.email},
-    {validator:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">rule, value, callback, source, options</span>) </span>{
+    {validator(rule, value, callback, source, options) {
       <span class="hljs-keyword">var</span> errors = [];
       <span class="hljs-comment">// test if email address already exists in a database</span>
       <span class="hljs-comment">// and add a validation error to the errors array if it does</span>
@@ -841,7 +831,7 @@ validator.validate({name: <span class="hljs-string">"Firstname"</span>}, <span c
   ]
 }</code></pre></div><h4>Type<a id="user-content-type" name="type" class="anchor" aria-hidden="true" href="#type"><span class="octicon octicon-link"></span></a></h4><p>Indicates the <code>type</code> of validator to use. Recognised type values are:</p>
 <ul>
-<li><code>string</code>: Must be of type <code>string</code>.</li>
+<li><code>string</code>: Must be of type <code>string</code>. <code>This is the default type.</code></li>
 <li><code>number</code>: Must be of type <code>number</code>.</li>
 <li><code>boolean</code>: Must be of type <code>boolean</code>.</li>
 <li><code>method</code>: Must be of type <code>function</code>.</li>
@@ -851,7 +841,7 @@ validator.validate({name: <span class="hljs-string">"Firstname"</span>}, <span c
 <li><code>array</code>: Must be an array as determined by <code>Array.isArray</code>.</li>
 <li><code>object</code>: Must be of type <code>object</code> and not <code>Array.isArray</code>.</li>
 <li><code>enum</code>: Value must exist in the <code>enum</code>.</li>
-<li><code>date</code>: Value must be valid as determined by <code>moment().isValid()</code>.</li>
+<li><code>date</code>: Value must be valid as determined by <code>Date</code></li>
 <li><code>url</code>: Must be of type <code>url</code>.</li>
 <li><code>hex</code>: Must be of type <code>hex</code>.</li>
 <li><code>email</code>: Must be of type <code>email</code>.</li>
@@ -879,7 +869,7 @@ validator.validate({name: <span class="hljs-string">"Firstname"</span>}, <span c
   name: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}
 }
 <span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
-validator.validate({ address: {} }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">errors, fields</span>) </span>{
+validator.validate({ address: {} }, (errors, fields) =&gt; {
   <span class="hljs-comment">// errors for street, address.city, address.zip and address.name</span>
 });</code></pre></div><p>Note that if you do not specify the <code>required</code> property on the parent rule it is perfectly valid for the field not to be declared on the source object and the deep validation rules will not be executed as there is nothing to validate against.</p>
 <p>Deep rule validation creates a schema for the nested rules so you can also specify the <code>options</code> passed to the <code>schema.validate()</code> method.</p>
@@ -895,7 +885,7 @@ validator.validate({ address: {} }, <span class="hljs-function"><span class="hlj
   name: {type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}
 }
 <span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
-validator.validate({ address: {} }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">errors, fields</span>) </span>{
+validator.validate({ address: {} }, (errors, fields) =&gt; {
   <span class="hljs-comment">// now only errors for street and name</span>
 });</code></pre></div><p>The parent rule is also validated so if you have a set of rules such as:</p>
 <div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> descriptor = {
@@ -908,6 +898,14 @@ validator.validate({ address: {} }, <span class="hljs-function"><span class="hlj
     }
   }
 }</code></pre></div><p>And supply a source object of <code>{roles: [&quot;admin&quot;, &quot;user&quot;]}</code> then two errors will be created. One for the array length mismatch and one for the missing required array entry at index 2.</p>
+<h4>defaultField<a id="user-content-defaultfield" name="defaultfield" class="anchor" aria-hidden="true" href="#defaultfield"><span class="octicon octicon-link"></span></a></h4><p>The <code>defaultField</code> property can be used with the <code>array</code> or <code>object</code> type for validating all values of the container.
+It may be an <code>object</code> or <code>array</code> containing validation rules. For example:</p>
+<div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> descriptor = {
+  urls: {
+    type: <span class="hljs-string">"array"</span>, required: <span class="hljs-literal">true</span>,
+    defaultField: {type: <span class="hljs-string">"url"</span>}
+  }
+}</code></pre></div><p>Note that <code>defaultField</code> is expanded to <code>fields</code>, see <a href="#deep-rules" title="deep rules">deep rules</a>.</p>
 <h4>Transform<a id="user-content-transform" name="transform" class="anchor" aria-hidden="true" href="#transform"><span class="octicon octicon-link"></span></a></h4><p>Sometimes it is necessary to transform a value before validation, possibly to coerce the value or to sanitize it in some way. To do this add a <code>transform</code> function to the validation rule. The property is transformed prior to validation and re-assigned to the source object to mutate the value of the property in place.</p>
 <div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
 <span class="hljs-keyword">var</span> sanitize = <span class="hljs-built_in">require</span>(<span class="hljs-string">'validator'</span>).sanitize;
@@ -915,37 +913,34 @@ validator.validate({ address: {} }, <span class="hljs-function"><span class="hlj
   name: {
     type: <span class="hljs-string">"string"</span>,
     required: <span class="hljs-literal">true</span>, pattern: <span class="hljs-regexp">/^[a-z]+$/</span>,
-    transform: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
+    transform(value) {
       <span class="hljs-keyword">return</span> sanitize(value).trim();
     }
   }
 }
 <span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
 <span class="hljs-keyword">var</span> source = {name: <span class="hljs-string">" user  "</span>};
-validator.validate(source, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">errors, fields</span>) </span>{
+validator.validate(source, (errors, fields) =&gt; {
   assert.equal(source.name, <span class="hljs-string">"user"</span>);
 });</code></pre></div><p>Without the <code>transform</code> function validation would fail due to the pattern not matching as the input contains leading and trailing whitespace, but by adding the transform function validation passes and the field value is sanitized at the same time.</p>
 <h3>Messages<a id="user-content-messages" name="messages" class="anchor" aria-hidden="true" href="#messages"><span class="octicon octicon-link"></span></a></h3><p>Depending upon your application requirements, you may need i18n support or you may prefer different validation error messages.</p>
 <p>The easiest way to achieve this is to assign a <code>message</code> to a rule:</p>
-<div class="highlight"><pre><code language="javascript">{name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, message: <span class="hljs-string">"Name is required"</span>}}</code></pre></div><p>Potentially you may require the same schema validation rules for different languages, in which case duplicating the schema rules for each language does not make sense.</p>
-<p>In this scenario you could just require your own messages file for the language and assign it to the schema:</p>
+<div class="highlight"><pre><code language="javascript">{name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, message: <span class="hljs-string">"Name is required"</span>}}</code></pre></div><p>Message can be any type, such as jsx format.</p>
+<div class="highlight"><pre><code language="javascript">{name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, message: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">b</span>&gt;</span>Name is required<span class="hljs-tag">&lt;/<span class="hljs-title">b</span>&gt;</span>}}</span></code></pre></div><p>Potentially you may require the same schema validation rules for different languages, in which case duplicating the schema rules for each language does not make sense.</p>
+<p>In this scenario you could just provide your own messages for the language and assign it to the schema:</p>
 <div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
-<span class="hljs-keyword">var</span> es = <span class="hljs-built_in">require</span>(<span class="hljs-string">'messages-es'</span>);
+<span class="hljs-keyword">var</span> cn = {
+  required: <span class="hljs-string">'%s 必填'</span>,
+};
 <span class="hljs-keyword">var</span> descriptor = {name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}};
 <span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
-validator.messages(es);
-...</code></pre></div><p>Or you could clone a default messages instance and then assign language specific messages to the schema using the <code>messages</code> method.</p>
-<div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
-<span class="hljs-keyword">var</span> es = schema.messages.clone();
-es.required = <span class="hljs-string">"%s es un campo obligatorio"</span>;  <span class="hljs-comment">// change the message</span>
-<span class="hljs-keyword">var</span> descriptor = {name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>}};
-<span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
-validator.messages(es); <span class="hljs-comment">// ensure this schema uses the altered messages</span>
+<span class="hljs-comment">// deep merge with defaultMessages</span>
+validator.messages(cn);
 ...</code></pre></div><p>If you are defining your own validation functions it is better practice to assign the message strings to a messages object and then access the messages via the <code>options.messages</code> property within the validation function.</p>
 <h3>validator<a id="user-content-validator" name="validator" class="anchor" aria-hidden="true" href="#validator"><span class="octicon octicon-link"></span></a></h3><p>you can custom validate function for specified field:</p>
 <div class="highlight"><pre><code language="js">{
   asyncField:{
-    validator: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">rule,value,callback</span>)</span>{
+    validator(rule,value,callback){
       ajax({
         url:<span class="hljs-string">'xx'</span>,
         value:value
@@ -956,7 +951,10 @@ validator.messages(es); <span class="hljs-comment">// ensure this schema uses th
       });
     }
   }
-}</code></pre></div>
+}</code></pre></div><h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm test
+npm run chrome-test</code></pre></div><h2>Coverage<a id="user-content-coverage" name="coverage" class="anchor" aria-hidden="true" href="#coverage"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm run coverage</code></pre></div><p>open coverage/ dir</p>
+<h2>License<a id="user-content-license" name="license" class="anchor" aria-hidden="true" href="#license"><span class="octicon octicon-link"></span></a></h2><p>Everything is <a href="http://en.wikipedia.org/wiki/MIT_License" title="null">MIT</a>.</p>
+
   </div>
 </div>
 <a href="http://github.com/yiminghe/async-validator"><img style="position: absolute; top: 0; right: 0; border: 0;"

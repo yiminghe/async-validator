@@ -2,12 +2,12 @@
 <html>
 
 <head>
-  <title>simple.js - example - async-validator@1.3.5</title>
+  <title>simple.js - example - async-validator@1.6.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
+  <link href="https://a.alipayobjects.com/normalize.css/3.0.1/normalize.css" rel="stylesheet"/>
   <style>
     .highlight pre {
       padding: .8em 1em;
@@ -252,26 +252,28 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <script src="https://a.alipayobjects.com/??es5-shim/4.0.5/es5-shim.js,es5-shim/4.0.5/es5-sham.js,html5shiv/3.7.2/src/html5shiv.js"></script>
   <![endif]-->
   
+  
 </head>
 
 <body>
-<div class="container">
-  <div class="header">
-    <h1>async-validator@1.3.5</h1>
+  <div class="container">
+    <div class="header">
+      <h1>async-validator@1.6.0</h1>
 
-    <p>validate form asynchronous</p>
-  </div>
-  <div class="example" id="__react-content"></div>
-  <script src="common.js?nowrap"></script>
-  <script src="simple.js?nowrap"></script>
-  <div class="highlight"><pre><code language="js"><span class="hljs-keyword">import</span> Schema <span class="hljs-keyword">from</span> <span class="hljs-string">'async-validator'</span>;
+      <p>validate form asynchronous</p>
+    </div>
+    <div class="example" id="__react-content"></div>
 
-<span class="hljs-keyword">var</span> schema = <span class="hljs-keyword">new</span> Schema({
+    <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint no-console:0 */</span>
+
+<span class="hljs-keyword">import</span> Schema <span class="hljs-keyword">from</span> <span class="hljs-string">'async-validator'</span>;
+
+<span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">new</span> Schema({
   name: {
     type: <span class="hljs-string">'string'</span>,
     required: <span class="hljs-literal">true</span>,
     min: <span class="hljs-number">5</span>,
-    max: <span class="hljs-number">10</span>
+    max: <span class="hljs-number">10</span>,
   },
   address: {
     type: <span class="hljs-string">'object'</span>,
@@ -280,40 +282,40 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
       province: {
         type: <span class="hljs-string">'string'</span>,
         required: <span class="hljs-literal">true</span>,
-        min: <span class="hljs-number">4</span>
+        min: <span class="hljs-number">4</span>,
       },
       city: {
         type: <span class="hljs-string">'string'</span>,
-        message:<span class="hljs-string">'custom message'</span>,
-        min: <span class="hljs-number">5</span>
+        message: <span class="hljs-string">'custom message'</span>,
+        min: <span class="hljs-number">5</span>,
       },
       <span class="hljs-keyword">async</span>: {
-        validator: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">rule, value, callback</span>) </span>{
-          setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        validator(rule, value, callback) {
+          setTimeout(() =&gt; {
             callback(rule.message);
           }, <span class="hljs-number">100</span>);
         },
-        message: <span class="hljs-string">'address async fails'</span>
-      }
-    }
+        message: <span class="hljs-string">'address async fails'</span>,
+      },
+    },
   },
   <span class="hljs-keyword">async</span>: {
-    validator: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">rule, value, callback</span>) </span>{
-      setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    validator(rule, value, callback) {
+      setTimeout(() =&gt; {
         callback([<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(rule.message)]);
       }, <span class="hljs-number">100</span>);
     },
-    message: <span class="hljs-string">'async fails'</span>
-  }
+    message: <span class="hljs-string">'async fails'</span>,
+  },
 });
 
 schema.validate({
   name: <span class="hljs-number">2</span>,
   address: {
-    city: <span class="hljs-number">2</span>
+    city: <span class="hljs-number">2</span>,
   },
-  <span class="hljs-keyword">async</span>: <span class="hljs-string">'2'</span>
-}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">errors, fields</span>) </span>{
+  <span class="hljs-keyword">async</span>: <span class="hljs-string">'2'</span>,
+}, (errors, fields) =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'errors'</span>);
   <span class="hljs-built_in">console</span>.log(errors);
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'fields'</span>);
@@ -322,13 +324,16 @@ schema.validate({
 
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>);
 </code></pre></div>
-</div>
-<a href="http://github.com/yiminghe/async-validator">
-  <img style="position: absolute; top: 0; right: 0; border: 0;"
-       src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
-       alt="Fork me on GitHub"
-       data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
-</a>
+  </div>
+  <a href="http://github.com/yiminghe/async-validator">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+         alt="Fork me on GitHub"
+         data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+  </a>
+  
+  <script src="common.js?nowrap"></script>
+  <script src="simple.js?nowrap"></script>
 </body>
 
 </html>
