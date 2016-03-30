@@ -141,9 +141,13 @@ Schema.prototype = {
     const errorFields = {};
     asyncMap(series, options, (data, doIt) => {
       const rule = data.rule;
-      let deep = (rule.type === 'object' || rule.type === 'array') && typeof (rule.fields) === 'object';
+      let deep = (rule.type === 'object' || rule.type === 'array') &&
+        (typeof (rule.fields) === 'object' || typeof (rule.values) === 'object');
       deep = deep && (rule.required || (!rule.required && data.value));
       rule.field = data.field;
+      function addFullfield(key, schema) {
+        return {...schema, fullField: rule.fullField + '.' + key};
+      }
       function cb(e = []) {
         let errors = e;
         if (!Array.isArray(errors)) {
@@ -173,11 +177,23 @@ Schema.prototype = {
             }
             return doIt(errors);
           }
-          const fieldsSchema = data.rule.fields;
+
+          let fieldsSchema = {};
+          if (rule.values) {
+            for (const k in data.value) {
+              if (data.value.hasOwnProperty(k)) {
+                fieldsSchema[k] = rule.values;
+              }
+            }
+          }
+          fieldsSchema = {
+            ...fieldsSchema,
+            ...data.rule.fields,
+          };
           for (const f in fieldsSchema) {
             if (fieldsSchema.hasOwnProperty(f)) {
-              const fieldSchema = fieldsSchema[f];
-              fieldSchema.fullField = rule.fullField + '.' + f;
+              const fieldSchema = Array.isArray(fieldsSchema[f]) ? fieldsSchema[f] : [fieldsSchema[f]];
+              fieldsSchema[f] = fieldSchema.map(addFullfield.bind(null, f));
             }
           }
           const schema = new Schema(fieldsSchema);
