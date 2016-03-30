@@ -8,8 +8,8 @@ describe('deep', () => {
         required: true,
         type: 'array',
         fields: {
-          0: [{type: 'string'}],
-          1: [{type: 'string'}],
+          0: [{ type: 'string' }],
+          1: [{ type: 'string' }],
         },
       },
     }).validate({
@@ -26,7 +26,7 @@ describe('deep', () => {
       v: {
         required: true,
         type: 'array',
-        values: [{type: 'string'}],
+        defaultField: [{ type: 'string' }],
       },
     }).validate({
       v: [1, 2, 'c'],
@@ -44,14 +44,14 @@ describe('deep', () => {
         required: true,
         type: 'object',
         fields: {
-          a: [{type: 'string'}],
-          b: [{type: 'string'}],
+          a: [{ type: 'string' }],
+          b: [{ type: 'string' }],
         },
       },
     }).validate({
       v: {
-        'a': 1,
-        'b': 'c',
+        a: 1,
+        b: 'c',
       },
     }, (errors) => {
       expect(errors.length).to.be(1);
@@ -65,12 +65,12 @@ describe('deep', () => {
       v: {
         required: true,
         type: 'object',
-        values: [{type: 'string'}],
+        defaultField: [{ type: 'string' }],
       },
     }).validate({
       v: {
-        'a': 1,
-        'b': 'c',
+        a: 1,
+        b: 'c',
       },
     }, (errors) => {
       expect(errors.length).to.be(1);

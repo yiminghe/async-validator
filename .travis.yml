@@ -16,7 +16,8 @@ before_install:
       echo "Only docs were updated, stopping build process."
       exit
     fi
-
+    npm install npm@3.x -g
+    phantomjs --version
 script:
 - |
     if [ "$TEST_TYPE" = test ]; then
@@ -24,9 +25,13 @@ script:
     else
       npm run $TEST_TYPE
     fi
-
 env:
   matrix:
   - TEST_TYPE=lint
-  - TEST_TYPE=browser-test
-  - TEST_TYPE=browser-test-cover
+  - TEST_TYPE=test
+  - TEST_TYPE=coverage
+
+
+matrix:
+  allow_failures:
+  - env: "TEST_TYPE=saucelabs"

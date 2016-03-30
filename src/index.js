@@ -1,7 +1,7 @@
-import {format, complementError, asyncMap} from './util';
+import { format, complementError, asyncMap } from './util';
 import validators from './validator/';
-import {messages as defaultMessages, newMessages} from './messages';
-import {error} from './rule/';
+import { messages as defaultMessages, newMessages } from './messages';
+import { error } from './rule/';
 import mergeWith from 'lodash.mergewith';
 
 function mergeCustomizer(objValue, srcValue) {
@@ -111,7 +111,7 @@ Schema.prototype = {
         let rule = r;
         if (typeof (rule.transform) === 'function') {
           if (source === source_) {
-            source = {...source};
+            source = { ...source };
           }
           value = source[z] = rule.transform(value);
         }
@@ -120,7 +120,7 @@ Schema.prototype = {
             validator: rule,
           };
         } else {
-          rule = {...rule};
+          rule = { ...rule };
         }
         rule.field = z;
         rule.fullField = rule.fullField || z;
@@ -131,9 +131,9 @@ Schema.prototype = {
         }
         series[z] = series[z] || [];
         series[z].push({
-          rule: rule,
-          value: value,
-          source: source,
+          rule,
+          value,
+          source,
           field: z,
         });
       });
@@ -142,12 +142,16 @@ Schema.prototype = {
     asyncMap(series, options, (data, doIt) => {
       const rule = data.rule;
       let deep = (rule.type === 'object' || rule.type === 'array') &&
-        (typeof (rule.fields) === 'object' || typeof (rule.values) === 'object');
+        (typeof (rule.fields) === 'object' || typeof (rule.defaultField) === 'object');
       deep = deep && (rule.required || (!rule.required && data.value));
       rule.field = data.field;
       function addFullfield(key, schema) {
-        return {...schema, fullField: rule.fullField + '.' + key};
+        return {
+          ...schema,
+          fullField: `${rule.fullField}.${key}`,
+        };
       }
+
       function cb(e = []) {
         let errors = e;
         if (!Array.isArray(errors)) {
@@ -179,10 +183,10 @@ Schema.prototype = {
           }
 
           let fieldsSchema = {};
-          if (rule.values) {
+          if (rule.defaultField) {
             for (const k in data.value) {
               if (data.value.hasOwnProperty(k)) {
-                fieldsSchema[k] = rule.values;
+                fieldsSchema[k] = rule.defaultField;
               }
             }
           }
@@ -192,7 +196,8 @@ Schema.prototype = {
           };
           for (const f in fieldsSchema) {
             if (fieldsSchema.hasOwnProperty(f)) {
-              const fieldSchema = Array.isArray(fieldsSchema[f]) ? fieldsSchema[f] : [fieldsSchema[f]];
+              const fieldSchema = Array.isArray(fieldsSchema[f]) ?
+                fieldsSchema[f] : [fieldsSchema[f]];
               fieldsSchema[f] = fieldSchema.map(addFullfield.bind(null, f));
             }
           }
@@ -218,7 +223,8 @@ Schema.prototype = {
     if (rule.type === undefined && (rule.pattern instanceof RegExp)) {
       rule.type = 'pattern';
     }
-    if (typeof (rule.validator) !== 'function' && (rule.type && !validators.hasOwnProperty(rule.type))) {
+    if (typeof (rule.validator) !== 'function' &&
+      (rule.type && !validators.hasOwnProperty(rule.type))) {
       throw new Error(format('Unknown rule type %s', rule.type));
     }
     return rule.type || 'string';

@@ -1,5 +1,5 @@
 import rules from '../rule/';
-import {isEmptyValue} from '../util';
+import { isEmptyValue } from '../util';
 
 function date(rule, value, callback, source, options) {
   // console.log('integer rule called %j', rule);

@@ -1,4 +1,4 @@
-import {isEmptyValue} from '../util';
+import { isEmptyValue } from '../util';
 import rules from '../rule/';
 
 /**

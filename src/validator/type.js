@@ -1,5 +1,5 @@
 import rules from '../rule/';
-import {isEmptyValue} from '../util';
+import { isEmptyValue } from '../util';
 
 function type(rule, value, callback, source, options) {
   const ruleType = rule.type;

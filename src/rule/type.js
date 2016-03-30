@@ -1,5 +1,8 @@
 import * as util from '../util';
 import required from './required';
+
+/* eslint max-len:0 */
+
 const pattern = {
   email: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
   url: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})(([\/\w\.-]*)?)(\?[-_+=~\.;&%\w]*)?(\#[-_\/\!\w]*)?( *)?$/i,
@@ -27,7 +30,9 @@ const types = {
     }
   },
   date(value) {
-    return typeof value.getTime === 'function' && typeof value.getMonth === 'function' && typeof value.getYear === 'function';
+    return typeof value.getTime === 'function' &&
+      typeof value.getMonth === 'function' &&
+      typeof value.getYear === 'function';
   },
   number(value) {
     if (isNaN(value)) {

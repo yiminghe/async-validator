@@ -32,7 +32,7 @@ export function format(...args) {
       }
     });
     for (let arg = args[i]; i < len; arg = args[++i]) {
-      str += ' ' + arg;
+      str += ` ${arg}`;
     }
     return str;
   }
@@ -101,7 +101,7 @@ function asyncSerialArray(arr, func, callback) {
 
 function flattenObjArr(objArr) {
   const ret = [];
-  Object.keys(objArr).forEach((k)=> {
+  Object.keys(objArr).forEach((k) => {
     ret.push.apply(ret, objArr[k]);
   });
   return ret;

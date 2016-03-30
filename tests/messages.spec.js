@@ -20,7 +20,7 @@ describe('messages', () => {
     schema.validate({
       v: '',
       v2: '1',
-    }, (errors)=> {
+    }, (errors) => {
       expect(errors.length).to.be(2);
       expect(errors[0].message).to.be('v required!');
       expect(errors[1].message).to.be('v2 is not an array');
@@ -49,7 +49,7 @@ describe('messages', () => {
       v2: '1',
     }, {
       messages,
-    }, (errors)=> {
+    }, (errors) => {
       expect(errors.length).to.be(2);
       expect(errors[0].message).to.be('v required!');
       expect(errors[1].message).to.be('v2 is not an array');
@@ -72,7 +72,7 @@ describe('messages', () => {
       v: '',
     }, {
       messages,
-    }, (errors)=> {
+    }, (errors) => {
       expect(errors).to.be.ok();
       expect(errors.length).to.be(1);
       expect(errors[0].message).to.be(atom);

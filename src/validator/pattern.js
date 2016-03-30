@@ -1,5 +1,5 @@
 import rules from '../rule/';
-import {isEmptyValue} from '../util';
+import { isEmptyValue } from '../util';
 
 /**
  *  Validates a regular expression pattern.

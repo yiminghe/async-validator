@@ -1,5 +1,3 @@
-
-
 import * as util from '../util';
 
 /**
@@ -17,7 +15,7 @@ function pattern(rule, value, source, errors, options) {
   if (rule.pattern instanceof RegExp) {
     if (!rule.pattern.test(value)) {
       errors.push(util.format(options.messages.pattern.mismatch,
-          rule.fullField, value, rule.pattern));
+        rule.fullField, value, rule.pattern));
     }
   }
 }

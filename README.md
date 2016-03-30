@@ -239,21 +239,21 @@ var descriptor = {
 
 And supply a source object of `{roles: ["admin", "user"]}` then two errors will be created. One for the array length mismatch and one for the missing required array entry at index 2.
 
-#### Values
+#### defaultField
 
-The `values` property can be used with the `array` or `object` type for validating all values of the container. 
+The `defaultField` property can be used with the `array` or `object` type for validating all values of the container.
 It may be an `object` or `array` containing validation rules. For example:
 
 ```javascript
 var descriptor = {
   urls: {
     type: "array", required: true,
-    values: {type: "url"}
+    defaultField: {type: "url"}
   }
 }
 ```
 
-Note that `values` is expanded to `fields`, see [deep rules](#deep-rules).
+Note that `defaultField` is expanded to `fields`, see [deep rules](#deep-rules).
 
 #### Transform
 
@@ -336,6 +336,20 @@ you can custom validate function for specified field:
 }
 ```
 
+## Test Case
+
+```
+npm test
+npm run chrome-test
+```
+
+## Coverage
+
+```
+npm run coverage
+```
+
+open coverage/ dir
 
 ## License
 

@@ -1,5 +1,3 @@
-
-
 import * as util from '../util';
 
 /**
@@ -48,7 +46,7 @@ function range(rule, value, source, errors, options) {
     errors.push(util.format(options.messages[key].max, rule.fullField, rule.max));
   } else if (min && max && (val < rule.min || val > rule.max)) {
     errors.push(util.format(options.messages[key].range,
-        rule.fullField, rule.min, rule.max));
+      rule.fullField, rule.min, rule.max));
   }
 }
 

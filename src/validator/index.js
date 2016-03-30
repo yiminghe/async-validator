@@ -1,5 +1,3 @@
-
-
 export default {
   string: require('./string'),
   method: require('./method'),
@@ -7,10 +5,10 @@ export default {
   boolean: require('./boolean'),
   regexp: require('./regexp'),
   integer: require('./integer'),
-  'float': require('./float'),
+  float: require('./float'),
   array: require('./array'),
   object: require('./object'),
-  'enum': require('./enum'),
+  enum: require('./enum'),
   pattern: require('./pattern'),
   email: require('./type'),
   url: require('./type'),

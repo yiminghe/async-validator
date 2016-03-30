@@ -1,6 +1,10 @@
 # History
 ----
 
+## 1.6.0 / 2016-03-30
+
+- support defaultField
+
 ## 1.5.0 / 2016-02-02
 
 - support deep merge with default messages

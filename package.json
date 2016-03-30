@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "validate form asynchronous",
   "keywords": [
     "validator",
@@ -27,24 +27,24 @@
   "scripts": {
     "build": "rc-tools run build",
     "gh-pages": "rc-tools run gh-pages",
-    "start": "rc-server",
+    "start": "rc-tools run server",
     "pub": "rc-tools run pub",
     "lint": "rc-tools run lint",
     "karma": "rc-tools run karma",
     "saucelabs": "rc-tools run saucelabs",
-    "browser-test": "rc-tools run browser-test",
-    "browser-test-cover": "rc-tools run browser-test-cover"
+    "test": "rc-tools run test",
+    "chrome-test": "rc-tools run chrome-test",
+    "coverage": "rc-tools run coverage"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
     "pre-commit": "1.x",
-    "rc-server": "3.x",
-    "rc-tools": "4.x"
+    "rc-tools": "5.x"
   },
   "pre-commit": [
     "lint"
   ],
   "dependencies": {
-    "lodash.mergewith": "^4.0.3"
+    "lodash.mergewith": "4.x"
   }
 }
