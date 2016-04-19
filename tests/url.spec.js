@@ -15,6 +15,19 @@ describe('url', () => {
     });
   });
 
+  it('works for ip url', (done) => {
+    new Schema({
+      v: {
+        type: 'url',
+      },
+    }).validate({
+      v: 'http://10.218.136.29/talent-tree/src/index.html',
+    }, (errors) => {
+      expect(errors).to.be(null);
+      done();
+    });
+  });
+
   it('works for required empty string', (done) => {
     new Schema({
       v: {
@@ -76,19 +89,6 @@ describe('url', () => {
       },
     }).validate({
       v: 'http://www.taobao.com/abc?abc=%23&b=a~c#abc',
-    }, (errors) => {
-      expect(errors).to.be(null);
-      done();
-    });
-  });
-
-  it('works for type url has query and has space', (done) => {
-    new Schema({
-      v: {
-        type: 'url',
-      },
-    }).validate({
-      v: 'http://www.taobao.com/abc?abc=%23&b=a~c#abc  ',
     }, (errors) => {
       expect(errors).to.be(null);
       done();
