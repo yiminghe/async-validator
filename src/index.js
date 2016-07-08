@@ -43,13 +43,16 @@ Schema.prototype = {
   validate(source_, o = {}, oc) {
     let source = source_;
     let options = o;
-    if (!this.rules) {
-      throw new Error('Cannot validate with no rules.');
-    }
     let callback = oc;
     if (typeof options === 'function') {
       callback = options;
       options = {};
+    }
+    if (!this.rules || Object.keys(this.rules).length === 0) {
+      if (callback) {
+        callback();
+      }
+      return;
     }
     function complete(results) {
       let i;
