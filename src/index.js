@@ -1,14 +1,7 @@
-import { format, complementError, asyncMap, warning } from './util';
+import { format, complementError, asyncMap, warning, deepMerge } from './util';
 import validators from './validator/';
 import { messages as defaultMessages, newMessages } from './messages';
 import { error } from './rule/';
-import mergeWith from 'lodash.mergewith';
-
-function mergeCustomizer(objValue, srcValue) {
-  if (typeof objValue !== 'object') {
-    return srcValue;
-  }
-}
 
 /**
  *  Encapsulates a validation schema.
@@ -25,7 +18,7 @@ function Schema(descriptor) {
 Schema.prototype = {
   messages(messages) {
     if (messages) {
-      this._messages = mergeWith(newMessages(), messages, mergeCustomizer);
+      this._messages = deepMerge(newMessages(), messages);
     }
     return this._messages;
   },
@@ -93,7 +86,7 @@ Schema.prototype = {
       if (messages === defaultMessages) {
         messages = newMessages();
       }
-      mergeWith(messages, options.messages, mergeCustomizer);
+      deepMerge(messages, options.messages);
       options.messages = messages;
     } else {
       options.messages = this.messages();

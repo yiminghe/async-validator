@@ -167,3 +167,22 @@ export function complementError(rule) {
     };
   };
 }
+
+export function deepMerge(target, source) {
+  if (source) {
+    for (const s in source) {
+      if (source.hasOwnProperty(s)) {
+        const value = source[s];
+        if (typeof value === 'object' && typeof target[s] === 'object') {
+          target[s] = {
+            ...target[s],
+            ...value,
+          };
+        } else {
+          target[s] = value;
+        }
+      }
+    }
+  }
+  return target;
+}
