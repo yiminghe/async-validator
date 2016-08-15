@@ -108,4 +108,17 @@ describe('url', () => {
       done();
     });
   });
+
+  it('support skip schema', (done) => {
+    new Schema({
+      v: {
+        type: 'url',
+      },
+    }).validate({
+      v: '//g.cn',
+    }, (errors) => {
+      expect(errors).to.be(null);
+      done();
+    });
+  });
 });
