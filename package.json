@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "validate form asynchronous",
   "keywords": [
     "validator",
