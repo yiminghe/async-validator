@@ -103,7 +103,7 @@ webpackJsonp([0,1],[
 	
 	var _validator2 = _interopRequireDefault(_validator);
 	
-	var _messages2 = __webpack_require__(27);
+	var _messages2 = __webpack_require__(28);
 	
 	var _rule = __webpack_require__(8);
 	
@@ -228,10 +228,10 @@ webpackJsonp([0,1],[
 	        } else {
 	          rule = _extends({}, rule);
 	        }
+	        rule.validator = _this.getValidationMethod(rule);
 	        rule.field = z;
 	        rule.fullField = rule.fullField || z;
 	        rule.type = _this.getType(rule);
-	        rule.validator = _this.getValidationMethod(rule);
 	        if (!rule.validator) {
 	          return;
 	        }
@@ -336,7 +336,11 @@ webpackJsonp([0,1],[
 	    if (typeof rule.validator === 'function') {
 	      return rule.validator;
 	    }
-	    return _validator2.default[rule.type] || false;
+	    var keys = Object.keys(rule);
+	    if (keys.length === 1 && keys[0] === 'required') {
+	      return _validator2.default.required;
+	    }
+	    return _validator2.default[this.getType(rule)] || false;
 	  }
 	};
 	
@@ -668,10 +672,7 @@ webpackJsonp([0,1],[
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = {
+	module.exports = {
 	  string: __webpack_require__(7),
 	  method: __webpack_require__(15),
 	  number: __webpack_require__(16),
@@ -686,9 +687,9 @@ webpackJsonp([0,1],[
 	  email: __webpack_require__(25),
 	  url: __webpack_require__(25),
 	  date: __webpack_require__(26),
-	  hex: __webpack_require__(25)
+	  hex: __webpack_require__(25),
+	  required: __webpack_require__(27)
 	};
-	module.exports = exports['default'];
 
 /***/ },
 /* 7 */
@@ -1635,6 +1636,34 @@ webpackJsonp([0,1],[
 
 /***/ },
 /* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	var _rule = __webpack_require__(8);
+	
+	var _rule2 = _interopRequireDefault(_rule);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function required(rule, value, callback, source, options) {
+	  var errors = [];
+	  var type = Array.isArray(value) ? 'array' : typeof value === 'undefined' ? 'undefined' : _typeof(value);
+	  _rule2.default.required(rule, value, source, errors, options, type);
+	  callback(errors);
+	}
+	
+	exports.default = required;
+	module.exports = exports['default'];
+
+/***/ },
+/* 28 */
 /***/ function(module, exports) {
 
 	'use strict';
