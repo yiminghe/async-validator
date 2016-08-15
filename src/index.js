@@ -118,10 +118,10 @@ Schema.prototype = {
         } else {
           rule = { ...rule };
         }
+        rule.validator = this.getValidationMethod(rule);
         rule.field = z;
         rule.fullField = rule.fullField || z;
         rule.type = this.getType(rule);
-        rule.validator = this.getValidationMethod(rule);
         if (!rule.validator) {
           return;
         }
@@ -232,7 +232,11 @@ Schema.prototype = {
     if (typeof rule.validator === 'function') {
       return rule.validator;
     }
-    return validators[rule.type] || false;
+    const keys = Object.keys(rule);
+    if (keys.length === 1 && keys[0] === 'required') {
+      return validators.required;
+    }
+    return validators[this.getType(rule)] || false;
   },
 };
 

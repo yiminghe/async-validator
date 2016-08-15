@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   string: require('./string'),
   method: require('./method'),
   number: require('./number'),
@@ -14,4 +14,5 @@ export default {
   url: require('./type'),
   date: require('./date'),
   hex: require('./type'),
+  required: require('./required'),
 };
