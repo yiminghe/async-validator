@@ -485,7 +485,7 @@ webpackJsonp([0,1],[
 	  var arrLength = arr.length;
 	
 	  function next(errors) {
-	    if (errors.length) {
+	    if (errors && errors.length) {
 	      callback(errors);
 	      return;
 	    }
