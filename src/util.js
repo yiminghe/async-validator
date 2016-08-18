@@ -101,7 +101,7 @@ function asyncSerialArray(arr, func, callback) {
   const arrLength = arr.length;
 
   function next(errors) {
-    if (errors.length) {
+    if (errors && errors.length) {
       callback(errors);
       return;
     }
