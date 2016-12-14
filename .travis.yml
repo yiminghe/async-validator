@@ -7,7 +7,7 @@ notifications:
   - yiminghe@gmail.com
 
 node_js:
-- 4.0.0
+- 6.9.1
 
 before_install:
 - |
@@ -16,7 +16,6 @@ before_install:
       echo "Only docs were updated, stopping build process."
       exit
     fi
-    npm install npm@3.x -g
     phantomjs --version
 script:
 - |

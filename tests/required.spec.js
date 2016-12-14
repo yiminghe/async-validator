@@ -5,14 +5,30 @@ const required = true;
 describe('required', () => {
   it('works for array required=true', (done) => {
     new Schema({
-      v: {
+      v: [{
         required,
-      },
+        message: 'no',
+      }],
     }).validate({
       v: [],
     }, (errors) => {
       expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors[0].message).to.be('no');
+      done();
+    });
+  });
+
+  it('works for array required=true & custom message', (done) => {
+    // allow custom message
+    new Schema({
+      v: [{
+        required,
+        message: 'no',
+      }],
+    }).validate({
+      v: [1],
+    }, (errors) => {
+      expect(errors).not.to.be.ok();
       done();
     });
   });
