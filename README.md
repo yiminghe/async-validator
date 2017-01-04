@@ -327,7 +327,7 @@ you can custom validate function for specified field:
         url:'xx',
         value:value
       }).then(function(data){
-        callback(null);
+        callback();
       },function(error){
         callback(new Error(error))
       });
