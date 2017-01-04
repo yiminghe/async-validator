@@ -446,7 +446,7 @@ webpackJsonp([0,1],[
 	}
 	
 	function isNativeStringType(type) {
-	  return type === 'string' || type === 'url' || type === 'hex' || type === 'email';
+	  return type === 'string' || type === 'url' || type === 'hex' || type === 'email' || type === 'pattern';
 	}
 	
 	function isEmptyValue(value, type) {
@@ -882,7 +882,7 @@ webpackJsonp([0,1],[
 	 *  @param options.messages The validation messages.
 	 */
 	function required(rule, value, source, errors, options, type) {
-	  if (rule.required && (!source.hasOwnProperty(rule.field) || util.isEmptyValue(value, type))) {
+	  if (rule.required && (!source.hasOwnProperty(rule.field) || util.isEmptyValue(value, type || rule.type))) {
 	    errors.push(util.format(options.messages.required, rule.fullField));
 	  }
 	}

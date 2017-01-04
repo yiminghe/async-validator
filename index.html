@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>async-validator@1.6.7 - validate form asynchronous</title>
+  <title>async-validator@1.6.8 - validate form asynchronous</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>async-validator@1.6.7</h1>
+  <h1>async-validator@1.6.8</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -945,7 +945,7 @@ validator.messages(cn);
         url:<span class="hljs-string">'xx'</span>,
         value:value
       }).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>)</span>{
-        callback(<span class="hljs-literal">null</span>);
+        callback();
       },<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error</span>)</span>{
         callback(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(error))
       });
