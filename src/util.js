@@ -58,7 +58,11 @@ export function format(...args) {
 }
 
 function isNativeStringType(type) {
-  return type === 'string' || type === 'url' || type === 'hex' || type === 'email';
+  return type === 'string' ||
+    type === 'url' ||
+    type === 'hex' ||
+    type === 'email' ||
+    type === 'pattern';
 }
 
 export function isEmptyValue(value, type) {
