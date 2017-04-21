@@ -3,7 +3,8 @@ const formatRegExp = /%[sdj%]/g;
 let warning2 = () => {
 };
 
-if (process.env.NODE_ENV !== 'production') {
+// don't print warning message when in production env or node runtime
+if (process.env.NODE_ENV !== 'production' && typeof global === 'undefined') {
   warning2 = (type, message) => {
     if (typeof console !== 'undefined' && console.warn) {
       console.warn(type, message);
