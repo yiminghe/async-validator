@@ -1,22 +1,19 @@
 const formatRegExp = /%[sdj%]/g;
 
-let warning2 = () => {
+export let warning = () => {
 };
 
 // don't print warning message when in production env or node runtime
-if (process.env.NODE_ENV !== 'production' && typeof global === 'undefined') {
-  warning2 = (type, message) => {
+if (process.env.NODE_ENV !== 'production' &&
+  typeof window !== 'undefined' &&
+  typeof document !== 'undefined') {
+  warning = (type, errors) => {
     if (typeof console !== 'undefined' && console.warn) {
-      console.warn(type, message);
+      if (errors.every(e => typeof e === 'string')) {
+        console.warn(type, errors);
+      }
     }
   };
-}
-
-export function warning(type, errors) {
-  // only warn native warning, default type is string, confuses many people...
-  if (errors.every(e => typeof e === 'string')) {
-    warning2(type, errors);
-  }
 }
 
 export function format(...args) {
