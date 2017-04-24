@@ -374,7 +374,6 @@ webpackJsonp([0,1],[
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
-	exports.warning = warning;
 	exports.format = format;
 	exports.isEmptyValue = isEmptyValue;
 	exports.isEmptyObject = isEmptyObject;
@@ -383,23 +382,19 @@ webpackJsonp([0,1],[
 	exports.deepMerge = deepMerge;
 	var formatRegExp = /%[sdj%]/g;
 	
-	var warning2 = function warning2() {};
+	var warning = exports.warning = function warning() {};
 	
-	if (process.env.NODE_ENV !== 'production') {
-	  warning2 = function warning2(type, message) {
+	// don't print warning message when in production env or node runtime
+	if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined' && typeof document !== 'undefined') {
+	  exports.warning = warning = function warning(type, errors) {
 	    if (typeof console !== 'undefined' && console.warn) {
-	      console.warn(type, message);
+	      if (errors.every(function (e) {
+	        return typeof e === 'string';
+	      })) {
+	        console.warn(type, errors);
+	      }
 	    }
 	  };
-	}
-	
-	function warning(type, errors) {
-	  // only warn native warning, default type is string, confuses many people...
-	  if (errors.every(function (e) {
-	    return typeof e === 'string';
-	  })) {
-	    warning2(type, errors);
-	  }
 	}
 	
 	function format() {
@@ -953,7 +948,8 @@ webpackJsonp([0,1],[
 	/* eslint max-len:0 */
 	
 	var pattern = {
-	  email: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
+	  // http://emailregex.com/
+	  email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 	  url: new RegExp('^(?!mailto:)(?:(?:http|https|ftp)://|//)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$', 'i'),
 	  hex: /^#?([a-f0-9]{6}|[a-f0-9]{3})$/i
 	};
