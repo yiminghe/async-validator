@@ -17,15 +17,15 @@ describe('pattern', () => {
     });
   });
 
-  it('work for non-required empty string with string regexp', (done)=>{
+  it('work for non-required empty string with string regexp', (done) => {
     new Schema({
       v: {
-        pattern: "^\\d+$",
+        pattern: '^\\d+$',
         message: 'haha',
       },
     }).validate({
       // useful for web, input's value defaults to ''
-      v: 's'
+      v: 's',
     }, (errors) => {
       expect(errors.length).to.be(1);
       expect(errors[0].message).to.be('haha');
