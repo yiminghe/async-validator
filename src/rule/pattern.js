@@ -12,10 +12,18 @@ import * as util from '../util';
  *  @param options.messages The validation messages.
  */
 function pattern(rule, value, source, errors, options) {
-  if (rule.pattern instanceof RegExp) {
-    if (!rule.pattern.test(value)) {
-      errors.push(util.format(options.messages.pattern.mismatch,
-        rule.fullField, value, rule.pattern));
+  if (rule.pattern) {
+    if (rule.pattern instanceof RegExp) {
+      if (!rule.pattern.test(value)) {
+        errors.push(util.format(options.messages.pattern.mismatch,
+          rule.fullField, value, rule.pattern));
+      }
+    } else if (typeof rule.pattern === 'string') {
+      let _pattern = new RegExp(rule.pattern)
+      if (!_pattern.test(value)) {
+        errors.push(util.format(options.messages.pattern.mismatch,
+          rule.fullField, value, rule.pattern));
+      }
     }
   }
 }
