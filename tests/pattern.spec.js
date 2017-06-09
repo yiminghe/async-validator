@@ -17,12 +17,12 @@ describe('pattern', () => {
     });
   });
 
-  it('work for non-required empty string with string regexp',(done)=>{
+  it('work for non-required empty string with string regexp', (done)=>{
     new Schema({
       v: {
         pattern: "^\\d+$",
-        message: 'haha'
-      }
+        message: 'haha',
+      },
     }).validate({
       // useful for web, input's value defaults to ''
       v: 's'

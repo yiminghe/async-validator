@@ -19,7 +19,7 @@ function pattern(rule, value, source, errors, options) {
           rule.fullField, value, rule.pattern));
       }
     } else if (typeof rule.pattern === 'string') {
-      let _pattern = new RegExp(rule.pattern)
+      const _pattern = new RegExp(rule.pattern);
       if (!_pattern.test(value)) {
         errors.push(util.format(options.messages.pattern.mismatch,
           rule.fullField, value, rule.pattern));
