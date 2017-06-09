@@ -44,6 +44,7 @@
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
+    "coveralls": "^2.13.1",
     "jest": "20.x",
     "pre-commit": "1.x",
     "rc-tools": "6.x"
