@@ -1,5 +1,9 @@
 # History
 ----
+## 1.7.0 / 2017-06/09
+
+- add es
+- support string patter
 
 ## 1.6.0 / 2016-03-30
 
