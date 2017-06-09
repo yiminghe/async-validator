@@ -1,7 +1,6 @@
 import { format, complementError, asyncMap, warning, deepMerge } from './util';
 import validators from './validator/';
 import { messages as defaultMessages, newMessages } from './messages';
-import { error } from './rule/';
 
 /**
  *  Encapsulates a validation schema.
@@ -94,8 +93,6 @@ Schema.prototype = {
     } else {
       options.messages = this.messages();
     }
-
-    options.error = error;
     let arr;
     let value;
     const series = {};
@@ -175,8 +172,10 @@ Schema.prototype = {
           if (rule.required && !data.value) {
             if (rule.message) {
               errors = [].concat(rule.message).map(complementError(rule));
-            } else {
+            } else if (options.error) {
               errors = [options.error(rule, format(options.messages.required, rule.field))];
+            } else {
+              errors = [];
             }
             return doIt(errors);
           }

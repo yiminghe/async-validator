@@ -1,8 +1,15 @@
+import required from './required';
+import whitespace from './whitespace';
+import type from './type';
+import range from './range';
+import enumRule from './enum';
+import pattern from './pattern';
+
 export default {
-  required: require('./required'),
-  whitespace: require('./whitespace'),
-  type: require('./type'),
-  range: require('./range'),
-  enum: require('./enum'),
-  pattern: require('./pattern'),
+  required,
+  whitespace,
+  type,
+  range,
+  enum: enumRule,
+  pattern,
 };
