@@ -1,5 +1,5 @@
-const expect = require('expect.js');
-const Schema = require('../index');
+
+import Schema from '../src/';
 const required = true;
 
 describe('required', () => {
@@ -12,8 +12,8 @@ describe('required', () => {
     }).validate({
       v: [],
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('no');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('no');
       done();
     });
   });
@@ -28,7 +28,7 @@ describe('required', () => {
     }).validate({
       v: [1],
     }, (errors) => {
-      expect(errors).not.to.be.ok();
+      expect(errors).toBeFalsy();
       done();
     });
   });
@@ -41,7 +41,7 @@ describe('required', () => {
     }).validate({
       v: [],
     }, (errors) => {
-      expect(errors).not.to.be.ok();
+      expect(errors).toBeFalsy();
       done();
     });
   });
@@ -54,8 +54,8 @@ describe('required', () => {
     }).validate({
       v: '',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -68,7 +68,7 @@ describe('required', () => {
     }).validate({
       v: '',
     }, (errors) => {
-      expect(errors).not.to.be.ok();
+      expect(errors).toBeFalsy();
       done();
     });
   });
@@ -81,7 +81,7 @@ describe('required', () => {
     }).validate({
       v: 1,
     }, (errors) => {
-      expect(errors).not.to.be.ok();
+      expect(errors).toBeFalsy();
       done();
     });
   });
@@ -94,7 +94,7 @@ describe('required', () => {
     }).validate({
       v: 1,
     }, (errors) => {
-      expect(errors).not.to.be.ok();
+      expect(errors).toBeFalsy();
       done();
     });
   });
@@ -107,8 +107,8 @@ describe('required', () => {
     }).validate({
       v: null,
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -121,7 +121,7 @@ describe('required', () => {
     }).validate({
       v: null,
     }, (errors) => {
-      expect(errors).not.to.be.ok();
+      expect(errors).toBeFalsy();
       done();
     });
   });
@@ -134,8 +134,8 @@ describe('required', () => {
     }).validate({
       v: undefined,
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -148,7 +148,7 @@ describe('required', () => {
     }).validate({
       v: undefined,
     }, (errors) => {
-      expect(errors).not.to.be.ok();
+      expect(errors).toBeFalsy();
       done();
     });
   });

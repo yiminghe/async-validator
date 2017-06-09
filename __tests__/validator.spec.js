@@ -1,5 +1,5 @@
-const expect = require('expect.js');
-const Schema = require('../index');
+
+import Schema from '../src/';
 
 describe('validator', () => {
   it('works', (done) => {
@@ -21,10 +21,10 @@ describe('validator', () => {
     }).validate({
       v: 2,
     }, (errors) => {
-      expect(errors.length).to.be(3);
-      expect(errors[0].message).to.be('e1');
-      expect(errors[1].message).to.be('e2');
-      expect(errors[2].message).to.be('e3');
+      expect(errors.length).toBe(3);
+      expect(errors[0].message).toBe('e1');
+      expect(errors[1].message).toBe('e2');
+      expect(errors[2].message).toBe('e3');
       done();
     });
   });
@@ -51,8 +51,8 @@ describe('validator', () => {
     }, {
       first: true,
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('e1');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('e1');
       done();
     });
   });
@@ -91,10 +91,10 @@ describe('validator', () => {
       }, {
         firstFields: true,
       }, (errors) => {
-        expect(errors.length).to.be(3);
-        expect(errors[0].message).to.be('e1');
-        expect(errors[1].message).to.be('e3');
-        expect(errors[2].message).to.be('e4');
+        expect(errors.length).toBe(3);
+        expect(errors[0].message).toBe('e1');
+        expect(errors[1].message).toBe('e3');
+        expect(errors[2].message).toBe('e4');
         done();
       });
     });
@@ -132,11 +132,11 @@ describe('validator', () => {
       }, {
         firstFields: ['v'],
       }, (errors) => {
-        expect(errors.length).to.be(4);
-        expect(errors[0].message).to.be('e1');
-        expect(errors[1].message).to.be('e3');
-        expect(errors[2].message).to.be('e4');
-        expect(errors[3].message).to.be('e5');
+        expect(errors.length).toBe(4);
+        expect(errors[0].message).toBe('e1');
+        expect(errors[1].message).toBe('e3');
+        expect(errors[2].message).toBe('e4');
+        expect(errors[3].message).toBe('e5');
         done();
       });
     });

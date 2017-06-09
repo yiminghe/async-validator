@@ -1,5 +1,4 @@
-const expect = require('expect.js');
-const Schema = require('../index');
+import Schema from '../src/';
 
 describe('array', () => {
   it('works for type', (done) => {
@@ -10,8 +9,8 @@ describe('array', () => {
     }).validate({
       v: '',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is not an array');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is not an array');
       done();
     });
   });
@@ -25,8 +24,8 @@ describe('array', () => {
     }).validate({
       v: '',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is not an array');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is not an array');
       done();
     });
   });
@@ -39,7 +38,7 @@ describe('array', () => {
     }).validate({
       v: [],
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -53,8 +52,8 @@ describe('array', () => {
     }).validate({
       v: [],
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -68,8 +67,8 @@ describe('array', () => {
     }).validate({
       v: undefined,
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -83,8 +82,8 @@ describe('array', () => {
     }).validate({
       v: null,
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -99,7 +98,7 @@ describe('array', () => {
     }).validate({
       v: [1],
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });

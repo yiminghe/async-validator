@@ -1,5 +1,5 @@
-const expect = require('expect.js');
-const Schema = require('../index');
+
+import Schema from '../src/';
 
 describe('url', () => {
   it('works for empty string', (done) => {
@@ -10,7 +10,7 @@ describe('url', () => {
     }).validate({
       v: '',
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -23,7 +23,7 @@ describe('url', () => {
     }).validate({
       v: 'http://10.218.136.29/talent-tree/src/index.html',
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -37,8 +37,8 @@ describe('url', () => {
     }).validate({
       v: '',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -51,7 +51,7 @@ describe('url', () => {
     }).validate({
       v: 'http://www.taobao.com',
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -64,7 +64,7 @@ describe('url', () => {
     }).validate({
       v: 'http://www.taobao.com/abc?a=a',
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -77,7 +77,7 @@ describe('url', () => {
     }).validate({
       v: 'http://www.taobao.com/abc#!abc',
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -90,7 +90,7 @@ describe('url', () => {
     }).validate({
       v: 'http://www.taobao.com/abc?abc=%23&b=a~c#abc',
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -103,8 +103,8 @@ describe('url', () => {
     }).validate({
       v: 'http://www.taobao.com/abc?abc=%23&b=  a~c#abc    ',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is not a valid url');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is not a valid url');
       done();
     });
   });
@@ -117,7 +117,7 @@ describe('url', () => {
     }).validate({
       v: '//g.cn',
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });

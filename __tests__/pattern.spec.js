@@ -1,5 +1,5 @@
-const expect = require('expect.js');
-const Schema = require('../index');
+
+import Schema from '../src/';
 
 describe('pattern', () => {
   it('works for non-required empty string', (done) => {
@@ -12,7 +12,7 @@ describe('pattern', () => {
       // useful for web, input's value defaults to ''
       v: '',
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -27,8 +27,8 @@ describe('pattern', () => {
       // useful for web, input's value defaults to ''
       v: 's',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('haha');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('haha');
       done();
     });
   });
@@ -45,8 +45,8 @@ describe('pattern', () => {
       // useful for web, input's value defaults to ''
       v: '',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('haha');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('haha');
       done();
     });
   });
@@ -60,7 +60,7 @@ describe('pattern', () => {
     }).validate({
       v: null,
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -74,7 +74,7 @@ describe('pattern', () => {
     }).validate({
       v: undefined,
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -88,8 +88,8 @@ describe('pattern', () => {
     }).validate({
       v: ' ',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('haha');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('haha');
       done();
     });
   });

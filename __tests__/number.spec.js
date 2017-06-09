@@ -1,5 +1,5 @@
-const expect = require('expect.js');
-const Schema = require('../index');
+
+import Schema from '../src/';
 
 describe('number', () => {
   it('works', (done) => {
@@ -10,8 +10,8 @@ describe('number', () => {
     }).validate({
       v: '1',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is not a number');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is not a number');
       done();
     });
   });
@@ -24,7 +24,7 @@ describe('number', () => {
     }).validate({
       v: undefined,
     }, (errors) => {
-      expect(errors).not.to.ok();
+      expect(errors).toBeFalsy();
       done();
     });
   });
@@ -38,8 +38,8 @@ describe('number', () => {
     }).validate({
       v: undefined,
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -54,8 +54,8 @@ describe('number', () => {
         transform: Number,
       },
     }).validate(value, (errors) => {
-      expect(value.v).to.be('1');
-      expect(errors).not.to.ok();
+      expect(value.v).toBe('1');
+      expect(errors).toBeFalsy();
       done();
     });
   });

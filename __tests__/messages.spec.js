@@ -1,5 +1,5 @@
-const expect = require('expect.js');
-const Schema = require('../index');
+
+import Schema from '../src/';
 
 describe('messages', () => {
   it('can call messages', (done) => {
@@ -21,10 +21,10 @@ describe('messages', () => {
       v: '',
       v2: '1',
     }, (errors) => {
-      expect(errors.length).to.be(2);
-      expect(errors[0].message).to.be('v required!');
-      expect(errors[1].message).to.be('v2 is not an array');
-      expect(Object.keys(messages).length).to.be(1);
+      expect(errors.length).toBe(2);
+      expect(errors[0].message).toBe('v required!');
+      expect(errors[1].message).toBe('v2 is not an array');
+      expect(Object.keys(messages).length).toBe(1);
       done();
     });
   });
@@ -50,10 +50,10 @@ describe('messages', () => {
     }, {
       messages,
     }, (errors) => {
-      expect(errors.length).to.be(2);
-      expect(errors[0].message).to.be('v required!');
-      expect(errors[1].message).to.be('v2 is not an array');
-      expect(Object.keys(messages).length).to.be(1);
+      expect(errors.length).toBe(2);
+      expect(errors[0].message).toBe('v required!');
+      expect(errors[1].message).toBe('v2 is not an array');
+      expect(Object.keys(messages).length).toBe(1);
       done();
     });
   });
@@ -73,11 +73,11 @@ describe('messages', () => {
     }, {
       messages,
     }, (errors) => {
-      expect(errors).to.be.ok();
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be(atom);
-      expect(Object.keys(messages).length).to.be(1);
-      expect(messages.required).to.be(atom);
+      expect(errors).toBeTruthy();
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe(atom);
+      expect(Object.keys(messages).length).toBe(1);
+      expect(messages.required).toBe(atom);
       done();
     });
   });

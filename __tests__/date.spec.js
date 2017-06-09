@@ -1,5 +1,5 @@
-const expect = require('expect.js');
-const Schema = require('../index');
+
+import Schema from '../src/';
 
 describe('date', () => {
   it('required works for undefined', (done) => {
@@ -11,8 +11,8 @@ describe('date', () => {
     }).validate({
       v: undefined,
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -26,8 +26,8 @@ describe('date', () => {
     }).validate({
       v: '',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is not a date');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is not a date');
       done();
     });
   });

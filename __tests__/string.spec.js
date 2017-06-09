@@ -1,5 +1,5 @@
-const expect = require('expect.js');
-const Schema = require('../index');
+
+import Schema from '../src/';
 
 describe('string', () => {
   it('works for none require', (done) => {
@@ -10,7 +10,7 @@ describe('string', () => {
     }).validate({
       v: '',
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -24,8 +24,8 @@ describe('string', () => {
     }).validate({
       v: '',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -39,8 +39,8 @@ describe('string', () => {
     }).validate({
       v: undefined,
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -54,8 +54,8 @@ describe('string', () => {
     }).validate({
       v: null,
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v is required');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v is required');
       done();
     });
   });
@@ -70,8 +70,8 @@ describe('string', () => {
     }).validate({
       v: null,
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('haha');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('haha');
       done();
     });
   });
@@ -86,7 +86,7 @@ describe('string', () => {
     }).validate({
       v: ' ',
     }, (errors) => {
-      expect(errors).to.be(null);
+      expect(errors).toBe(null);
       done();
     });
   });
@@ -102,8 +102,8 @@ describe('string', () => {
     }).validate({
       v: ' ',
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('haha');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('haha');
       done();
     });
   });

@@ -1,5 +1,5 @@
-const expect = require('expect.js');
-const Schema = require('../index');
+
+import Schema from '../src/';
 
 describe('deep', () => {
   it('deep array specific validation', (done) => {
@@ -15,8 +15,8 @@ describe('deep', () => {
     }).validate({
       v: [1, 'b'],
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v.0 is not a string');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v.0 is not a string');
       done();
     });
   });
@@ -37,8 +37,8 @@ describe('deep', () => {
         b: 'c',
       },
     }, (errors) => {
-      expect(errors.length).to.be(1);
-      expect(errors[0].message).to.be('v.a is not a string');
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('v.a is not a string');
       done();
     });
   });
@@ -54,9 +54,9 @@ describe('deep', () => {
       }).validate({
         v: [1, 2, 'c'],
       }, (errors) => {
-        expect(errors.length).to.be(2);
-        expect(errors[0].message).to.be('v.0 is not a string');
-        expect(errors[1].message).to.be('v.1 is not a string');
+        expect(errors.length).toBe(2);
+        expect(errors[0].message).toBe('v.0 is not a string');
+        expect(errors[1].message).toBe('v.1 is not a string');
         done();
       });
     });
@@ -92,8 +92,8 @@ describe('deep', () => {
           b: 'c',
         },
       }, (errors) => {
-        expect(errors.length).to.be(1);
-        expect(errors[0].message).to.be('v.a is not a string');
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('v.a is not a string');
         done();
       });
     });
