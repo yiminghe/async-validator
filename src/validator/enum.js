@@ -20,9 +20,7 @@ function enumerable(rule, value, callback, source, options) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    if (value) {
-      rules[ENUM](rule, value, source, errors, options);
-    }
+    rules[ENUM](rule, value, source, errors, options);
   }
   callback(errors);
 }
