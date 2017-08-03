@@ -211,8 +211,11 @@ Schema.prototype = {
         }
       }
 
-      rule.validator(
+      const res = rule.validator(
         rule, data.value, cb, data.source, options);
+      if (res && res.then) {
+        res.then(() => cb(), e => cb(e));
+      }
     }, (results) => {
       complete(results);
     });
