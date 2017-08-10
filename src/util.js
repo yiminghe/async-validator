@@ -160,12 +160,12 @@ export function asyncMap(objArr, option, func, callback) {
 export function complementError(rule) {
   return (oe) => {
     if (oe && oe.message) {
-      oe.field = oe.field || rule.fullField;
+      oe.field = rule.field || rule.fullField;
       return oe;
     }
     return {
       message: oe,
-      field: oe.field || rule.fullField,
+      field: rule.field || rule.fullField,
     };
   };
 }
