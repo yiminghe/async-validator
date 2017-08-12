@@ -159,7 +159,7 @@ Schema.prototype = {
 
         errors = errors.map(complementError(rule));
 
-        if ((options.first || options.fieldFirst) && errors.length) {
+        if (options.first && errors.length) {
           errorFields[rule.field] = 1;
           return doIt(errors);
         }
