@@ -1,5 +1,10 @@
 # History
 ----
+
+## 1.8.0 / 2017-08-16
+
+- validator support return promise.
+
 ## 1.7.0 / 2017-06/09
 
 - add es

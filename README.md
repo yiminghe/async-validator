@@ -320,7 +320,7 @@ If you are defining your own validation functions it is better practice to assig
 you can custom validate function for specified field:
 
 ```js
-{
+const fields = {
   asyncField:{
     validator(rule,value,callback){
       ajax({
@@ -332,8 +332,17 @@ you can custom validate function for specified field:
         callback(new Error(error))
       });
     }
-  }
-}
+  },
+ 
+  promiseField:{
+      validator(rule, value){
+        return ajax({
+          url:'xx',
+          value:value
+        });
+      }
+    }
+};
 ```
 
 ## Test Case
