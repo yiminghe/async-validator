@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>async-validator@1.7.1 - validate form asynchronous</title>
+  <title>async-validator@1.8.0 - validate form asynchronous</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>async-validator@1.7.1</h1>
+  <h1>async-validator@1.8.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -938,7 +938,7 @@ validator.validate(source, (errors, fields) =&gt; {
 validator.messages(cn);
 ...</code></pre></div><p>If you are defining your own validation functions it is better practice to assign the message strings to a messages object and then access the messages via the <code>options.messages</code> property within the validation function.</p>
 <h3>validator<a id="user-content-validator" name="validator" class="anchor" aria-hidden="true" href="#validator"><span class="octicon octicon-link"></span></a></h3><p>you can custom validate function for specified field:</p>
-<div class="highlight"><pre><code language="js">{
+<div class="highlight"><pre><code language="js"><span class="hljs-keyword">const</span> fields = {
   asyncField:{
     validator(rule,value,callback){
       ajax({
@@ -950,8 +950,17 @@ validator.messages(cn);
         callback(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(error))
       });
     }
-  }
-}</code></pre></div><h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm test
+  },
+
+  promiseField:{
+      validator(rule, value){
+        <span class="hljs-keyword">return</span> ajax({
+          url:<span class="hljs-string">'xx'</span>,
+          value:value
+        });
+      }
+    }
+};</code></pre></div><h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm test
 npm run chrome-test</code></pre></div><h2>Coverage<a id="user-content-coverage" name="coverage" class="anchor" aria-hidden="true" href="#coverage"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm run coverage</code></pre></div><p>open coverage/ dir</p>
 <h2>License<a id="user-content-license" name="license" class="anchor" aria-hidden="true" href="#license"><span class="octicon octicon-link"></span></a></h2><p>Everything is <a href="http://en.wikipedia.org/wiki/MIT_License" title="null">MIT</a>.</p>
 

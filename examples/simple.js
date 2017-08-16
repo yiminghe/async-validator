@@ -1135,7 +1135,7 @@ Schema.prototype = {
 
         errors = errors.map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__util__["d" /* complementError */])(rule));
 
-        if ((options.first || options.fieldFirst) && errors.length) {
+        if (options.first && errors.length) {
           errorFields[rule.field] = 1;
           return doIt(errors);
         }
@@ -1183,7 +1183,14 @@ Schema.prototype = {
         }
       }
 
-      rule.validator(rule, data.value, cb, data.source, options);
+      var res = rule.validator(rule, data.value, cb, data.source, options);
+      if (res && res.then) {
+        res.then(function () {
+          return cb();
+        }, function (e) {
+          return cb(e);
+        });
+      }
     }, function (results) {
       complete(results);
     });
