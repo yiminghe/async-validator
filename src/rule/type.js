@@ -48,7 +48,7 @@ const types = {
     return typeof (value) === 'function';
   },
   email(value) {
-    return typeof (value) === 'string' && !!value.match(pattern.email);
+    return typeof (value) === 'string' && !!value.match(pattern.email) && value.length < 255;
   },
   url(value) {
     return typeof (value) === 'string' && !!value.match(pattern.url);
