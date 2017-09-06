@@ -29,8 +29,3 @@ env:
   - TEST_TYPE=lint
   - TEST_TYPE=test
   - TEST_TYPE=coverage
-
-
-matrix:
-  allow_failures:
-  - env: "TEST_TYPE=saucelabs"
