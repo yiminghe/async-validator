@@ -93,4 +93,26 @@ describe('pattern', () => {
       done();
     });
   });
+
+  it('works for RegExp with global flag', (done) => {
+    const schema = new Schema({
+      v: {
+        pattern: /global/g,
+        message: 'haha',
+      },
+    });
+
+    schema.validate({
+      v: 'globalflag',
+    }, (errors) => {
+      expect(errors).toBe(null);
+    });
+
+    schema.validate({
+      v: 'globalflag',
+    }, (errors) => {
+      expect(errors).toBe(null);
+      done();
+    });
+  });
 });
