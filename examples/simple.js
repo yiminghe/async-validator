@@ -1346,6 +1346,10 @@ function enumerable(rule, value, source, errors, options) {
 function pattern(rule, value, source, errors, options) {
   if (rule.pattern) {
     if (rule.pattern instanceof RegExp) {
+      // if a RegExp instance is passed, reset `lastIndex` in case its `global`
+      // flag is accidentally set to `true`, which in a validation scenario
+      // is not necessary and the result might be misleading
+      rule.pattern.lastIndex = 0;
       if (!rule.pattern.test(value)) {
         errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["e" /* format */](options.messages.pattern.mismatch, rule.fullField, value, rule.pattern));
       }
