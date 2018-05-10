@@ -154,7 +154,7 @@ Schema.prototype = {
           warning('async-validator:', errors);
         }
         if (errors.length && rule.message) {
-          errors = [].concat(rule.message);
+          errors = errors.concat(rule.message);
         }
 
         errors = errors.map(complementError(rule));
