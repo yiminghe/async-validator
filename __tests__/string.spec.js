@@ -107,4 +107,40 @@ describe('string', () => {
       done();
     });
   });
+
+  it('works for unicode U+0000 to U+FFFF ', (done) => {
+    new Schema({
+      v: {
+        type: 'string',
+        len: 3,
+        min: 3,
+        max: 3,
+        message: 'haha',
+      },
+    }).validate({
+      v: '吉吉吉吉',
+    }, (errors) => {
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('haha');
+      done();
+    });
+  });
+
+  it('works for unicode gt U+FFFF ', (done) => {
+    new Schema({
+      v: {
+        type: 'string',
+        len: 3,
+        min: 3,
+        max: 3,
+        message: 'haha',
+      },
+    }).validate({
+      v: '𠮷𠮷𠮷𠮷',
+    }, (errors) => {
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe('haha');
+      done();
+    });
+  });
 });
