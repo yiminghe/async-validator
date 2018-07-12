@@ -40,7 +40,7 @@ function range(rule, value, source, errors, options) {
   }
   if (str) {
     // 处理码点大于U+010000的文字length属性不准确的bug，如"𠮷𠮷𠮷".lenght !== 3
-    val = value.replace(spRegexp,'_').length;
+    val = value.replace(spRegexp, '_').length;
   }
   if (len) {
     if (val !== rule.len) {

@@ -112,9 +112,7 @@ describe('string', () => {
     new Schema({
       v: {
         type: 'string',
-        len: 3,
-        min: 3,
-        max: 3,
+        len: 5,
         message: 'haha',
       },
     }).validate({
@@ -130,9 +128,7 @@ describe('string', () => {
     new Schema({
       v: {
         type: 'string',
-        len: 3,
-        min: 3,
-        max: 3,
+        len: 8, // 原来length属性应该为8，更正之后应该为4
         message: 'haha',
       },
     }).validate({
