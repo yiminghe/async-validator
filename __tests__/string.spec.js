@@ -112,7 +112,7 @@ describe('string', () => {
     new Schema({
       v: {
         type: 'string',
-        len: 6,
+        len: 3,
         message: 'haha',
       },
     }).validate({
