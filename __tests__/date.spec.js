@@ -31,4 +31,18 @@ describe('date', () => {
       done();
     });
   });
+
+  it('required works for "timestamp"', (done) => {
+    new Schema({
+      v: {
+        type: 'date',
+        required: true,
+      },
+    }).validate({
+      v: 1530374400000,
+    }, (errors) => {
+      expect(errors).toBe(null);
+      done();
+    });
+  });
 });

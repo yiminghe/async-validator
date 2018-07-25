@@ -12,9 +12,17 @@ function date(rule, value, callback, source, options) {
     }
     rules.required(rule, value, source, errors, options);
     if (!isEmptyValue(value)) {
-      rules.type(rule, value, source, errors, options);
-      if (value) {
-        rules.range(rule, value.getTime(), source, errors, options);
+      let dateObject;
+
+      if (typeof value === 'number') {
+        dateObject = new Date(value);
+      } else {
+        dateObject = value;
+      }
+
+      rules.type(rule, dateObject, source, errors, options);
+      if (dateObject) {
+        rules.range(rule, dateObject.getTime(), source, errors, options);
       }
     }
   }
