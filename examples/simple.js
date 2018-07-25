@@ -1649,9 +1649,17 @@ function date(rule, value, callback, source, options) {
     }
     __WEBPACK_IMPORTED_MODULE_0__rule___["a" /* default */].required(rule, value, source, errors, options);
     if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__util__["f" /* isEmptyValue */])(value)) {
-      __WEBPACK_IMPORTED_MODULE_0__rule___["a" /* default */].type(rule, value, source, errors, options);
-      if (value) {
-        __WEBPACK_IMPORTED_MODULE_0__rule___["a" /* default */].range(rule, value.getTime(), source, errors, options);
+      var dateObject = void 0;
+
+      if (typeof value === 'number') {
+        dateObject = new Date(value);
+      } else {
+        dateObject = value;
+      }
+
+      __WEBPACK_IMPORTED_MODULE_0__rule___["a" /* default */].type(rule, dateObject, source, errors, options);
+      if (dateObject) {
+        __WEBPACK_IMPORTED_MODULE_0__rule___["a" /* default */].range(rule, dateObject.getTime(), source, errors, options);
       }
     }
   }
