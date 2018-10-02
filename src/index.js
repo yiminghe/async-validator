@@ -1,4 +1,4 @@
-import { format, complementError, asyncMap, warning, deepMerge } from './util';
+import { format, complementError, asyncMap, warning, deepMerge, convertFieldsError } from './util';
 import validators from './validator/';
 import { messages as defaultMessages, newMessages } from './messages';
 
@@ -39,7 +39,7 @@ Schema.prototype = {
       }
     }
   },
-  validate(source_, o = {}, oc) {
+  validate(source_, o = {}, oc = () => {}) {
     let source = source_;
     let options = o;
     let callback = oc;
@@ -51,11 +51,10 @@ Schema.prototype = {
       if (callback) {
         callback();
       }
-      return;
+      return Promise.resolve();
     }
     function complete(results) {
       let i;
-      let field;
       let errors = [];
       let fields = {};
 
@@ -74,11 +73,7 @@ Schema.prototype = {
         errors = null;
         fields = null;
       } else {
-        for (i = 0; i < errors.length; i++) {
-          field = errors[i].field;
-          fields[field] = fields[field] || [];
-          fields[field].push(errors[i]);
-        }
+        fields = convertFieldsError(errors);
       }
       callback(errors, fields);
     }
@@ -132,7 +127,7 @@ Schema.prototype = {
       });
     });
     const errorFields = {};
-    asyncMap(series, options, (data, doIt) => {
+    return asyncMap(series, options, (data, doIt) => {
       const rule = data.rule;
       let deep = (rule.type === 'object' || rule.type === 'array') &&
         (typeof (rule.fields) === 'object' || typeof (rule.defaultField) === 'object');
