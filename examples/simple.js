@@ -54,6 +54,9 @@ schema.validate({
   console.log(errors);
   console.log('fields');
   console.log(fields);
-});
+})
+  .catch(({ errors, fields }) => {
+    console.log(errors, fields);
+  });
 
 console.log('end');
