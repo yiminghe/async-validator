@@ -47,6 +47,23 @@ validator.validate({name: "muji"}, (errors, fields) => {
   }
   // validation passed
 });
+
+// PROMISE USAGE
+validator.validate({name: "muji"}, (errors, fields) => {
+  if(errors) {
+    // validation failed, errors is an array of all errors
+    // fields is an object keyed by field name with an array of
+    // errors per field
+    return handleErrors(errors, fields);
+  }
+  // validation passed
+})
+  .then(() => {
+    // validation passed
+  })
+  .catch(({ errors, fields }) => {
+    return handleErrors(errors, fields);
+  })
 ```
 
 ### Validate
@@ -58,6 +75,10 @@ function(source, [options], callback)
 * `source`: The object to validate (required).
 * `options`: An object describing processing options for the validation (optional).
 * `callback`: A callback function to invoke when validation completes (required).
+
+The method will return a Promise object like:
+* `then()`，validation passed
+* `catch({ errors, fields })`，validation failed, errors is an array of all errors, fields is an object keyed by field name with an array of
 
 ### Options
 

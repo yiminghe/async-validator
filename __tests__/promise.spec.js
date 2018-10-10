@@ -141,3 +141,34 @@ describe('validator', () => {
     });
   });
 });
+
+describe('validate', () => {
+  it('validate fail', (done) => {
+    return new Schema({
+      v: {
+        type: 'string'
+      },
+    })
+      .validate({
+        v: 1
+      })
+      .catch(({ errors, fields }) => {
+        expect(errors[0].message).toBe('v is not a string');
+        expect(fields.v[0].message).toBe(('v is not a string'));
+        done()
+      })
+  });
+
+  it('validate success', (done) => {
+    return new Schema({
+      v: {
+        type: 'string'
+      },
+    }).validate({
+      v: '1'
+    })
+      .then(() => {
+        done();
+      })
+  });
+})
