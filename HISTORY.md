@@ -1,6 +1,10 @@
 # History
 ----
 
+## 1.9.0 / 2018-10-10
+
+- .validate returns promise
+
 ## 1.8.0 / 2017-08-16
 
 - validator support return promise.
