@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>async-validator@1.8.5 - validate form asynchronous</title>
+  <title>async-validator@1.9.0 - validate form asynchronous</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>async-validator@1.8.5</h1>
+  <h1>async-validator@1.9.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -775,10 +775,32 @@ validator.validate({name: <span class="hljs-string">"muji"</span>}, (errors, fie
     <span class="hljs-keyword">return</span> handleErrors(errors, fields);
   }
   <span class="hljs-comment">// validation passed</span>
-});</code></pre></div><h3>Validate<a id="user-content-validate" name="validate" class="anchor" aria-hidden="true" href="#validate"><span class="octicon octicon-link"></span></a></h3><div class="highlight"><pre><code language="javascript"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">source, [options], callback</span>)</span></code></pre></div><ul>
+});
+
+<span class="hljs-comment">// PROMISE USAGE</span>
+validator.validate({name: <span class="hljs-string">"muji"</span>}, (errors, fields) =&gt; {
+  <span class="hljs-keyword">if</span>(errors) {
+    <span class="hljs-comment">// validation failed, errors is an array of all errors</span>
+    <span class="hljs-comment">// fields is an object keyed by field name with an array of</span>
+    <span class="hljs-comment">// errors per field</span>
+    <span class="hljs-keyword">return</span> handleErrors(errors, fields);
+  }
+  <span class="hljs-comment">// validation passed</span>
+})
+  .then(() =&gt; {
+    <span class="hljs-comment">// validation passed</span>
+  })
+  .catch(({ errors, fields }) =&gt; {
+    <span class="hljs-keyword">return</span> handleErrors(errors, fields);
+  })</code></pre></div><h3>Validate<a id="user-content-validate" name="validate" class="anchor" aria-hidden="true" href="#validate"><span class="octicon octicon-link"></span></a></h3><div class="highlight"><pre><code language="javascript"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">source, [options], callback</span>)</span></code></pre></div><ul>
 <li><code>source</code>: The object to validate (required).</li>
 <li><code>options</code>: An object describing processing options for the validation (optional).</li>
 <li><code>callback</code>: A callback function to invoke when validation completes (required).</li>
+</ul>
+<p>The method will return a Promise object like:</p>
+<ul>
+<li><code>then()</code>，validation passed</li>
+<li><code>catch({ errors, fields })</code>，validation failed, errors is an array of all errors, fields is an object keyed by field name with an array of</li>
 </ul>
 <h3>Options<a id="user-content-options" name="options" class="anchor" aria-hidden="true" href="#options"><span class="octicon octicon-link"></span></a></h3><ul>
 <li><p><code>first</code>: Boolean, Invoke <code>callback</code> when the first validation rule generates an error, 
