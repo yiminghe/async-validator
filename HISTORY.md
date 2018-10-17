@@ -1,6 +1,10 @@
 # History
 ----
 
+## 1.10.0 / 2018-10-17
+
+- revert promise
+
 ## 1.9.0 / 2018-10-10
 
 - .validate returns promise
