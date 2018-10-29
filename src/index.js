@@ -211,8 +211,19 @@ Schema.prototype = {
         }
       }
 
-      const res = rule.validator(
-        rule, data.value, cb, data.source, options);
+      let res;
+      if (rule.asyncValidator) {
+        res = rule.asyncValidator(rule, data.value, cb, data.source, options);
+      } else if (rule.validator) {
+        res = rule.validator(rule, data.value, cb, data.source, options);
+        if (res === true) {
+          cb();
+        } else if (res === false) {
+          cb(rule.message || `${rule.field} fails`);
+        } else if (res instanceof Array) {
+          cb(res);
+        }
+      }
       if (res && res.then) {
         res.then(() => cb(), e => cb(e));
       }
