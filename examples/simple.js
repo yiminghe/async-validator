@@ -1,4 +1,4 @@
-/* eslint no-console:0 */
+/* eslint no-console:0 no-unused-vars:0 */
 
 import Schema from 'async-validator';
 
@@ -24,7 +24,7 @@ const schema = new Schema({
         min: 5,
       },
       async: {
-        validator(rule, value, callback) {
+        asyncValidator(rule, value, callback) {
           setTimeout(() => {
             callback(rule.message);
           }, 100);
@@ -34,10 +34,12 @@ const schema = new Schema({
     },
   },
   async: {
-    validator(rule, value, callback) {
-      setTimeout(() => {
-        callback([new Error(rule.message)]);
-      }, 100);
+    asyncValidator(rule, value) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject([new Error(rule.message)]);
+        }, 100);
+      });
     },
     message: 'async fails',
   },

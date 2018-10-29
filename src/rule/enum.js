@@ -1,4 +1,5 @@
 import * as util from '../util';
+
 const ENUM = 'enum';
 
 /**

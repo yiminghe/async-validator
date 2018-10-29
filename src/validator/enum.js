@@ -1,5 +1,6 @@
 import rules from '../rule/';
 import { isEmptyValue } from '../util';
+
 const ENUM = 'enum';
 
 /**

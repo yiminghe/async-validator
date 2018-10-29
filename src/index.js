@@ -60,7 +60,7 @@ Schema.prototype = {
 
       function add(e) {
         if (Array.isArray(e)) {
-          errors = errors.concat.apply(errors, e);
+          errors = errors.concat(...e);
         } else {
           errors.push(e);
         }
