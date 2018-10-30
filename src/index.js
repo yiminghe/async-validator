@@ -217,6 +217,8 @@ Schema.prototype = {
           cb(rule.message || `${rule.field} fails`);
         } else if (res instanceof Array) {
           cb(res);
+        } else if (res instanceof Error) {
+          cb(res.message);
         }
       }
       if (res && res.then) {

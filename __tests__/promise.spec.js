@@ -124,6 +124,15 @@ describe('asyncValidator', () => {
             return Promise.reject(new Error('e5'));
           },
         }],
+        v4: [{
+          asyncValidator: () => new Promise((resolve, reject) => {
+            setTimeout(resolve, 100)
+          }),
+        }, {
+          asyncValidator: () => new Promise((resolve, reject) => {
+            setTimeout(() => reject(new Error('e6')), 100)
+          }),
+        }]
       }).validate({
         v: 1,
         v2: 1,
@@ -131,11 +140,12 @@ describe('asyncValidator', () => {
       }, {
         firstFields: ['v'],
       }, (errors) => {
-        expect(errors.length).toBe(4);
+        expect(errors.length).toBe(5);
         expect(errors[0].message).toBe('e1');
         expect(errors[1].message).toBe('e3');
         expect(errors[2].message).toBe('e4');
         expect(errors[3].message).toBe('e5');
+        expect(errors[4].message).toBe('e6');
         done();
       });
     });

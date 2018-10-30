@@ -17,9 +17,14 @@ const schema = new Schema({
     validator(rule, value) {
       return false;
     },
-    message: 'Customize error messages',
+    message: 'Customize error messages1',
   },
   validator3: {
+    validator(rule, value) {
+      return new Error('Customize error messages2');
+    },
+  },
+  validator4: {
     validator(rule, value) {
       return [
         'Error message 1',
@@ -28,7 +33,7 @@ const schema = new Schema({
       ];
     },
   },
-  validator4: {
+  validator5: {
     validator(rule, value, callback) {
       setTimeout(() => callback('Compatible with older USES'), 100);
     },

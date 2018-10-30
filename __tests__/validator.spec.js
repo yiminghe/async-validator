@@ -18,13 +18,34 @@ describe('validator', () => {
           callback(new Error('e3'));
         },
       }],
+      v3: [{
+        validator() {
+          return false;
+        },
+      }, {
+        validator() {
+          return new Error('e5');
+        },
+      }, {
+        validator() {
+          return false;
+        },
+        message: 'e6',
+      }, {
+        validator() {
+          return true;
+        },
+      }],
     }).validate({
       v: 2,
     }, (errors) => {
-      expect(errors.length).toBe(3);
+      expect(errors.length).toBe(6);
       expect(errors[0].message).toBe('e1');
       expect(errors[1].message).toBe('e2');
       expect(errors[2].message).toBe('e3');
+      expect(errors[3].message).toBe('v3 fails');
+      expect(errors[4].message).toBe('e5');
+      expect(errors[5].message).toBe('e6');
       done();
     });
   });
