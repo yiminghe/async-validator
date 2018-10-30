@@ -34,7 +34,7 @@ export function format(...args) {
   const f = args[0];
   const len = args.length;
   if (typeof f === 'function') {
-    return f(...args.slice(1));
+    return f.apply(null, args.slice(1));
   }
   if (typeof f === 'string') {
     let str = String(f).replace(formatRegExp, (x) => {
@@ -99,7 +99,7 @@ function asyncParallelArray(arr, func, callback) {
   const arrLength = arr.length;
 
   function count(errors) {
-    results.push(...errors);
+    results.push.apply(results, errors);
     total++;
     if (total === arrLength) {
       callback(results);
@@ -121,7 +121,7 @@ function asyncSerialArray(arr, func, callback) {
       return;
     }
     const original = index;
-    index += 1;
+    index = index + 1;
     if (original < arrLength) {
       func(arr[original], next);
     } else {
@@ -135,7 +135,7 @@ function asyncSerialArray(arr, func, callback) {
 function flattenObjArr(objArr) {
   const ret = [];
   Object.keys(objArr).forEach((k) => {
-    ret.push(...objArr[k]);
+    ret.push.apply(ret, objArr[k]);
   });
   return ret;
 }
@@ -155,7 +155,7 @@ export function asyncMap(objArr, option, func, callback) {
   const results = [];
   const pending = new Promise((resolve, reject) => {
     const next = (errors) => {
-      results.push(...errors);
+      results.push.apply(results, errors);
       total++;
       if (total === objArrLength) {
         callback(results);

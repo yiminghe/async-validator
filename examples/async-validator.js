@@ -8,10 +8,18 @@ const schema = new Schema({
       setTimeout(() => callback('Validator0 message'), 100);
     },
   },
+  validator1: {
+    asyncValidator() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => reject('Validator1 message'), 100);
+      });
+    },
+  },
 });
 
 schema.validate({
   validator0: '0',
+  validator1: '1',
 }, (errors, fields) => {
   console.log('errors');
   console.log(errors);

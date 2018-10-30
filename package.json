@@ -47,7 +47,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "coveralls": "^2.13.1",
-    "jest": "^23.6.0",
+    "jest": "21.x",
     "pre-commit": "1.x",
     "rc-tools": "6.x"
   },
