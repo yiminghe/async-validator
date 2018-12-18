@@ -61,11 +61,11 @@ function(source, [options], callback)
 
 ### Options
 
-* `first`: Boolean, Invoke `callback` when the first validation rule generates an error, 
-no more validation rules are processed. 
+* `first`: Boolean, Invoke `callback` when the first validation rule generates an error,
+no more validation rules are processed.
 If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.
 
-* `firstFields`: Boolean|String[], Invoke `callback` when the first validation rule of the specified field generates an error, 
+* `firstFields`: Boolean|String[], Invoke `callback` when the first validation rule of the specified field generates an error,
 no more validation rules of the same field are processed.  `true` means all fields.
 
 ### Rules
@@ -196,7 +196,7 @@ var descriptor = {
 }
 var validator = new schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) => {
-  // errors for street, address.city, address.zip and address.name
+  // errors for address.street, address.city, address.zip
 });
 ```
 
@@ -218,7 +218,7 @@ var descriptor = {
 }
 var validator = new schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) => {
-  // now only errors for street and name
+  // now only errors for street
 });
 ```
 
@@ -333,7 +333,7 @@ const fields = {
       });
     }
   },
- 
+
   promiseField:{
       validator(rule, value){
         return ajax({
