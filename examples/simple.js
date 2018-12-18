@@ -3,12 +3,12 @@ webpackJsonp([0],[
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return warning; });
-/* harmony export (immutable) */ __webpack_exports__["e"] = format;
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return warning; });
+/* harmony export (immutable) */ __webpack_exports__["d"] = format;
 /* harmony export (immutable) */ __webpack_exports__["f"] = isEmptyValue;
 /* unused harmony export isEmptyObject */
 /* harmony export (immutable) */ __webpack_exports__["b"] = asyncMap;
-/* harmony export (immutable) */ __webpack_exports__["d"] = complementError;
+/* harmony export (immutable) */ __webpack_exports__["c"] = complementError;
 /* harmony export (immutable) */ __webpack_exports__["a"] = deepMerge;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
@@ -666,7 +666,7 @@ exports.f = __webpack_require__(8);
  */
 function required(rule, value, source, errors, options, type) {
   if (rule.required && (!source.hasOwnProperty(rule.field) || __WEBPACK_IMPORTED_MODULE_0__util__["f" /* isEmptyValue */](value, type || rule.type))) {
-    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["e" /* format */](options.messages.required, rule.fullField));
+    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["d" /* format */](options.messages.required, rule.fullField));
   }
 }
 
@@ -1173,13 +1173,13 @@ Schema.prototype = {
           errors = [errors];
         }
         if (errors.length) {
-          __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* warning */])('async-validator:', errors);
+          Schema.warning('async-validator:', errors);
         }
         if (errors.length && rule.message) {
           errors = [].concat(rule.message);
         }
 
-        errors = errors.map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__util__["d" /* complementError */])(rule));
+        errors = errors.map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* complementError */])(rule));
 
         if (options.first && errors.length) {
           errorFields[rule.field] = 1;
@@ -1193,9 +1193,9 @@ Schema.prototype = {
           // go deeper
           if (rule.required && !data.value) {
             if (rule.message) {
-              errors = [].concat(rule.message).map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__util__["d" /* complementError */])(rule));
+              errors = [].concat(rule.message).map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* complementError */])(rule));
             } else if (options.error) {
-              errors = [options.error(rule, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__util__["e" /* format */])(options.messages.required, rule.field))];
+              errors = [options.error(rule, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__util__["d" /* format */])(options.messages.required, rule.field))];
             } else {
               errors = [];
             }
@@ -1246,7 +1246,7 @@ Schema.prototype = {
       rule.type = 'pattern';
     }
     if (typeof rule.validator !== 'function' && rule.type && !__WEBPACK_IMPORTED_MODULE_3__validator___["a" /* default */].hasOwnProperty(rule.type)) {
-      throw new Error(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__util__["e" /* format */])('Unknown rule type %s', rule.type));
+      throw new Error(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__util__["d" /* format */])('Unknown rule type %s', rule.type));
     }
     return rule.type || 'string';
   },
@@ -1272,6 +1272,8 @@ Schema.register = function register(type, validator) {
   }
   __WEBPACK_IMPORTED_MODULE_3__validator___["a" /* default */][type] = validator;
 };
+
+Schema.warning = __WEBPACK_IMPORTED_MODULE_2__util__["e" /* warning */];
 
 Schema.messages = __WEBPACK_IMPORTED_MODULE_4__messages__["a" /* messages */];
 
@@ -1364,7 +1366,7 @@ var ENUM = 'enum';
 function enumerable(rule, value, source, errors, options) {
   rule[ENUM] = Array.isArray(rule[ENUM]) ? rule[ENUM] : [];
   if (rule[ENUM].indexOf(value) === -1) {
-    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["e" /* format */](options.messages[ENUM], rule.fullField, rule[ENUM].join(', ')));
+    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["d" /* format */](options.messages[ENUM], rule.fullField, rule[ENUM].join(', ')));
   }
 }
 
@@ -1397,12 +1399,12 @@ function pattern(rule, value, source, errors, options) {
       // is not necessary and the result might be misleading
       rule.pattern.lastIndex = 0;
       if (!rule.pattern.test(value)) {
-        errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["e" /* format */](options.messages.pattern.mismatch, rule.fullField, value, rule.pattern));
+        errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["d" /* format */](options.messages.pattern.mismatch, rule.fullField, value, rule.pattern));
       }
     } else if (typeof rule.pattern === 'string') {
       var _pattern = new RegExp(rule.pattern);
       if (!_pattern.test(value)) {
-        errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["e" /* format */](options.messages.pattern.mismatch, rule.fullField, value, rule.pattern));
+        errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["d" /* format */](options.messages.pattern.mismatch, rule.fullField, value, rule.pattern));
       }
     }
   }
@@ -1462,14 +1464,14 @@ function range(rule, value, source, errors, options) {
   }
   if (len) {
     if (val !== rule.len) {
-      errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["e" /* format */](options.messages[key].len, rule.fullField, rule.len));
+      errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["d" /* format */](options.messages[key].len, rule.fullField, rule.len));
     }
   } else if (min && !max && val < rule.min) {
-    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["e" /* format */](options.messages[key].min, rule.fullField, rule.min));
+    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["d" /* format */](options.messages[key].min, rule.fullField, rule.min));
   } else if (max && !min && val > rule.max) {
-    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["e" /* format */](options.messages[key].max, rule.fullField, rule.max));
+    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["d" /* format */](options.messages[key].max, rule.fullField, rule.max));
   } else if (min && max && (val < rule.min || val > rule.max)) {
-    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["e" /* format */](options.messages[key].range, rule.fullField, rule.min, rule.max));
+    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["d" /* format */](options.messages[key].range, rule.fullField, rule.min, rule.max));
   }
 }
 
@@ -1563,11 +1565,11 @@ function type(rule, value, source, errors, options) {
   var ruleType = rule.type;
   if (custom.indexOf(ruleType) > -1) {
     if (!types[ruleType](value)) {
-      errors.push(__WEBPACK_IMPORTED_MODULE_1__util__["e" /* format */](options.messages.types[ruleType], rule.fullField, rule.type));
+      errors.push(__WEBPACK_IMPORTED_MODULE_1__util__["d" /* format */](options.messages.types[ruleType], rule.fullField, rule.type));
     }
     // straight typeof check
   } else if (ruleType && (typeof value === 'undefined' ? 'undefined' : __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default()(value)) !== rule.type) {
-    errors.push(__WEBPACK_IMPORTED_MODULE_1__util__["e" /* format */](options.messages.types[ruleType], rule.fullField, rule.type));
+    errors.push(__WEBPACK_IMPORTED_MODULE_1__util__["d" /* format */](options.messages.types[ruleType], rule.fullField, rule.type));
   }
 }
 
@@ -1594,7 +1596,7 @@ function type(rule, value, source, errors, options) {
  */
 function whitespace(rule, value, source, errors, options) {
   if (/^\s+$/.test(value) || value === '') {
-    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["e" /* format */](options.messages.whitespace, rule.fullField));
+    errors.push(__WEBPACK_IMPORTED_MODULE_0__util__["d" /* format */](options.messages.whitespace, rule.fullField));
   }
 }
 

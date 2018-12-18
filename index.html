@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>async-validator@1.10.0 - validate form asynchronous</title>
+  <title>async-validator@1.10.1 - validate form asynchronous</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>async-validator@1.10.0</h1>
+  <h1>async-validator@1.10.1</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -781,11 +781,11 @@ validator.validate({name: <span class="hljs-string">"muji"</span>}, (errors, fie
 <li><code>callback</code>: A callback function to invoke when validation completes (required).</li>
 </ul>
 <h3>Options<a id="user-content-options" name="options" class="anchor" aria-hidden="true" href="#options"><span class="octicon octicon-link"></span></a></h3><ul>
-<li><p><code>first</code>: Boolean, Invoke <code>callback</code> when the first validation rule generates an error, 
-no more validation rules are processed. 
+<li><p><code>first</code>: Boolean, Invoke <code>callback</code> when the first validation rule generates an error,
+no more validation rules are processed.
 If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.</p>
 </li>
-<li><p><code>firstFields</code>: Boolean|String[], Invoke <code>callback</code> when the first validation rule of the specified field generates an error, 
+<li><p><code>firstFields</code>: Boolean|String[], Invoke <code>callback</code> when the first validation rule of the specified field generates an error,
 no more validation rules of the same field are processed.  <code>true</code> means all fields.</p>
 </li>
 </ul>
@@ -870,7 +870,7 @@ validator.validate({name: <span class="hljs-string">"Firstname"</span>}, (errors
 }
 <span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) =&gt; {
-  <span class="hljs-comment">// errors for street, address.city, address.zip and address.name</span>
+  <span class="hljs-comment">// errors for address.street, address.city, address.zip</span>
 });</code></pre></div><p>Note that if you do not specify the <code>required</code> property on the parent rule it is perfectly valid for the field not to be declared on the source object and the deep validation rules will not be executed as there is nothing to validate against.</p>
 <p>Deep rule validation creates a schema for the nested rules so you can also specify the <code>options</code> passed to the <code>schema.validate()</code> method.</p>
 <div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> descriptor = {
@@ -886,7 +886,7 @@ validator.validate({ address: {} }, (errors, fields) =&gt; {
 }
 <span class="hljs-keyword">var</span> validator = <span class="hljs-keyword">new</span> schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) =&gt; {
-  <span class="hljs-comment">// now only errors for street and name</span>
+  <span class="hljs-comment">// now only errors for street</span>
 });</code></pre></div><p>The parent rule is also validated so if you have a set of rules such as:</p>
 <div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> descriptor = {
   roles: {
@@ -960,7 +960,8 @@ validator.messages(cn);
         });
       }
     }
-};</code></pre></div><h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm test
+};</code></pre></div><h2>FAQ<a id="user-content-faq" name="faq" class="anchor" aria-hidden="true" href="#faq"><span class="octicon octicon-link"></span></a></h2><h3>avoid warning<a id="user-content-avoid-warning" name="avoid-warning" class="anchor" aria-hidden="true" href="#avoid-warning"><span class="octicon octicon-link"></span></a></h3><div class="highlight"><pre><code language="js"><span class="hljs-keyword">var</span> Schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
+Schema.warning = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{};</code></pre></div><h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm test
 npm run chrome-test</code></pre></div><h2>Coverage<a id="user-content-coverage" name="coverage" class="anchor" aria-hidden="true" href="#coverage"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm run coverage</code></pre></div><p>open coverage/ dir</p>
 <h2>License<a id="user-content-license" name="license" class="anchor" aria-hidden="true" href="#license"><span class="octicon octicon-link"></span></a></h2><p>Everything is <a href="http://en.wikipedia.org/wiki/MIT_License" title="null">MIT</a>.</p>
 
