@@ -347,7 +347,7 @@ const fields = {
 
 ## FAQ
 
-### avoid warning
+### How to avoid warning
 
 ```js
 var Schema = require('async-validator');
