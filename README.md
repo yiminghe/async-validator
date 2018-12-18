@@ -345,6 +345,15 @@ const fields = {
 };
 ```
 
+## FAQ
+
+### avoid warning
+
+```js
+var Schema = require('async-validator');
+Schema.warning = function(){};
+```
+
 ## Test Case
 
 ```
