@@ -15,7 +15,10 @@ function number(rule, value, callback, source, options) {
   const errors = [];
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
-    if (isEmptyValue(value, 'string') && !rule.required) {
+    if (value === '') {
+      value = undefined;
+    }
+    if (isEmptyValue(value) && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
