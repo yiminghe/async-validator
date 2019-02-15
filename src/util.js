@@ -73,6 +73,9 @@ export function isEmptyValue(value, type) {
   if (isNativeStringType(type) && typeof value === 'string' && !value) {
     return true;
   }
+  if (typeof value === 'object') {
+    return isEmptyObject(value)
+  }
   return false;
 }
 
