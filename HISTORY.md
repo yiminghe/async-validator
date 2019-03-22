@@ -1,6 +1,10 @@
 # History
 ----
 
+## 1.11.0 / 2019-03-22
+
+- support promise usage(asyncValidator)
+
 ## 1.10.1 / 2018-12-18
 
 - support override warning
