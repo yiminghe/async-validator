@@ -1,3 +1,5 @@
+/* eslint no-console:0 */
+
 const formatRegExp = /%[sdj%]/g;
 
 export let warning = () => {
@@ -14,6 +16,17 @@ if (process.env.NODE_ENV !== 'production' &&
       }
     }
   };
+}
+
+export function convertFieldsError(errors) {
+  if (!errors || !errors.length) return null;
+  const fields = {};
+  errors.forEach(error => {
+    const field = error.field;
+    fields[field] = fields[field] || [];
+    fields[field].push(error);
+  });
+  return fields;
 }
 
 export function format(...args) {
@@ -140,21 +153,28 @@ export function asyncMap(objArr, option, func, callback) {
   const objArrLength = objArrKeys.length;
   let total = 0;
   const results = [];
-  const next = (errors) => {
-    results.push.apply(results, errors);
-    total++;
-    if (total === objArrLength) {
-      callback(results);
-    }
-  };
-  objArrKeys.forEach((key) => {
-    const arr = objArr[key];
-    if (firstFields.indexOf(key) !== -1) {
-      asyncSerialArray(arr, func, next);
-    } else {
-      asyncParallelArray(arr, func, next);
-    }
+  const pending = new Promise((resolve, reject) => {
+    const next = (errors) => {
+      results.push.apply(results, errors);
+      total++;
+      if (total === objArrLength) {
+        callback(results);
+        return results.length ?
+          reject({ errors: results, fields: convertFieldsError(results) }) :
+          resolve();
+      }
+    };
+    objArrKeys.forEach((key) => {
+      const arr = objArr[key];
+      if (firstFields.indexOf(key) !== -1) {
+        asyncSerialArray(arr, func, next);
+      } else {
+        asyncParallelArray(arr, func, next);
+      }
+    });
   });
+  pending.catch(e => e);
+  return pending;
 }
 
 export function complementError(rule) {

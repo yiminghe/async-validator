@@ -44,10 +44,12 @@
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
     "coveralls": "^2.13.1",
-    "jest": "20.x",
+    "jest": "^23.6.0",
     "pre-commit": "1.x",
-    "rc-tools": "6.x"
+    "rc-tools": "7.x"
   },
   "pre-commit": [
     "lint"

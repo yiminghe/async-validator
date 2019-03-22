@@ -35,8 +35,12 @@ Basic usage involves defining a descriptor, assigning it to a schema and passing
 ```javascript
 var schema = require('async-validator');
 var descriptor = {
-  name: {type: "string", required: true}
-}
+  name: {
+    type: "string",
+    required: true,
+    validator: (rule, value) => value === 'muji',
+  },
+};
 var validator = new schema(descriptor);
 validator.validate({name: "muji"}, (errors, fields) => {
   if(errors) {
@@ -47,17 +51,41 @@ validator.validate({name: "muji"}, (errors, fields) => {
   }
   // validation passed
 });
+
+// PROMISE USAGE
+validator.validate({
+  name: "muji",
+  asyncValidator: (rule, value) => axios.post('/nameValidator', { name: value }),
+}, (errors, fields) => {
+  if(errors) {
+    // validation failed, errors is an array of all errors
+    // fields is an object keyed by field name with an array of
+    // errors per field
+    return handleErrors(errors, fields);
+  }
+  // validation passed
+})
+  .then(() => {
+    // validation passed
+  })
+  .catch(({ errors, fields }) => {
+    return handleErrors(errors, fields);
+  })
 ```
 
 ### Validate
 
 ```javascript
-function(source, [options], callback)
+function(source, [options], callback): Promise
 ```
 
 * `source`: The object to validate (required).
 * `options`: An object describing processing options for the validation (optional).
 * `callback`: A callback function to invoke when validation completes (required).
+
+The method will return a Promise object like:
+* `then()`，validation passed
+* `catch({ errors, fields })`，validation failed, errors is an array of all errors, fields is an object keyed by field name with an array of
 
 ### Options
 
@@ -78,12 +106,12 @@ function(rule, value, callback, source, options)
 
 * `rule`: The validation rule in the source descriptor that corresponds to the field name being validated. It is always assigned a `field` property with the name of the field being validated.
 * `value`: The value of the source object property being validated.
-* `callback`: A callback function to invoke once validation is complete. It expects to be passed an array of `Error` instances to indicate validation failure.
+* `callback`: A callback function to invoke once validation is complete. It expects to be passed an array of `Error` instances to indicate validation failure. If the check is synchronous, you can directly return a ` false ` or ` Error ` or ` Error Array `.
 * `source`: The source object that was passed to the `validate` method.
 * `options`: Additional options.
 * `options.messages`: The object containing validation error messages, will be deep merged with defaultMessages.
 
-The options passed to `validate` are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are `messages`, `exception` and `error`.
+The options passed to `validate` or `asyncValidate` are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are `messages`, `exception` and `error`.
 
 ```javascript
 var schema = require('async-validator');
@@ -96,7 +124,7 @@ var descriptor = {
           util.format("%s must be lowercase alphanumeric characters",
             rule.field)));
     }
-    callback(errors);
+    return errors;
   }
 }
 var validator = new schema(descriptor);
@@ -118,7 +146,7 @@ var descriptor = {
       var errors = [];
       // test if email address already exists in a database
       // and add a validation error to the errors array if it does
-      callback(errors);
+      return errors;
     }}
   ]
 }
@@ -217,9 +245,11 @@ var descriptor = {
   name: {type: "string", required: true}
 }
 var validator = new schema(descriptor);
-validator.validate({ address: {} }, (errors, fields) => {
-  // now only errors for street
-});
+
+validator.validate({ address: {} })
+  .catch(({ errors, fields }) => {
+    // now only errors for street and name    
+  });
 ```
 
 The parent rule is also validated so if you have a set of rules such as:
@@ -273,9 +303,8 @@ var descriptor = {
 }
 var validator = new schema(descriptor);
 var source = {name: " user  "};
-validator.validate(source, (errors, fields) => {
-  assert.equal(source.name, "user");
-});
+validator.validate(source)
+  .then(() => assert.equal(source.name, "user"));
 ```
 
 Without the `transform` function validation would fail due to the pattern not matching as the input contains leading and trailing whitespace, but by adding the transform function validation passes and the field value is sanitized at the same time.
@@ -315,14 +344,14 @@ validator.messages(cn);
 
 If you are defining your own validation functions it is better practice to assign the message strings to a messages object and then access the messages via the `options.messages` property within the validation function.
 
-### validator
+### asyncValidator
 
-you can custom validate function for specified field:
+You can customize the asynchronous validation function for the specified field:
 
 ```js
 const fields = {
   asyncField:{
-    validator(rule,value,callback){
+    asyncValidator(rule,value,callback){
       ajax({
         url:'xx',
         value:value
@@ -335,13 +364,43 @@ const fields = {
   },
 
   promiseField:{
-      validator(rule, value){
-        return ajax({
-          url:'xx',
-          value:value
-        });
-      }
+    asyncValidator(rule, value){
+      return ajax({
+        url:'xx',
+        value:value
+      });
     }
+  }
+};
+```
+
+### validator
+
+you can custom validate function for specified field:
+
+```js
+const fields = {
+  field:{
+    validator(rule,value,callback){
+      return value === 'test';
+    },
+    message: 'Value is not equal to "test".',
+  },
+
+  field2:{
+    validator(rule,value,callback){
+      return new Error(`'${value} is not equal to "test".'`);
+    },
+  },
+ 
+  arrField:{
+    validator(rule, value){
+      return [
+        new Error('Message 1'),
+        new Error('Message 2'),
+      ];
+    }
+  },
 };
 ```
 

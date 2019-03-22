@@ -1,19 +1,19 @@
 import Schema from '../src/';
 
-describe('validator', () => {
+describe('asyncValidator', () => {
   it('works', (done) => {
     new Schema({
       v: [{
-        validator(rule, value) {
+        asyncValidator(rule, value) {
           return Promise.reject(new Error('e1'));
         },
       }, {
-        validator(rule, value) {
+        asyncValidator(rule, value) {
           return Promise.reject(new Error('e2'));
         },
       }],
       v2: [{
-        validator(rule, value) {
+        asyncValidator(rule, value) {
           return Promise.reject(new Error('e3'));
         },
       }],
@@ -31,16 +31,16 @@ describe('validator', () => {
   it('first works', (done) => {
     new Schema({
       v: [{
-        validator(rule, value) {
+        asyncValidator(rule, value) {
           return Promise.reject(new Error('e1'));
         },
       }, {
-        validator(rule, value) {
+        asyncValidator(rule, value) {
           return Promise.reject(new Error('e2'));
         },
       }],
       v2: [{
-        validator(rule, value) {
+        asyncValidator(rule, value) {
           return Promise.reject(new Error('e3'));
         },
       }],
@@ -60,26 +60,26 @@ describe('validator', () => {
     it('works for true', (done) => {
       new Schema({
         v: [{
-          validator(rule, value) {
+          asyncValidator(rule, value) {
             return Promise.reject(new Error('e1'));
           },
         }, {
-          validator(rule, value) {
+          asyncValidator(rule, value) {
             return Promise.reject(new Error('e2'));
           },
         }],
 
         v2: [{
-          validator(rule, value) {
+          asyncValidator(rule, value) {
             return Promise.reject(new Error('e3'));
           },
         }],
         v3: [{
-          validator(rule, value) {
+          asyncValidator(rule, value) {
             return Promise.reject(new Error('e4'));
           },
         }, {
-          validator(rule, value) {
+          asyncValidator(rule, value) {
             return Promise.reject(new Error('e5'));
           },
         }],
@@ -101,29 +101,38 @@ describe('validator', () => {
     it('works for array', (done) => {
       new Schema({
         v: [{
-          validator(rule, value) {
+          asyncValidator(rule, value) {
             return Promise.reject(new Error('e1'));
           },
         }, {
-          validator(rule, value) {
+          asyncValidator(rule, value) {
             return Promise.reject(new Error('e2'));
           },
         }],
 
         v2: [{
-          validator(rule, value) {
+          asyncValidator(rule, value) {
             return Promise.reject(new Error('e3'));
           },
         }],
         v3: [{
-          validator(rule, value) {
+          asyncValidator(rule, value) {
             return Promise.reject(new Error('e4'));
           },
         }, {
-          validator(rule, value) {
+          asyncValidator(rule, value) {
             return Promise.reject(new Error('e5'));
           },
         }],
+        v4: [{
+          asyncValidator: () => new Promise((resolve, reject) => {
+            setTimeout(resolve, 100)
+          }),
+        }, {
+          asyncValidator: () => new Promise((resolve, reject) => {
+            setTimeout(() => reject(new Error('e6')), 100)
+          }),
+        }]
       }).validate({
         v: 1,
         v2: 1,
@@ -131,13 +140,37 @@ describe('validator', () => {
       }, {
         firstFields: ['v'],
       }, (errors) => {
-        expect(errors.length).toBe(4);
+        expect(errors.length).toBe(5);
         expect(errors[0].message).toBe('e1');
         expect(errors[1].message).toBe('e3');
         expect(errors[2].message).toBe('e4');
         expect(errors[3].message).toBe('e5');
+        expect(errors[4].message).toBe('e6');
         done();
       });
+    });
+    it('Whether to remove the \'Uncaught (in promise)\' warning', async (done) => {
+      let allCorrect = true;
+      try {
+        await new Schema({
+          async: {
+            asyncValidator(rule, value) {
+              return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  reject([new Error(rule.message)]);
+                }, 100);
+              })
+            },
+            message: 'async fails',
+          },
+        }).validate({
+          v: 1,
+        });
+      } catch ({ errors }) {
+        allCorrect = errors.length === 1;
+      }
+      expect(allCorrect).toBe(true);
+      done()
     });
   });
 });
