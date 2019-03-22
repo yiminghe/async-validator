@@ -89,11 +89,11 @@ The method will return a Promise object like:
 
 ### Options
 
-* `first`: Boolean, Invoke `callback` when the first validation rule generates an error, 
-no more validation rules are processed. 
+* `first`: Boolean, Invoke `callback` when the first validation rule generates an error,
+no more validation rules are processed.
 If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.
 
-* `firstFields`: Boolean|String[], Invoke `callback` when the first validation rule of the specified field generates an error, 
+* `firstFields`: Boolean|String[], Invoke `callback` when the first validation rule of the specified field generates an error,
 no more validation rules of the same field are processed.  `true` means all fields.
 
 ### Rules
@@ -224,7 +224,7 @@ var descriptor = {
 }
 var validator = new schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) => {
-  // errors for street, address.city, address.zip and address.name
+  // errors for address.street, address.city, address.zip
 });
 ```
 
@@ -245,6 +245,7 @@ var descriptor = {
   name: {type: "string", required: true}
 }
 var validator = new schema(descriptor);
+
 validator.validate({ address: {} })
   .catch(({ errors, fields }) => {
     // now only errors for street and name    
@@ -361,7 +362,7 @@ const fields = {
       });
     }
   },
- 
+
   promiseField:{
     asyncValidator(rule, value){
       return ajax({
@@ -401,6 +402,15 @@ const fields = {
     }
   },
 };
+```
+
+## FAQ
+
+### How to avoid warning
+
+```js
+var Schema = require('async-validator');
+Schema.warning = function(){};
 ```
 
 ## Test Case

@@ -1,6 +1,10 @@
 # History
 ----
 
+## 1.10.1 / 2018-12-18
+
+- support override warning
+
 ## 1.10.0 / 2018-10-17
 
 - revert promise

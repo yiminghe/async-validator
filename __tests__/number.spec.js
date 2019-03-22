@@ -29,7 +29,21 @@ describe('number', () => {
     });
   });
 
-  it('works for no-required', (done) => {
+  it('works for no-required in case of empty string', (done) => {
+    new Schema({
+      v: {
+        type: 'number',
+        required: false,
+      },
+    }).validate({
+      v: '',
+    }, (errors) => {
+      expect(errors).toBeFalsy();
+      done();
+    });
+  });
+
+  it('works for required', (done) => {
     new Schema({
       v: {
         type: 'number',

@@ -146,7 +146,7 @@ Schema.prototype = {
           errors = [errors];
         }
         if (errors.length) {
-          warning('async-validator:', errors);
+          Schema.warning('async-validator:', errors);
         }
         if (errors.length && rule.message) {
           errors = [].concat(rule.message);
@@ -260,6 +260,8 @@ Schema.register = function register(type, validator) {
   }
   validators[type] = validator;
 };
+
+Schema.warning = warning;
 
 Schema.messages = defaultMessages;
 
