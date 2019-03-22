@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>simple.js - example - async-validator@1.11.0</title>
+  <title>async-validator.js - example - async-validator@1.11.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -269,68 +269,34 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     </div>
     <div class="example" id="__react-content"></div>
 
-    <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint no-console:0 no-unused-vars:0 */</span>
+    <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint no-console:0 */</span>
 
 <span class="hljs-keyword">import</span> Schema <span class="hljs-keyword">from</span> <span class="hljs-string">'async-validator'</span>;
 
 <span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">new</span> Schema({
-  name: {
-    type: <span class="hljs-string">'string'</span>,
-    required: <span class="hljs-literal">true</span>,
-    min: <span class="hljs-number">5</span>,
-    max: <span class="hljs-number">10</span>,
-  },
-  address: {
-    type: <span class="hljs-string">'object'</span>,
-    required: <span class="hljs-literal">true</span>,
-    fields: {
-      province: {
-        type: <span class="hljs-string">'string'</span>,
-        required: <span class="hljs-literal">true</span>,
-        min: <span class="hljs-number">4</span>,
-      },
-      city: {
-        type: <span class="hljs-string">'string'</span>,
-        message: <span class="hljs-string">'custom message'</span>,
-        min: <span class="hljs-number">5</span>,
-      },
-      <span class="hljs-keyword">async</span>: {
-        asyncValidator(rule, value, callback) {
-          setTimeout(() =&gt; {
-            callback(rule.message);
-          }, <span class="hljs-number">100</span>);
-        },
-        message: <span class="hljs-string">'address async fails'</span>,
-      },
+  validator0: {
+    asyncValidator(rule, value, callback) {
+      setTimeout(() =&gt; callback(<span class="hljs-string">'Validator0 message'</span>), <span class="hljs-number">100</span>);
     },
   },
-  <span class="hljs-keyword">async</span>: {
-    asyncValidator(rule, value) {
+  validator1: {
+    asyncValidator() {
       <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>((resolve, reject) =&gt; {
-        setTimeout(() =&gt; {
-          reject([<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(rule.message)]);
-        }, <span class="hljs-number">100</span>);
+        setTimeout(() =&gt; reject(<span class="hljs-string">'Validator1 message'</span>), <span class="hljs-number">100</span>);
       });
     },
-    message: <span class="hljs-string">'async fails'</span>,
   },
 });
 
 schema.validate({
-  name: <span class="hljs-number">2</span>,
-  address: {
-    city: <span class="hljs-number">2</span>,
-  },
-  <span class="hljs-keyword">async</span>: <span class="hljs-string">'2'</span>,
+  validator0: <span class="hljs-string">'0'</span>,
+  validator1: <span class="hljs-string">'1'</span>,
 }, (errors, fields) =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'errors'</span>);
   <span class="hljs-built_in">console</span>.log(errors);
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'fields'</span>);
   <span class="hljs-built_in">console</span>.log(fields);
-})
-  .catch(({ errors, fields }) =&gt; {
-    <span class="hljs-built_in">console</span>.log(errors, fields);
-  });
+});
 
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>);
 </code></pre></div>
@@ -343,7 +309,7 @@ schema.validate({
   </a>
   <script>FastClick.attach(document.body);</script>
   <script src="../common.js?nowrap"></script>
-  <script src="simple.js?nowrap"></script>
+  <script src="async-validator.js?nowrap"></script>
 </body>
 
 </html>
