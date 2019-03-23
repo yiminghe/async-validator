@@ -153,15 +153,15 @@ export function asyncMap(objArr, option, func, callback) {
   const objArrLength = objArrKeys.length;
   let total = 0;
   const results = [];
-  const pending = new Promise((resolve, reject) => {
+  const pending = new Promise((resolve) => {
     const next = (errors) => {
       results.push.apply(results, errors);
       total++;
       if (total === objArrLength) {
         callback(results);
         return results.length ?
-          reject({ errors: results, fields: convertFieldsError(results) }) :
-          resolve();
+          resolve({ errors: results, fields: convertFieldsError(results) }) :
+          resolve({});
       }
     };
     objArrKeys.forEach((key) => {

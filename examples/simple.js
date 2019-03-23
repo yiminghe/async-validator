@@ -45,20 +45,19 @@ const schema = new Schema({
   },
 });
 
-schema.validate({
-  name: 2,
-  address: {
-    city: 2,
-  },
-  async: '2',
-}, (errors, fields) => {
-  console.log('errors');
-  console.log(errors);
-  console.log('fields');
-  console.log(fields);
-})
-  .catch(({ errors, fields }) => {
-    console.log(errors, fields);
+(async () => {
+  const { errors, fields } = await schema.validate({
+    name: 2,
+    address: {
+      city: 2,
+    },
+    async: '2',
   });
 
-console.log('end');
+  if (errors) {
+    console.log('errors', errors, fields);
+    console.log('end with errors');
+  } else {
+    console.log('end without errors');
+  }
+})();
