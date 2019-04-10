@@ -29,7 +29,6 @@ describe('messages', () => {
     });
   });
 
-
   it('can use options.messages', (done) => {
     const messages = {
       required(f) {
@@ -78,6 +77,23 @@ describe('messages', () => {
       expect(errors[0].message).toBe(atom);
       expect(Object.keys(messages).length).toBe(1);
       expect(messages.required).toBe(atom);
+      done();
+    });
+  });
+
+  it('message can be a function', (done) => {
+    const message = 'this is a function';
+    new Schema({
+      v: {
+        required: true,
+        message: () => message
+      },
+    }).validate({
+      v: '', // provide empty value, this will trigger the message.
+    }, (errors) => {
+      expect(errors).toBeTruthy();
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe(message);
       done();
     });
   });

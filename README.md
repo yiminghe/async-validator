@@ -326,6 +326,11 @@ Message can be any type, such as jsx format.
 {name:{type: "string", required: true, message: <b>Name is required</b>}}
 ```
 
+Message can also be a function, e.g. if you use vue-i18n:
+```javascript
+{name:{type: "string", required: true, message: () => this.$t( 'name is required' )}}
+```
+
 Potentially you may require the same schema validation rules for different languages, in which case duplicating the schema rules for each language does not make sense.
 
 In this scenario you could just provide your own messages for the language and assign it to the schema:

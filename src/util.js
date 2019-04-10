@@ -184,7 +184,7 @@ export function complementError(rule) {
       return oe;
     }
     return {
-      message: oe,
+      message: typeof oe === 'function' ? oe() : oe,
       field: oe.field || rule.fullField,
     };
   };
