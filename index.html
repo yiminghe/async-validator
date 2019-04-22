@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>async-validator@1.11.0 - validate form asynchronous</title>
+  <title>async-validator@1.11.1 - validate form asynchronous</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>async-validator@1.11.0</h1>
+  <h1>async-validator@1.11.1</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -960,7 +960,8 @@ validator.validate(source)
 <h3>Messages<a id="user-content-messages" name="messages" class="anchor" aria-hidden="true" href="#messages"><span class="octicon octicon-link"></span></a></h3><p>Depending upon your application requirements, you may need i18n support or you may prefer different validation error messages.</p>
 <p>The easiest way to achieve this is to assign a <code>message</code> to a rule:</p>
 <div class="highlight"><pre><code language="javascript">{name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, message: <span class="hljs-string">"Name is required"</span>}}</code></pre></div><p>Message can be any type, such as jsx format.</p>
-<div class="highlight"><pre><code language="javascript">{name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, message: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">b</span>&gt;</span>Name is required<span class="hljs-tag">&lt;/<span class="hljs-title">b</span>&gt;</span>}}</span></code></pre></div><p>Potentially you may require the same schema validation rules for different languages, in which case duplicating the schema rules for each language does not make sense.</p>
+<div class="highlight"><pre><code language="javascript">{name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, message: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">b</span>&gt;</span>Name is required<span class="hljs-tag">&lt;/<span class="hljs-title">b</span>&gt;</span>}}</span></code></pre></div><p>Message can also be a function, e.g. if you use vue-i18n:</p>
+<div class="highlight"><pre><code language="javascript">{name:{type: <span class="hljs-string">"string"</span>, required: <span class="hljs-literal">true</span>, message: () =&gt; <span class="hljs-keyword">this</span>.$t( <span class="hljs-string">'name is required'</span> )}}</code></pre></div><p>Potentially you may require the same schema validation rules for different languages, in which case duplicating the schema rules for each language does not make sense.</p>
 <p>In this scenario you could just provide your own messages for the language and assign it to the schema:</p>
 <div class="highlight"><pre><code language="javascript"><span class="hljs-keyword">var</span> schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async-validator'</span>);
 <span class="hljs-keyword">var</span> cn = {
