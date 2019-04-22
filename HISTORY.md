@@ -1,6 +1,10 @@
 # History
 ----
 
+## 1.11.1 / 2019-04-22
+
+- support message as function
+
 ## 1.11.0 / 2019-03-22
 
 - support promise usage(asyncValidator)
