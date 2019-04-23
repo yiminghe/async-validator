@@ -39,7 +39,8 @@ Schema.prototype = {
       }
     }
   },
-  validate(source_, o = {}, oc = () => {}) {
+  validate(source_, o = {}, oc = () => {
+  }) {
     let source = source_;
     let options = o;
     let callback = oc;
@@ -53,6 +54,7 @@ Schema.prototype = {
       }
       return Promise.resolve();
     }
+
     function complete(results) {
       let i;
       let errors = [];
@@ -133,6 +135,7 @@ Schema.prototype = {
         (typeof (rule.fields) === 'object' || typeof (rule.defaultField) === 'object');
       deep = deep && (rule.required || (!rule.required && data.value));
       rule.field = data.field;
+
       function addFullfield(key, schema) {
         return {
           ...schema,
@@ -201,7 +204,14 @@ Schema.prototype = {
             data.rule.options.error = options.error;
           }
           schema.validate(data.value, data.rule.options || options, (errs) => {
-            doIt(errs && errs.length ? errors.concat(errs) : errs);
+            const finalErrors = [];
+            if (errors && errors.length) {
+              finalErrors.push(...errors);
+            }
+            if (errs && errs.length) {
+              finalErrors.push(...errs);
+            }
+            doIt(finalErrors.length ? finalErrors : null);
           });
         }
       }

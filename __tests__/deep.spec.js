@@ -61,6 +61,36 @@ describe('deep', () => {
       });
     });
 
+    it('will merge top validation',()=>{
+      const obj = {
+        value: '',
+        test: [{
+          name: 'aa',
+        }],
+      };
+
+      const descriptor = {
+        test: {
+          type: 'array',
+          min: 2,
+          required: true,
+          message: '至少两项',
+          defaultField: [{
+            type: 'object',
+            required: true,
+            message: 'test 必须有',
+            fields: {
+              name: { type: 'string', required: true, message: 'name 必须有' },
+            },
+          }],
+        },
+      };
+
+      new Schema(descriptor).validate(obj,(errors)=>{
+        expect(errors).toMatchSnapshot();
+      });
+    });
+
     it('array & required works', (done) => {
       const descriptor = {
         testArray: {
