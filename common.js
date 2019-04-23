@@ -2317,6 +2317,7 @@ Schema.prototype = {
       }
       return _promise2['default'].resolve();
     }
+
     function complete(results) {
       var i = void 0;
       var errors = [];
@@ -2398,6 +2399,7 @@ Schema.prototype = {
       var deep = (rule.type === 'object' || rule.type === 'array') && ((0, _typeof3['default'])(rule.fields) === 'object' || (0, _typeof3['default'])(rule.defaultField) === 'object');
       deep = deep && (rule.required || !rule.required && data.value);
       rule.field = data.field;
+
       function addFullfield(key, schema) {
         return (0, _extends3['default'])({}, schema, {
           fullField: rule.fullField + '.' + key
@@ -2463,7 +2465,14 @@ Schema.prototype = {
             data.rule.options.error = options.error;
           }
           schema.validate(data.value, data.rule.options || options, function (errs) {
-            doIt(errs && errs.length ? errors.concat(errs) : errs);
+            var finalErrors = [];
+            if (errors && errors.length) {
+              finalErrors.push.apply(finalErrors, errors);
+            }
+            if (errs && errs.length) {
+              finalErrors.push.apply(finalErrors, errs);
+            }
+            doIt(finalErrors.length ? finalErrors : null);
           });
         }
       }
