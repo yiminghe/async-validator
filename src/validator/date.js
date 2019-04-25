@@ -14,7 +14,7 @@ function date(rule, value, callback, source, options) {
     if (!isEmptyValue(value)) {
       let dateObject;
 
-      if (typeof value === 'number') {
+      if (typeof value === 'number' || typeof value === 'string') {
         dateObject = new Date(value);
       } else {
         dateObject = value;
