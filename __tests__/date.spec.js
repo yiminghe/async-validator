@@ -1,4 +1,3 @@
-
 import Schema from '../src/';
 
 describe('date', () => {
@@ -28,6 +27,20 @@ describe('date', () => {
     }, (errors) => {
       expect(errors.length).toBe(1);
       expect(errors[0].message).toBe('v is not a date');
+      done();
+    });
+  });
+
+  it('required works for string date', (done) => {
+    new Schema({
+      v: {
+        type: 'date',
+        required: true,
+      },
+    }).validate({
+      v: '2019-04-25',
+    }, (errors) => {
+      expect(errors).toBe(null);
       done();
     });
   });

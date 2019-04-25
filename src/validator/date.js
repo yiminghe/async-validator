@@ -16,6 +16,8 @@ function date(rule, value, callback, source, options) {
 
       if (typeof value === 'number') {
         dateObject = new Date(value);
+      } else if (!isEmptyValue(value, 'string') && typeof value === 'string') {
+        dateObject = new Date(value);
       } else {
         dateObject = value;
       }
