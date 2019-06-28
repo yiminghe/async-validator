@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>async-validator@1.11.2 - validate form asynchronous</title>
+  <title>async-validator@1.11.3 - validate form asynchronous</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>async-validator@1.11.2</h1>
+  <h1>async-validator@1.11.3</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -814,6 +814,8 @@ validator.validate({
 <li><code>catch({ errors, fields })</code>，validation failed, errors is an array of all errors, fields is an object keyed by field name with an array of</li>
 </ul>
 <h3>Options<a id="user-content-options" name="options" class="anchor" aria-hidden="true" href="#options"><span class="octicon octicon-link"></span></a></h3><ul>
+<li><p><code>suppressWarning</code>: Boolean, whether to suppress internal warning about invalid value.</p>
+</li>
 <li><p><code>first</code>: Boolean, Invoke <code>callback</code> when the first validation rule generates an error,
 no more validation rules are processed.
 If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.</p>

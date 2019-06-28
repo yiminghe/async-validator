@@ -46,6 +46,8 @@ var schema = new _asyncValidator2['default']({
 schema.validate({
   validator0: '0',
   validator1: '1'
+}, {
+  suppressWarning: true
 }, function (errors, fields) {
   console.log('errors');
   console.log(errors);
