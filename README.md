@@ -89,6 +89,8 @@ The method will return a Promise object like:
 
 ### Options
 
+* `suppressWarning`: Boolean, whether to suppress internal warning about invalid value.
+
 * `first`: Boolean, Invoke `callback` when the first validation rule generates an error,
 no more validation rules are processed.
 If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.

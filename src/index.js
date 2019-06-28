@@ -148,7 +148,7 @@ Schema.prototype = {
         if (!Array.isArray(errors)) {
           errors = [errors];
         }
-        if (errors.length) {
+        if (!options.suppressWarning && errors.length) {
           Schema.warning('async-validator:', errors);
         }
         if (errors.length && rule.message) {

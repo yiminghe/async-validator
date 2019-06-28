@@ -20,6 +20,8 @@ const schema = new Schema({
 schema.validate({
   validator0: '0',
   validator1: '1',
+}, {
+  suppressWarning: true,
 }, (errors, fields) => {
   console.log('errors');
   console.log(errors);

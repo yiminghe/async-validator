@@ -1,6 +1,10 @@
 # History
 ----
 
+## 1.11.3 / 2019-06-28
+
+- support suppressWarning option when validate
+
 ## 1.11.1 / 2019-04-22
 
 - support message as function
