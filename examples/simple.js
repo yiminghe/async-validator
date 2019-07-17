@@ -1,24 +1,20 @@
 webpackJsonp([1],{
 
-/***/ 129:
+/***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(130);
+module.exports = __webpack_require__(30);
 
 
 /***/ }),
 
-/***/ 130:
+/***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _promise = __webpack_require__(18);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _asyncValidator = __webpack_require__(35);
+var _asyncValidator = __webpack_require__(2);
 
 var _asyncValidator2 = _interopRequireDefault(_asyncValidator);
 
@@ -58,7 +54,7 @@ var schema = new _asyncValidator2['default']({
   },
   async: {
     asyncValidator: function asyncValidator(rule, value) {
-      return new _promise2['default'](function (resolve, reject) {
+      return new Promise(function (resolve, reject) {
         setTimeout(function () {
           reject([new Error(rule.message)]);
         }, 100);
@@ -91,5 +87,5 @@ console.log('end');
 
 /***/ })
 
-},[129]);
+},[29]);
 //# sourceMappingURL=simple.js.map

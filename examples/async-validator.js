@@ -1,24 +1,20 @@
 webpackJsonp([2],{
 
-/***/ 60:
+/***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(61);
+module.exports = __webpack_require__(5);
 
 
 /***/ }),
 
-/***/ 61:
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _promise = __webpack_require__(18);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _asyncValidator = __webpack_require__(35);
+var _asyncValidator = __webpack_require__(2);
 
 var _asyncValidator2 = _interopRequireDefault(_asyncValidator);
 
@@ -34,7 +30,7 @@ var schema = new _asyncValidator2['default']({
   },
   validator1: {
     asyncValidator: function asyncValidator() {
-      return new _promise2['default'](function (resolve, reject) {
+      return new Promise(function (resolve, reject) {
         setTimeout(function () {
           return reject('Validator1 message');
         }, 100);
@@ -59,5 +55,5 @@ console.log('end');
 
 /***/ })
 
-},[60]);
+},[4]);
 //# sourceMappingURL=async-validator.js.map
