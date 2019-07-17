@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "1.11.3",
+  "version": "1.11.4",
   "description": "validate form asynchronous",
   "keywords": [
     "validator",
@@ -38,7 +38,7 @@
     "build": "rc-tools run build",
     "gh-pages": "rc-tools run gh-pages",
     "start": "rc-tools run server",
-    "pub": "rc-tools run pub --babel-runtime",
+    "pub": "rc-tools run pub",
     "lint": "rc-tools run lint",
     "test": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
