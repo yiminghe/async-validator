@@ -1,5 +1,5 @@
 import { isEmptyValue } from '../util';
-import rules from '../rule/';
+import rules from '../rule';
 
 /**
  *  Validates a boolean.
@@ -13,7 +13,8 @@ import rules from '../rule/';
  */
 function boolean(rule, value, callback, source, options) {
   const errors = [];
-  const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
+  const validate =
+    rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (isEmptyValue(value) && !rule.required) {
       return callback();

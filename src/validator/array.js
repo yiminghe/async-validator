@@ -1,4 +1,4 @@
-import rules from '../rule/';
+import rules from '../rule';
 import { isEmptyValue } from '../util';
 /**
  *  Validates an array.
@@ -12,7 +12,8 @@ import { isEmptyValue } from '../util';
  */
 function array(rule, value, callback, source, options) {
   const errors = [];
-  const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
+  const validate =
+    rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (isEmptyValue(value, 'array') && !rule.required) {
       return callback();

@@ -1,6 +1,10 @@
 # History
 ----
 
+## 1.12.0 / 2019-07-26
+
+- use @pika/pack
+
 ## 1.11.3 / 2019-06-28
 
 - support suppressWarning option when validate

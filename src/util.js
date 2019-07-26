@@ -2,13 +2,14 @@
 
 const formatRegExp = /%[sdj%]/g;
 
-export let warning = () => {
-};
+export let warning = () => {};
 
 // don't print warning message when in production env or node runtime
-if (process.env.NODE_ENV !== 'production' &&
+if (
+  process.env.NODE_ENV !== 'production' &&
   typeof window !== 'undefined' &&
-  typeof document !== 'undefined') {
+  typeof document !== 'undefined'
+) {
   warning = (type, errors) => {
     if (typeof console !== 'undefined' && console.warn) {
       if (errors.every(e => typeof e === 'string')) {
@@ -37,7 +38,7 @@ export function format(...args) {
     return f.apply(null, args.slice(1));
   }
   if (typeof f === 'string') {
-    let str = String(f).replace(formatRegExp, (x) => {
+    let str = String(f).replace(formatRegExp, x => {
       if (x === '%%') {
         return '%';
       }
@@ -69,11 +70,13 @@ export function format(...args) {
 }
 
 function isNativeStringType(type) {
-  return type === 'string' ||
+  return (
+    type === 'string' ||
     type === 'url' ||
     type === 'hex' ||
     type === 'email' ||
-    type === 'pattern';
+    type === 'pattern'
+  );
 }
 
 export function isEmptyValue(value, type) {
@@ -106,7 +109,7 @@ function asyncParallelArray(arr, func, callback) {
     }
   }
 
-  arr.forEach((a) => {
+  arr.forEach(a => {
     func(a, count);
   });
 }
@@ -134,7 +137,7 @@ function asyncSerialArray(arr, func, callback) {
 
 function flattenObjArr(objArr) {
   const ret = [];
-  Object.keys(objArr).forEach((k) => {
+  Object.keys(objArr).forEach(k => {
     ret.push.apply(ret, objArr[k]);
   });
   return ret;
@@ -154,17 +157,17 @@ export function asyncMap(objArr, option, func, callback) {
   let total = 0;
   const results = [];
   const pending = new Promise((resolve, reject) => {
-    const next = (errors) => {
+    const next = errors => {
       results.push.apply(results, errors);
       total++;
       if (total === objArrLength) {
         callback(results);
-        return results.length ?
-          reject({ errors: results, fields: convertFieldsError(results) }) :
-          resolve();
+        return results.length
+          ? reject({ errors: results, fields: convertFieldsError(results) })
+          : resolve();
       }
     };
-    objArrKeys.forEach((key) => {
+    objArrKeys.forEach(key => {
       const arr = objArr[key];
       if (firstFields.indexOf(key) !== -1) {
         asyncSerialArray(arr, func, next);
@@ -178,7 +181,7 @@ export function asyncMap(objArr, option, func, callback) {
 }
 
 export function complementError(rule) {
-  return (oe) => {
+  return oe => {
     if (oe && oe.message) {
       oe.field = oe.field || rule.fullField;
       return oe;

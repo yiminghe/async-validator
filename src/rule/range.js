@@ -19,8 +19,8 @@ function range(rule, value, source, errors, options) {
   const spRegexp = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
   let val = value;
   let key = null;
-  const num = typeof (value) === 'number';
-  const str = typeof (value) === 'string';
+  const num = typeof value === 'number';
+  const str = typeof value === 'string';
   const arr = Array.isArray(value);
   if (num) {
     key = 'number';
@@ -44,15 +44,27 @@ function range(rule, value, source, errors, options) {
   }
   if (len) {
     if (val !== rule.len) {
-      errors.push(util.format(options.messages[key].len, rule.fullField, rule.len));
+      errors.push(
+        util.format(options.messages[key].len, rule.fullField, rule.len),
+      );
     }
   } else if (min && !max && val < rule.min) {
-    errors.push(util.format(options.messages[key].min, rule.fullField, rule.min));
+    errors.push(
+      util.format(options.messages[key].min, rule.fullField, rule.min),
+    );
   } else if (max && !min && val > rule.max) {
-    errors.push(util.format(options.messages[key].max, rule.fullField, rule.max));
+    errors.push(
+      util.format(options.messages[key].max, rule.fullField, rule.max),
+    );
   } else if (min && max && (val < rule.min || val > rule.max)) {
-    errors.push(util.format(options.messages[key].range,
-      rule.fullField, rule.min, rule.max));
+    errors.push(
+      util.format(
+        options.messages[key].range,
+        rule.fullField,
+        rule.min,
+        rule.max,
+      ),
+    );
   }
 }
 
