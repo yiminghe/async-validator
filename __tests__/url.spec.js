@@ -115,6 +115,22 @@ describe('url', () => {
     );
   });
 
+  it('works for type url has multi hyphen', done => {
+    new Schema({
+      v: {
+        type: 'url',
+      },
+    }).validate(
+      {
+        v: 'https://www.tao---bao.com',
+      },
+      errors => {
+        expect(errors).toBe(null);
+        done();
+      },
+    );
+  });
+
   it('works for type not a valid url', done => {
     new Schema({
       v: {
