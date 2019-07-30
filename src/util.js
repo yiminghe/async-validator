@@ -145,8 +145,18 @@ function flattenObjArr(objArr) {
 
 export function asyncMap(objArr, option, func, callback) {
   if (option.first) {
-    const flattenArr = flattenObjArr(objArr);
-    return asyncSerialArray(flattenArr, func, callback);
+    const pending = new Promise((resolve, reject) => {     
+      const next = errors => {
+        callback(errors);
+        return errors.length
+          ? reject({ errors, fields: convertFieldsError(errors) })
+          : resolve();
+      };
+      const flattenArr = flattenObjArr(objArr);      
+      asyncSerialArray(flattenArr, func, next);
+    });    
+    pending.catch(e => e);
+    return pending;                           
   }
   let firstFields = option.firstFields || [];
   if (firstFields === true) {
