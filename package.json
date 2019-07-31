@@ -46,7 +46,7 @@
   "scripts": {
     "lint-staged": "lint-staged",
     "prettier": "prettier --write \"{src,__tests__}/**/*.{js,tsx}\"",
-    "pub": "np --no-publish && npm run build && npm publish pkg",
+    "pub": "np --no-publish --no-release-draft && npm run build && npm publish pkg",
     "build": "pack build",
     "test": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
