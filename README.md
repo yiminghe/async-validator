@@ -193,6 +193,8 @@ If the `len` property is combined with the `min` and `max` range properties, `le
 
 #### Enumerable
 
+> Since version 3.0.0 if you want to validate the values `0` or `false` inside `enum` types, you have to include them explicitly.
+
 To validate a value from a list of possible values use the `enum` type with a `enum` property listing the valid values for the field, for example:
 
 ```javascript
@@ -418,6 +420,18 @@ const fields = {
 ```js
 var Schema = require('async-validator');
 Schema.warning = function(){};
+```
+
+### How to check if it is `true`
+
+Use `enum` type passing `true` as option.
+
+```js
+{
+  type: 'enum',
+  enum: [true],
+  message: '',
+}
 ```
 
 ## Test Case
