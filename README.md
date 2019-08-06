@@ -33,7 +33,7 @@ The following is modified from earlier version of [async-validate](https://githu
 Basic usage involves defining a descriptor, assigning it to a schema and passing the object to be validated and a callback function to the `validate` method of the schema:
 
 ```javascript
-var schema = require('async-validator');
+var schema = require('async-validator').default;
 var descriptor = {
   name: {
     type: "string",
@@ -116,7 +116,7 @@ function(rule, value, callback, source, options)
 The options passed to `validate` or `asyncValidate` are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are `messages`, `exception` and `error`.
 
 ```javascript
-var schema = require('async-validator');
+var schema = require('async-validator').default;
 var descriptor = {
   name(rule, value, callback, source, options) {
     var errors = [];
@@ -292,7 +292,7 @@ Note that `defaultField` is expanded to `fields`, see [deep rules](#deep-rules).
 Sometimes it is necessary to transform a value before validation, possibly to coerce the value or to sanitize it in some way. To do this add a `transform` function to the validation rule. The property is transformed prior to validation and re-assigned to the source object to mutate the value of the property in place.
 
 ```javascript
-var schema = require('async-validator');
+var schema = require('async-validator').default;
 var sanitize = require('validator').sanitize;
 var descriptor = {
   name: {
@@ -338,7 +338,7 @@ Potentially you may require the same schema validation rules for different langu
 In this scenario you could just provide your own messages for the language and assign it to the schema:
 
 ```javascript
-var schema = require('async-validator');
+var schema = require('async-validator').default;
 var cn = {
   required: '%s 必填',
 };
@@ -416,7 +416,7 @@ const fields = {
 ### How to avoid warning
 
 ```js
-var Schema = require('async-validator');
+var Schema = require('async-validator').default;
 Schema.warning = function(){};
 ```
 
