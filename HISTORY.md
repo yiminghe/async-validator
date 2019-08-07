@@ -1,5 +1,8 @@
 # History
 ----
+## 3.0.0 / 2019-08-07
+
+- Enum validates `false` value: https://github.com/yiminghe/async-validator/pull/164
 
 ## 2.0.0 / 2019-07-26
 
