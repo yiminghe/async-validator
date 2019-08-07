@@ -6,6 +6,8 @@ export let warning = () => {};
 
 // don't print warning message when in production env or node runtime
 if (
+  process &&
+  process.env &&
   process.env.NODE_ENV !== 'production' &&
   typeof window !== 'undefined' &&
   typeof document !== 'undefined'
