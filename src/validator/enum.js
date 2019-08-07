@@ -22,7 +22,7 @@ function enumerable(rule, value, callback, source, options) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    if (value) {
+    if (value !== undefined) {
       rules[ENUM](rule, value, source, errors, options);
     }
   }
