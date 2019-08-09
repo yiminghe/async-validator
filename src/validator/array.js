@@ -1,4 +1,4 @@
-import rules from '../rule';
+import rules from '../rule/index';
 import { isEmptyValue } from '../util';
 /**
  *  Validates an array.

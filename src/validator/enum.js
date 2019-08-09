@@ -1,4 +1,4 @@
-import rules from '../rule';
+import rules from '../rule/index.js';
 import { isEmptyValue } from '../util';
 
 const ENUM = 'enum';

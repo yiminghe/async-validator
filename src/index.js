@@ -6,7 +6,7 @@ import {
   deepMerge,
   convertFieldsError,
 } from './util';
-import validators from './validator';
+import validators from './validator/index';
 import { messages as defaultMessages, newMessages } from './messages';
 
 /**
