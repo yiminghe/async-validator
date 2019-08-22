@@ -28,6 +28,9 @@
       ],
       [
         "pika-plugin-build-web-babel"
+      ],
+      [
+        "pika-plugin-clean-dist-src"
       ]
     ]
   },
@@ -64,6 +67,7 @@
     "lint-staged": "^7.2.0",
     "np": "^5.0.3",
     "pika-plugin-build-web-babel": "^0.6.0",
+    "pika-plugin-clean-dist-src": "^0.1.1",
     "pre-commit": "^1.2.2",
     "prettier": "^1.11.1"
   },
