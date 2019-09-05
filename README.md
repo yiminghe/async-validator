@@ -40,6 +40,18 @@ var descriptor = {
     required: true,
     validator: (rule, value) => value === 'muji',
   },
+  age: {
+    type: "number",
+    asyncValidator: (rule, value) => {
+        return new Promise((resolve, reject) => {
+          if (value < 18) {
+            reject("too young");  // reject with error message
+          } else {
+            resolve();
+          }
+        });
+      }
+  }
 };
 var validator = new schema(descriptor);
 validator.validate({name: "muji"}, (errors, fields) => {
@@ -53,24 +65,11 @@ validator.validate({name: "muji"}, (errors, fields) => {
 });
 
 // PROMISE USAGE
-validator.validate({
-  name: "muji",
-  asyncValidator: (rule, value) => axios.post('/nameValidator', { name: value }),
-}, (errors, fields) => {
-  if(errors) {
-    // validation failed, errors is an array of all errors
-    // fields is an object keyed by field name with an array of
-    // errors per field
-    return handleErrors(errors, fields);
-  }
-  // validation passed
+validator.validate({ name: "muji", age: 16 }).then(() => {
+  // validation passed or without error message
+}).catch(({ errors, fields }) => {
+  return handleErrors(errors, fields);
 })
-  .then(() => {
-    // validation passed
-  })
-  .catch(({ errors, fields }) => {
-    return handleErrors(errors, fields);
-  })
 ```
 
 ### Validate
