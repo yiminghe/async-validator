@@ -2,6 +2,7 @@
   "name": "async-validator",
   "version": "3.0.4",
   "description": "validate form asynchronous",
+  "typings": "typings/index.d.ts",
   "keywords": [
     "validator",
     "validate",
