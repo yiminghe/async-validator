@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "3.0.4",
+  "version": "3.1.0",
   "description": "validate form asynchronous",
   "typings": "typings/index.d.ts",
   "keywords": [
@@ -29,6 +29,10 @@
       ],
       [
         "pika-plugin-build-web-babel"
+      ],
+
+      [
+        "@pika/plugin-build-types"
       ],
       [
         "pika-plugin-clean-dist-src"
@@ -60,6 +64,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.5.0",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.6.0",
+    "@pika/plugin-build-types": "^0.6.0",
     "@pika/plugin-standard-pkg": "^0.6.0",
     "@pika/types": "^0.6.0",
     "babel-jest": "^24.8.0",
