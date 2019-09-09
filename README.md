@@ -238,7 +238,7 @@ Deep rule validation creates a schema for the nested rules so you can also speci
 ```javascript
 var descriptor = {
   address: {
-    type: "object", required: true, options: {single: true, first: true},
+    type: "object", required: true, options: {first: true},
     fields: {
       street: {type: "string", required: true},
       city: {type: "string", required: true},
