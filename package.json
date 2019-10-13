@@ -30,7 +30,6 @@
       [
         "pika-plugin-build-web-babel"
       ],
-
       [
         "@pika/plugin-build-types"
       ],
@@ -57,6 +56,7 @@
     "pub": "np --no-publish --no-release-draft && npm run build && npm publish pkg",
     "build": "pack build",
     "test": "jest",
+    "test:watch": "jest --watch",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "version": "npm run build"
   },
