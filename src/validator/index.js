@@ -12,6 +12,7 @@ import pattern from './pattern';
 import date from './date';
 import required from './required';
 import type from './type';
+import any from './any';
 
 export default {
   string,
@@ -30,4 +31,5 @@ export default {
   hex: type,
   email: type,
   required,
+  any,
 };
