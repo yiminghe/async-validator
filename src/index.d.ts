@@ -35,7 +35,8 @@ declare module 'async-validator' {
     | 'date'
     | 'url'
     | 'hex'
-    | 'email';
+    | 'email'
+    | 'any';
 
   interface RuleItem {
     type?: RuleType; // default type is 'string'
