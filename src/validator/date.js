@@ -23,7 +23,7 @@ function date(rule, value, callback, source, options) {
 
       rules.type(rule, dateObject, source, errors, options);
       if (dateObject) {
-        rules.range(rule, dateObject.getTime(), source, errors, options);
+        rules.range(rule, (new Date(dateObject)).getTime(), source, errors, options);
       }
     }
   }
