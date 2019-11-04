@@ -41,7 +41,7 @@ declare module 'async-validator' {
   interface RuleItem {
     type?: RuleType; // default type is 'string'
     required?: boolean;
-    pattern?: string;
+    pattern?: RegExp | string;
     min?: number; // Range of type 'string' and 'array'
     max?: number; // Range of type 'string' and 'array'
     len?: number; // Length of type 'string' and 'array'
