@@ -55,14 +55,14 @@ declare module 'async-validator' {
     asyncValidator?: (
       rule: Rules,
       value: any,
-      callback: (error: string | string[]) => void,
+      callback: (error: string | string[] | void) => void,
       source: ValidateSource,
       options: ValidateOption,
     ) => void | Promise<void>;
     validator?: (
       rule: Rules,
       value: any,
-      callback: (error: string | string[]) => void,
+      callback: (error: string | string[] | void) => void,
       source: ValidateSource,
       options: ValidateOption,
     ) => void;
