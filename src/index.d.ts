@@ -21,7 +21,7 @@ declare module 'async-validator' {
     ): Promise<void>;
   }
 
-  type RuleType =
+  export type RuleType =
     | 'string'
     | 'number'
     | 'boolean'
@@ -38,7 +38,7 @@ declare module 'async-validator' {
     | 'email'
     | 'any';
 
-  interface RuleItem {
+  export interface RuleItem {
     type?: RuleType; // default type is 'string'
     required?: boolean;
     pattern?: RegExp | string;
@@ -68,15 +68,15 @@ declare module 'async-validator' {
     ) => void;
   }
 
-  interface Rules {
+  export interface Rules {
     [field: string]: RuleItem | RuleItem[];
   }
 
-  interface ValidateSource {
+  export interface ValidateSource {
     [field: string]: any;
   }
 
-  interface ValidateOption {
+  export interface ValidateOption {
     // whether to suppress internal warning
     suppressWarning?: boolean;
 
@@ -87,13 +87,13 @@ declare module 'async-validator' {
     firstFields?: boolean | string[];
   }
 
-  interface ValidateError {
+  export interface ValidateError {
     message: string;
     field: string;
   }
 
-  type ErrorList = ValidateError[];
-  interface FieldErrorList {
+  export type ErrorList = ValidateError[];
+  export interface FieldErrorList {
     [field: string]: ValidateError[];
   }
 }
