@@ -416,6 +416,21 @@ describe('validator', () => {
             done();
           });
       });
+
+      it('works for no rules fields', done => {
+        new Schema({
+          v: [],
+          v2: [],
+        })
+          .validate({
+            v: 2,
+            v2: 1,
+          })
+          .then(e => {
+            expect(e).toBeUndefined();
+            done();
+          });
+      });
     });
   });
 });
