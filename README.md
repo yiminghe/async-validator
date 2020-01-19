@@ -327,7 +327,7 @@ The easiest way to achieve this is to assign a `message` to a rule:
 Message can be any type, such as jsx format.
 
 ```javascript
-{name:{type: "string", required: true, message: <b>Name is required</b>}}
+{name:{type: "string", required: true, message: "<b>Name is required</b>"}}
 ```
 
 Message can also be a function, e.g. if you use vue-i18n:
