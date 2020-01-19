@@ -359,24 +359,24 @@ You can customize the asynchronous validation function for the specified field:
 
 ```js
 const fields = {
-  asyncField:{
-    asyncValidator(rule,value,callback){
+  asyncField: {
+    asyncValidator(rule, value, callback) {
       ajax({
-        url:'xx',
-        value:value
-      }).then(function(data){
+        url: 'xx',
+        value: value
+      }).then(function(data) {
         callback();
-      },function(error){
+      }, function(error) {
         callback(new Error(error))
       });
     }
   },
 
-  promiseField:{
-    asyncValidator(rule, value){
+  promiseField: {
+    asyncValidator(rule, value) {
       return ajax({
-        url:'xx',
-        value:value
+        url: 'xx',
+        value: value
       });
     }
   }
@@ -389,21 +389,21 @@ you can custom validate function for specified field:
 
 ```js
 const fields = {
-  field:{
-    validator(rule,value,callback){
+  field: {
+    validator(rule, value, callback) {
       return value === 'test';
     },
     message: 'Value is not equal to "test".',
   },
 
-  field2:{
-    validator(rule,value,callback){
+  field2: {
+    validator(rule, value, callback) {
       return new Error(`'${value} is not equal to "test".'`);
     },
   },
  
-  arrField:{
-    validator(rule, value){
+  arrField: {
+    validator(rule, value) {
       return [
         new Error('Message 1'),
         new Error('Message 2'),
