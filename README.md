@@ -314,7 +314,7 @@ validator.validate(source)
 Without the `transform` function validation would fail due to the pattern not matching as the input contains leading and trailing whitespace, but by adding the transform function validation passes and the field value is sanitized at the same time.
 
 
-### Messages
+#### Messages
 
 Depending upon your application requirements, you may need i18n support or you may prefer different validation error messages.
 
@@ -353,7 +353,7 @@ validator.messages(cn);
 
 If you are defining your own validation functions it is better practice to assign the message strings to a messages object and then access the messages via the `options.messages` property within the validation function.
 
-### asyncValidator
+#### asyncValidator
 
 You can customize the asynchronous validation function for the specified field:
 
@@ -383,7 +383,7 @@ const fields = {
 };
 ```
 
-### validator
+#### validator
 
 you can custom validate function for specified field:
 
