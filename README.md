@@ -295,13 +295,12 @@ Sometimes it is necessary to transform a value before validation, possibly to co
 
 ```javascript
 import schema from 'async-validator';
-import { sanitize } from 'validator');
 var descriptor = {
   name: {
     type: "string",
     required: true, pattern: /^[a-z]+$/,
     transform(value) {
-      return sanitize(value).trim();
+      return value.trim();
     }
   }
 }
