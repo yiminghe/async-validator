@@ -23,6 +23,11 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 [download-image]: https://img.shields.io/npm/dm/async-validator.svg?style=flat-square
 [download-url]: https://npmjs.org/package/async-validator
 
+## Install
+
+```
+npm i async-validator
+```
 
 ## API
 
