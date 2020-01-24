@@ -24,11 +24,7 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 [download-url]: https://npmjs.org/package/async-validator
 
 
-## API
-
-The following is modified from earlier version of [async-validate](https://github.com/freeformsystems/async-validate).
-
-### Usage
+## Usage
 
 Basic usage involves defining a descriptor, assigning it to a schema and passing the object to be validated and a callback function to the `validate` method of the schema:
 
@@ -71,6 +67,8 @@ validator.validate({ name: "muji", age: 16 }).then(() => {
   return handleErrors(errors, fields);
 })
 ```
+
+## API
 
 ### Validate
 
