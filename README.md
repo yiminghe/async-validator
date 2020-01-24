@@ -9,6 +9,7 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 [![gemnasium deps][gemnasium-image]][gemnasium-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
+[![npm bundle size (minified + gzip)][bundlesize-image]][bundlesize-url]
 
 [npm-image]: http://img.shields.io/npm/v/async-validator.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/async-validator
@@ -22,6 +23,8 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 [node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/async-validator.svg?style=flat-square
 [download-url]: https://npmjs.org/package/async-validator
+[bundlesize-image]: https://img.shields.io/bundlephobia/minzip/async-validator.svg?label=gzip%20size
+[bundlesize-url]: https://bundlephobia.com/result?p=async-validator
 
 
 ## API
