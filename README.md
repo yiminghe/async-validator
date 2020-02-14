@@ -6,29 +6,30 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
-[![gemnasium deps][gemnasium-image]][gemnasium-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
+[![npm bundle size (minified + gzip)][bundlesize-image]][bundlesize-url]
 
-[npm-image]: http://img.shields.io/npm/v/async-validator.svg?style=flat-square
-[npm-url]: http://npmjs.org/package/async-validator
+[npm-image]: https://img.shields.io/npm/v/async-validator.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/async-validator
 [travis-image]: https://img.shields.io/travis/yiminghe/async-validator.svg?style=flat-square
 [travis-url]: https://travis-ci.org/yiminghe/async-validator
 [coveralls-image]: https://img.shields.io/coveralls/yiminghe/async-validator.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/yiminghe/async-validator?branch=master
-[gemnasium-image]: http://img.shields.io/gemnasium/yiminghe/async-validator.svg?style=flat-square
-[gemnasium-url]: https://gemnasium.com/yiminghe/async-validator
 [node-image]: https://img.shields.io/badge/node.js-%3E=4.0.0-green.svg?style=flat-square
-[node-url]: http://nodejs.org/download/
+[node-url]: https://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/async-validator.svg?style=flat-square
 [download-url]: https://npmjs.org/package/async-validator
+[bundlesize-image]: https://img.shields.io/bundlephobia/minzip/async-validator.svg?label=gzip%20size
+[bundlesize-url]: https://bundlephobia.com/result?p=async-validator
 
+## Install
 
-## API
+```
+npm i async-validator
+```
 
-The following is modified from earlier version of [async-validate](https://github.com/freeformsystems/async-validate).
-
-### Usage
+## Usage
 
 Basic usage involves defining a descriptor, assigning it to a schema and passing the object to be validated and a callback function to the `validate` method of the schema:
 
@@ -71,6 +72,8 @@ validator.validate({ name: "muji", age: 16 }).then(() => {
   return handleErrors(errors, fields);
 })
 ```
+
+## API
 
 ### Validate
 
@@ -295,13 +298,12 @@ Sometimes it is necessary to transform a value before validation, possibly to co
 
 ```javascript
 import schema from 'async-validator';
-import { sanitize } from 'validator');
 var descriptor = {
   name: {
     type: "string",
     required: true, pattern: /^[a-z]+$/,
     transform(value) {
-      return sanitize(value).trim();
+      return value.trim();
     }
   }
 }
@@ -314,7 +316,7 @@ validator.validate(source)
 Without the `transform` function validation would fail due to the pattern not matching as the input contains leading and trailing whitespace, but by adding the transform function validation passes and the field value is sanitized at the same time.
 
 
-### Messages
+#### Messages
 
 Depending upon your application requirements, you may need i18n support or you may prefer different validation error messages.
 
@@ -327,7 +329,7 @@ The easiest way to achieve this is to assign a `message` to a rule:
 Message can be any type, such as jsx format.
 
 ```javascript
-{name:{type: "string", required: true, message: <b>Name is required</b>}}
+{name:{type: "string", required: true, message: "<b>Name is required</b>"}}
 ```
 
 Message can also be a function, e.g. if you use vue-i18n:
@@ -353,57 +355,57 @@ validator.messages(cn);
 
 If you are defining your own validation functions it is better practice to assign the message strings to a messages object and then access the messages via the `options.messages` property within the validation function.
 
-### asyncValidator
+#### asyncValidator
 
 You can customize the asynchronous validation function for the specified field:
 
 ```js
 const fields = {
-  asyncField:{
-    asyncValidator(rule,value,callback){
+  asyncField: {
+    asyncValidator(rule, value, callback) {
       ajax({
-        url:'xx',
-        value:value
-      }).then(function(data){
+        url: 'xx',
+        value: value
+      }).then(function(data) {
         callback();
-      },function(error){
+      }, function(error) {
         callback(new Error(error))
       });
     }
   },
 
-  promiseField:{
-    asyncValidator(rule, value){
+  promiseField: {
+    asyncValidator(rule, value) {
       return ajax({
-        url:'xx',
-        value:value
+        url: 'xx',
+        value: value
       });
     }
   }
 };
 ```
 
-### validator
+#### validator
 
 you can custom validate function for specified field:
 
 ```js
 const fields = {
-  field:{
-    validator(rule,value,callback){
+  field: {
+    validator(rule, value, callback) {
       return value === 'test';
     },
     message: 'Value is not equal to "test".',
   },
 
-  field2:{
-    validator(rule,value,callback){
+  field2: {
+    validator(rule, value, callback) {
       return new Error(`'${value} is not equal to "test".'`);
     },
   },
  
-  arrField:{
-    validator(rule, value){
+  arrField: {
+    validator(rule, value) {
       return [
         new Error('Message 1'),
         new Error('Message 2'),
@@ -451,4 +453,4 @@ open coverage/ dir
 
 ## License
 
-Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License).
+Everything is [MIT](https://en.wikipedia.org/wiki/MIT_License).
