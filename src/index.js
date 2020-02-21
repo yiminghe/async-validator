@@ -148,6 +148,7 @@ Schema.prototype = {
 
         function addFullfield(key, schema) {
           return {
+            displayField: rule.displayField,
             ...schema,
             fullField: `${rule.fullField}.${key}`,
           };
@@ -184,7 +185,10 @@ Schema.prototype = {
                 errors = [
                   options.error(
                     rule,
-                    format(options.messages.required, rule.field),
+                    format(
+                      options.messages.required,
+                      rule.displayField || rule.field,
+                    ),
                   ),
                 ];
               } else {
@@ -248,7 +252,10 @@ Schema.prototype = {
           }
         }
         if (res && res.then) {
-          res.then(() => cb(), e => cb(e));
+          res.then(
+            () => cb(),
+            e => cb(e),
+          );
         }
       },
       results => {
@@ -262,7 +269,8 @@ Schema.prototype = {
     }
     if (
       typeof rule.validator !== 'function' &&
-      (rule.type && !validators.hasOwnProperty(rule.type))
+      rule.type &&
+      !validators.hasOwnProperty(rule.type)
     ) {
       throw new Error(format('Unknown rule type %s', rule.type));
     }

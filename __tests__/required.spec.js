@@ -75,6 +75,24 @@ describe('required', () => {
     );
   });
 
+  it('works for string required=true with display field', done => {
+    new Schema({
+      v: {
+        required,
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: '',
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
+        done();
+      },
+    );
+  });
+
   it('works for string required=false', done => {
     new Schema({
       v: {
@@ -140,6 +158,24 @@ describe('required', () => {
     );
   });
 
+  it('works for null required=true with display field', done => {
+    new Schema({
+      v: {
+        required,
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: null,
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
+        done();
+      },
+    );
+  });
+
   it('works for null required=false', done => {
     new Schema({
       v: {
@@ -168,6 +204,24 @@ describe('required', () => {
       errors => {
         expect(errors.length).toBe(1);
         expect(errors[0].message).toBe('v is required');
+        done();
+      },
+    );
+  });
+
+  it('works for undefined required=true with display field', done => {
+    new Schema({
+      v: {
+        required,
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: undefined,
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
         done();
       },
     );

@@ -13,7 +13,12 @@ import * as util from '../util';
  */
 function whitespace(rule, value, source, errors, options) {
   if (/^\s+$/.test(value) || value === '') {
-    errors.push(util.format(options.messages.whitespace, rule.fullField));
+    errors.push(
+      util.format(
+        options.messages.whitespace,
+        rule.displayField || rule.fullField,
+      ),
+    );
   }
 }
 

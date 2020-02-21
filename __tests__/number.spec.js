@@ -18,6 +18,24 @@ describe('number', () => {
     );
   });
 
+  it('works with display field', done => {
+    new Schema({
+      v: {
+        type: 'number',
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: '1',
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is not a number');
+        done();
+      },
+    );
+  });
+
   it('works for no-required', done => {
     new Schema({
       v: {
@@ -64,6 +82,25 @@ describe('number', () => {
       errors => {
         expect(errors.length).toBe(1);
         expect(errors[0].message).toBe('v is required');
+        done();
+      },
+    );
+  });
+
+  it('works for required with display field', done => {
+    new Schema({
+      v: {
+        type: 'number',
+        required: true,
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: undefined,
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
         done();
       },
     );

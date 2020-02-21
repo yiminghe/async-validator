@@ -19,7 +19,7 @@ function enumerable(rule, value, source, errors, options) {
     errors.push(
       util.format(
         options.messages[ENUM],
-        rule.fullField,
+        rule.displayField || rule.fullField,
         rule[ENUM].join(', '),
       ),
     );

@@ -17,7 +17,12 @@ function required(rule, value, source, errors, options, type) {
     (!source.hasOwnProperty(rule.field) ||
       util.isEmptyValue(value, type || rule.type))
   ) {
-    errors.push(util.format(options.messages.required, rule.fullField));
+    errors.push(
+      util.format(
+        options.messages.required,
+        rule.displayField || rule.fullField,
+      ),
+    );
   }
 }
 

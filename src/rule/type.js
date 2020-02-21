@@ -102,7 +102,7 @@ function type(rule, value, source, errors, options) {
       errors.push(
         util.format(
           options.messages.types[ruleType],
-          rule.fullField,
+          rule.displayField || rule.fullField,
           rule.type,
         ),
       );
@@ -110,7 +110,11 @@ function type(rule, value, source, errors, options) {
     // straight typeof check
   } else if (ruleType && typeof value !== rule.type) {
     errors.push(
-      util.format(options.messages.types[ruleType], rule.fullField, rule.type),
+      util.format(
+        options.messages.types[ruleType],
+        rule.displayField || rule.fullField,
+        rule.type,
+      ),
     );
   }
 }

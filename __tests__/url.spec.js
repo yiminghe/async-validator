@@ -33,11 +33,12 @@ describe('url', () => {
     );
   });
 
-  it('works for required empty string', done => {
+  it('works for required empty string with display field', done => {
     new Schema({
       v: {
         type: 'url',
         required: true,
+        displayField: 'V',
       },
     }).validate(
       {
@@ -45,7 +46,7 @@ describe('url', () => {
       },
       errors => {
         expect(errors.length).toBe(1);
-        expect(errors[0].message).toBe('v is required');
+        expect(errors[0].message).toBe('V is required');
         done();
       },
     );
@@ -143,6 +144,24 @@ describe('url', () => {
       errors => {
         expect(errors.length).toBe(1);
         expect(errors[0].message).toBe('v is not a valid url');
+        done();
+      },
+    );
+  });
+
+  it('works for type not a valid url with display field', done => {
+    new Schema({
+      v: {
+        type: 'url',
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: 'http://www.taobao.com/abc?abc=%23&b=  a~c#abc    ',
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is not a valid url');
         done();
       },
     );

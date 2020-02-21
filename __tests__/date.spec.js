@@ -19,6 +19,25 @@ describe('date', () => {
     );
   });
 
+  it('required works for undefined with display field', done => {
+    new Schema({
+      v: {
+        type: 'date',
+        required: true,
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: undefined,
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
+        done();
+      },
+    );
+  });
+
   it('required works for ""', done => {
     new Schema({
       v: {
@@ -32,6 +51,25 @@ describe('date', () => {
       errors => {
         expect(errors.length).toBe(1);
         expect(errors[0].message).toBe('v is not a date');
+        done();
+      },
+    );
+  });
+
+  it('required works for "" with display field', done => {
+    new Schema({
+      v: {
+        type: 'date',
+        required: true,
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: '',
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is not a date');
         done();
       },
     );

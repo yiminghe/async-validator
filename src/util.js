@@ -2,8 +2,7 @@
 
 const formatRegExp = /%[sdj%]/g;
 
-export let warning = () => {
-};
+export let warning = () => {};
 
 // don't print warning message when in production env or node runtime
 if (

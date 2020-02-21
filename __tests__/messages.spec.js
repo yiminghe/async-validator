@@ -31,6 +31,38 @@ describe('messages', () => {
     );
   });
 
+  it('can call messages with display field', done => {
+    const messages = {
+      required(f) {
+        return `${f} required!`;
+      },
+    };
+    const schema = new Schema({
+      v: {
+        required: true,
+        displayField: 'V',
+      },
+      v2: {
+        type: 'array',
+        displayField: 'V2',
+      },
+    });
+    schema.messages(messages);
+    schema.validate(
+      {
+        v: '',
+        v2: '1',
+      },
+      errors => {
+        expect(errors.length).toBe(2);
+        expect(errors[0].message).toBe('V required!');
+        expect(errors[1].message).toBe('V2 is not an array');
+        expect(Object.keys(messages).length).toBe(1);
+        done();
+      },
+    );
+  });
+
   it('can use options.messages', done => {
     const messages = {
       required(f) {
@@ -57,6 +89,40 @@ describe('messages', () => {
         expect(errors.length).toBe(2);
         expect(errors[0].message).toBe('v required!');
         expect(errors[1].message).toBe('v2 is not an array');
+        expect(Object.keys(messages).length).toBe(1);
+        done();
+      },
+    );
+  });
+
+  it('can use options.messages with display field', done => {
+    const messages = {
+      required(f) {
+        return `${f} required!`;
+      },
+    };
+    const schema = new Schema({
+      v: {
+        required: true,
+        displayField: 'V',
+      },
+      v2: {
+        type: 'array',
+        displayField: 'V2',
+      },
+    });
+    schema.validate(
+      {
+        v: '',
+        v2: '1',
+      },
+      {
+        messages,
+      },
+      errors => {
+        expect(errors.length).toBe(2);
+        expect(errors[0].message).toBe('V required!');
+        expect(errors[1].message).toBe('V2 is not an array');
         expect(Object.keys(messages).length).toBe(1);
         done();
       },

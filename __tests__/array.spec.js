@@ -18,6 +18,24 @@ describe('array', () => {
     );
   });
 
+  it('works for type with display field', done => {
+    new Schema({
+      v: {
+        type: 'array',
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: '',
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is not an array');
+        done();
+      },
+    );
+  });
+
   it('works for type and required', done => {
     new Schema({
       v: {
@@ -31,6 +49,25 @@ describe('array', () => {
       errors => {
         expect(errors.length).toBe(1);
         expect(errors[0].message).toBe('v is not an array');
+        done();
+      },
+    );
+  });
+
+  it('works for type and required with display field', done => {
+    new Schema({
+      v: {
+        required: true,
+        type: 'array',
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: '',
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is not an array');
         done();
       },
     );
@@ -70,6 +107,25 @@ describe('array', () => {
     );
   });
 
+  it('works for empty array with display field', done => {
+    new Schema({
+      v: {
+        required: true,
+        type: 'array',
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: [],
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
+        done();
+      },
+    );
+  });
+
   it('works for undefined array', done => {
     new Schema({
       v: {
@@ -88,6 +144,25 @@ describe('array', () => {
     );
   });
 
+  it('works for undefined array with display field', done => {
+    new Schema({
+      v: {
+        required: true,
+        type: 'array',
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: undefined,
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
+        done();
+      },
+    );
+  });
+
   it('works for null array', done => {
     new Schema({
       v: {
@@ -101,6 +176,25 @@ describe('array', () => {
       errors => {
         expect(errors.length).toBe(1);
         expect(errors[0].message).toBe('v is required');
+        done();
+      },
+    );
+  });
+
+  it('works for null array with display field', done => {
+    new Schema({
+      v: {
+        required: true,
+        type: 'array',
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: null,
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
         done();
       },
     );

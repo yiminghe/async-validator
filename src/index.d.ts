@@ -52,6 +52,7 @@ declare module 'async-validator' {
     defaultField?: { type: RuleType }; // 'object' or 'array' containing validation rules
     transform?: (value: any) => any;
     message?: string;
+    displayField?: string;
     asyncValidator?: (
       rule: Rules,
       value: any,

@@ -22,7 +22,7 @@ function pattern(rule, value, source, errors, options) {
         errors.push(
           util.format(
             options.messages.pattern.mismatch,
-            rule.fullField,
+            rule.displayField || rule.fullField,
             value,
             rule.pattern,
           ),
@@ -34,7 +34,7 @@ function pattern(rule, value, source, errors, options) {
         errors.push(
           util.format(
             options.messages.pattern.mismatch,
-            rule.fullField,
+            rule.displayField || rule.fullField,
             value,
             rule.pattern,
           ),

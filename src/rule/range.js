@@ -45,22 +45,34 @@ function range(rule, value, source, errors, options) {
   if (len) {
     if (val !== rule.len) {
       errors.push(
-        util.format(options.messages[key].len, rule.fullField, rule.len),
+        util.format(
+          options.messages[key].len,
+          rule.displayField || rule.fullField,
+          rule.len,
+        ),
       );
     }
   } else if (min && !max && val < rule.min) {
     errors.push(
-      util.format(options.messages[key].min, rule.fullField, rule.min),
+      util.format(
+        options.messages[key].min,
+        rule.displayField || rule.fullField,
+        rule.min,
+      ),
     );
   } else if (max && !min && val > rule.max) {
     errors.push(
-      util.format(options.messages[key].max, rule.fullField, rule.max),
+      util.format(
+        options.messages[key].max,
+        rule.displayField || rule.fullField,
+        rule.max,
+      ),
     );
   } else if (min && max && (val < rule.min || val > rule.max)) {
     errors.push(
       util.format(
         options.messages[key].range,
-        rule.fullField,
+        rule.displayField || rule.fullField,
         rule.min,
         rule.max,
       ),

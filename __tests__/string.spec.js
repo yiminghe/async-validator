@@ -35,6 +35,25 @@ describe('string', () => {
     );
   });
 
+  it('works for empty string with display field', done => {
+    new Schema({
+      v: {
+        required: true,
+        type: 'string',
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: '',
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
+        done();
+      },
+    );
+  });
+
   it('works for undefined string', done => {
     new Schema({
       v: {
@@ -53,6 +72,25 @@ describe('string', () => {
     );
   });
 
+  it('works for undefined string with display field', done => {
+    new Schema({
+      v: {
+        required: true,
+        type: 'string',
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: undefined,
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
+        done();
+      },
+    );
+  });
+
   it('works for null string', done => {
     new Schema({
       v: {
@@ -66,6 +104,25 @@ describe('string', () => {
       errors => {
         expect(errors.length).toBe(1);
         expect(errors[0].message).toBe('v is required');
+        done();
+      },
+    );
+  });
+
+  it('works for null string with display field', done => {
+    new Schema({
+      v: {
+        required: true,
+        type: 'string',
+        displayField: 'V',
+      },
+    }).validate(
+      {
+        v: null,
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('V is required');
         done();
       },
     );
