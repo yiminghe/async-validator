@@ -1,0 +1,47 @@
+name: nodejs
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'examples/**'
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'examples/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - name: Test
+      run: |
+        npm install
+        npm test
+
+  coverage:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - name: Coverage
+      run: |
+        npm install
+        npm run coverage:gha
+    - name: Coveralls Parallel
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        CI: true
