@@ -180,6 +180,10 @@ export function asyncMap(objArr, option, func, callback) {
           : resolve();
       }
     };
+    if (!objArrKeys.length) {
+      callback(results)
+      resolve()
+    }
     objArrKeys.forEach(key => {
       const arr = objArr[key];
       if (firstFields.indexOf(key) !== -1) {
