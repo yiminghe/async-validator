@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "validate form asynchronous",
   "typings": "typings/index.d.ts",
   "keywords": [
@@ -33,7 +33,9 @@
       [
         "pika-plugin-build-web-babel"
       ],
-      ["@pika/plugin-build-types"],
+      [
+        "@pika/plugin-build-types"
+      ],
       [
         "pika-plugin-clean-dist-src"
       ]
