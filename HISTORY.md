@@ -1,5 +1,6 @@
 # History
 ----
+
 ## 3.2.0 / 2019-10-16
 
 - support `any` type: https://github.com/yiminghe/async-validator/pull/190
