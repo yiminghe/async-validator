@@ -188,8 +188,8 @@ export function asyncMap(objArr, option, func, callback) {
         callback(results);
         return results.length
           ? reject(new AsyncValidationError(
-              errors,
-              convertFieldsError(errors)
+              results,
+              convertFieldsError(results)
             ))
           : resolve();
       }
