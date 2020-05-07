@@ -187,8 +187,6 @@ Schema.prototype = {
                     format(options.messages.required, rule.field),
                   ),
                 ];
-              } else {
-                errors = [];
               }
               return doIt(errors);
             }
@@ -248,7 +246,10 @@ Schema.prototype = {
           }
         }
         if (res && res.then) {
-          res.then(() => cb(), e => cb(e));
+          res.then(
+            () => cb(),
+            e => cb(e),
+          );
         }
       },
       results => {
@@ -262,7 +263,7 @@ Schema.prototype = {
     }
     if (
       typeof rule.validator !== 'function' &&
-      (rule.type && !validators.hasOwnProperty(rule.type))
+      rule.type && !validators.hasOwnProperty(rule.type)
     ) {
       throw new Error(format('Unknown rule type %s', rule.type));
     }
