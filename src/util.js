@@ -146,13 +146,24 @@ function flattenObjArr(objArr) {
   return ret;
 }
 
+export class AsyncValidationError extends Error {
+  constructor(errors, fields) {
+    super('Async Validation Error');
+    this.errors = errors;
+    this.fields = fields;
+  }
+}
+
 export function asyncMap(objArr, option, func, callback) {
   if (option.first) {
     const pending = new Promise((resolve, reject) => {
       const next = errors => {
         callback(errors);
         return errors.length
-          ? reject({ errors, fields: convertFieldsError(errors) })
+          ? reject(new AsyncValidationError(
+              errors,
+              convertFieldsError(errors)
+            ))
           : resolve();
       };
       const flattenArr = flattenObjArr(objArr);
@@ -176,7 +187,10 @@ export function asyncMap(objArr, option, func, callback) {
       if (total === objArrLength) {
         callback(results);
         return results.length
-          ? reject({ errors: results, fields: convertFieldsError(results) })
+          ? reject(new AsyncValidationError(
+              results,
+              convertFieldsError(results)
+            ))
           : resolve();
       }
     };
