@@ -298,4 +298,7 @@ Schema.warning = warning;
 
 Schema.messages = defaultMessages;
 
+Schema.validators = validators;
+
+
 export default Schema;
