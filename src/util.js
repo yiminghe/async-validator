@@ -64,9 +64,6 @@ export function format(...args) {
           return x;
       }
     });
-    for (let arg = args[i]; i < len; arg = args[++i]) {
-      str += ` ${arg}`;
-    }
     return str;
   }
   return f;
