@@ -37,16 +37,16 @@ Basic usage involves defining a descriptor, assigning it to a schema and passing
 import schema from 'async-validator';
 const descriptor = {
   name: {
-    type: "string",
+    type: 'string',
     required: true,
     validator: (rule, value) => value === 'muji',
   },
   age: {
-    type: "number",
+    type: 'number',
     asyncValidator: (rule, value) => {
         return new Promise((resolve, reject) => {
           if (value < 18) {
-            reject("too young");  // reject with error message
+            reject('too young');  // reject with error message
           } else {
             resolve();
           }
@@ -55,7 +55,7 @@ const descriptor = {
   }
 };
 const validator = new schema(descriptor);
-validator.validate({name: "muji"}, (errors, fields) => {
+validator.validate({name: 'muji'}, (errors, fields) => {
   if(errors) {
     // validation failed, errors is an array of all errors
     // fields is an object keyed by field name with an array of
@@ -66,7 +66,7 @@ validator.validate({name: "muji"}, (errors, fields) => {
 });
 
 // PROMISE USAGE
-validator.validate({ name: "muji", age: 16 }).then(() => {
+validator.validate({ name: 'muji', age: 16 }).then(() => {
   // validation passed or without error message
 }).catch(({ errors, fields }) => {
   return handleErrors(errors, fields);
@@ -125,14 +125,14 @@ const descriptor = {
     if(!/^[a-z0-9]+$/.test(value)) {
       errors.push(
         new Error(
-          util.format("%s must be lowercase alphanumeric characters",
+          util.format('%s must be lowercase alphanumeric characters',
             rule.field)));
     }
     return errors;
   }
 }
 const validator = new schema(descriptor);
-validator.validate({name: "Firstname"}, (errors, fields) => {
+validator.validate({name: 'Firstname'}, (errors, fields) => {
   if(errors) {
     return handleErrors(errors, fields);
   }
@@ -145,7 +145,7 @@ It is often useful to test against multiple validation rules for a single field,
 ```js
 const descriptor = {
   email: [
-    {type: "string", required: true, pattern: schema.pattern.email},
+    {type: 'string', required: true, pattern: schema.pattern.email},
     {validator(rule, value, callback, source, options) {
       const errors = [];
       // test if email address already exists in a database
@@ -202,7 +202,7 @@ To validate a value from a list of possible values use the `enum` type with a `e
 
 ```js
 const descriptor = {
-  role: {type: "enum", enum: ['admin', 'user', 'guest']}
+  role: {type: 'enum', enum: ['admin', 'user', 'guest']}
 }
 ```
 
@@ -220,14 +220,14 @@ If you need to validate deep object properties you may do so for validation rule
 ```js
 const descriptor = {
   address: {
-    type: "object", required: true,
+    type: 'object', required: true,
     fields: {
-      street: {type: "string", required: true},
-      city: {type: "string", required: true},
-      zip: {type: "string", required: true, len: 8, message: "invalid zip"}
+      street: {type: 'string', required: true},
+      city: {type: 'string', required: true},
+      zip: {type: 'string', required: true, len: 8, message: 'invalid zip'}
     }
   },
-  name: {type: "string", required: true}
+  name: {type: 'string', required: true}
 }
 const validator = new schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) => {
@@ -242,14 +242,14 @@ Deep rule validation creates a schema for the nested rules so you can also speci
 ```js
 const descriptor = {
   address: {
-    type: "object", required: true, options: {first: true},
+    type: 'object', required: true, options: {first: true},
     fields: {
-      street: {type: "string", required: true},
-      city: {type: "string", required: true},
-      zip: {type: "string", required: true, len: 8, message: "invalid zip"}
+      street: {type: 'string', required: true},
+      city: {type: 'string', required: true},
+      zip: {type: 'string', required: true, len: 8, message: 'invalid zip'}
     }
   },
-  name: {type: "string", required: true}
+  name: {type: 'string', required: true}
 }
 const validator = new schema(descriptor);
 
@@ -264,17 +264,17 @@ The parent rule is also validated so if you have a set of rules such as:
 ```js
 const descriptor = {
   roles: {
-    type: "array", required: true, len: 3,
+    type: 'array', required: true, len: 3,
     fields: {
-      0: {type: "string", required: true},
-      1: {type: "string", required: true},
-      2: {type: "string", required: true}
+      0: {type: 'string', required: true},
+      1: {type: 'string', required: true},
+      2: {type: 'string', required: true}
     }
   }
 }
 ```
 
-And supply a source object of `{roles: ["admin", "user"]}` then two errors will be created. One for the array length mismatch and one for the missing required array entry at index 2.
+And supply a source object of `{roles: ['admin', 'user']}` then two errors will be created. One for the array length mismatch and one for the missing required array entry at index 2.
 
 #### defaultField
 
@@ -284,8 +284,8 @@ It may be an `object` or `array` containing validation rules. For example:
 ```js
 const descriptor = {
   urls: {
-    type: "array", required: true,
-    defaultField: {type: "url"}
+    type: 'array', required: true,
+    defaultField: {type: 'url'}
   }
 }
 ```
@@ -300,7 +300,7 @@ Sometimes it is necessary to transform a value before validation, possibly to co
 import schema from 'async-validator';
 const descriptor = {
   name: {
-    type: "string",
+    type: 'string',
     required: true, pattern: /^[a-z]+$/,
     transform(value) {
       return value.trim();
@@ -308,9 +308,9 @@ const descriptor = {
   }
 }
 const validator = new schema(descriptor);
-const source = {name: " user  "};
+const source = {name: ' user  '};
 validator.validate(source)
-  .then(() => assert.equal(source.name, "user"));
+  .then(() => assert.equal(source.name, 'user'));
 ```
 
 Without the `transform` function validation would fail due to the pattern not matching as the input contains leading and trailing whitespace, but by adding the transform function validation passes and the field value is sanitized at the same time.
@@ -323,18 +323,18 @@ Depending upon your application requirements, you may need i18n support or you m
 The easiest way to achieve this is to assign a `message` to a rule:
 
 ```js
-{name:{type: "string", required: true, message: "Name is required"}}
+{name:{type: 'string', required: true, message: 'Name is required'}}
 ```
 
 Message can be any type, such as jsx format.
 
 ```js
-{name:{type: "string", required: true, message: "<b>Name is required</b>"}}
+{name:{type: 'string', required: true, message: '<b>Name is required</b>'}}
 ```
 
 Message can also be a function, e.g. if you use vue-i18n:
 ```js
-{name:{type: "string", required: true, message: () => this.$t( 'name is required' )}}
+{name:{type: 'string', required: true, message: () => this.$t( 'name is required' )}}
 ```
 
 Potentially you may require the same schema validation rules for different languages, in which case duplicating the schema rules for each language does not make sense.
@@ -346,7 +346,7 @@ import schema from 'async-validator';
 const cn = {
   required: '%s 必填',
 };
-const descriptor = {name:{type: "string", required: true}};
+const descriptor = {name:{type: 'string', required: true}};
 const validator = new schema(descriptor);
 // deep merge with defaultMessages
 validator.messages(cn);
