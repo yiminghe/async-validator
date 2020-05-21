@@ -35,7 +35,7 @@ Basic usage involves defining a descriptor, assigning it to a schema and passing
 
 ```javascript
 import schema from 'async-validator';
-var descriptor = {
+const descriptor = {
   name: {
     type: "string",
     required: true,
@@ -54,7 +54,7 @@ var descriptor = {
       }
   }
 };
-var validator = new schema(descriptor);
+const validator = new schema(descriptor);
 validator.validate({name: "muji"}, (errors, fields) => {
   if(errors) {
     // validation failed, errors is an array of all errors
@@ -119,9 +119,9 @@ The options passed to `validate` or `asyncValidate` are passed on to the validat
 
 ```javascript
 import schema from 'async-validator';
-var descriptor = {
+const descriptor = {
   name(rule, value, callback, source, options) {
-    var errors = [];
+    const errors = [];
     if(!/^[a-z0-9]+$/.test(value)) {
       errors.push(
         new Error(
@@ -131,7 +131,7 @@ var descriptor = {
     return errors;
   }
 }
-var validator = new schema(descriptor);
+const validator = new schema(descriptor);
 validator.validate({name: "Firstname"}, (errors, fields) => {
   if(errors) {
     return handleErrors(errors, fields);
@@ -143,11 +143,11 @@ validator.validate({name: "Firstname"}, (errors, fields) => {
 It is often useful to test against multiple validation rules for a single field, to do so make the rule an array of objects, for example:
 
 ```javascript
-var descriptor = {
+const descriptor = {
   email: [
     {type: "string", required: true, pattern: schema.pattern.email},
     {validator(rule, value, callback, source, options) {
-      var errors = [];
+      const errors = [];
       // test if email address already exists in a database
       // and add a validation error to the errors array if it does
       return errors;
@@ -201,7 +201,7 @@ If the `len` property is combined with the `min` and `max` range properties, `le
 To validate a value from a list of possible values use the `enum` type with a `enum` property listing the valid values for the field, for example:
 
 ```javascript
-var descriptor = {
+const descriptor = {
   role: {type: "enum", enum: ['admin', 'user', 'guest']}
 }
 ```
@@ -218,7 +218,7 @@ You may wish to sanitize user input instead of testing for whitespace, see [tran
 If you need to validate deep object properties you may do so for validation rules that are of the `object` or `array` type by assigning nested rules to a `fields` property of the rule.
 
 ```javascript
-var descriptor = {
+const descriptor = {
   address: {
     type: "object", required: true,
     fields: {
@@ -229,7 +229,7 @@ var descriptor = {
   },
   name: {type: "string", required: true}
 }
-var validator = new schema(descriptor);
+const validator = new schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) => {
   // errors for address.street, address.city, address.zip
 });
@@ -240,7 +240,7 @@ Note that if you do not specify the `required` property on the parent rule it is
 Deep rule validation creates a schema for the nested rules so you can also specify the `options` passed to the `schema.validate()` method.
 
 ```javascript
-var descriptor = {
+const descriptor = {
   address: {
     type: "object", required: true, options: {first: true},
     fields: {
@@ -251,7 +251,7 @@ var descriptor = {
   },
   name: {type: "string", required: true}
 }
-var validator = new schema(descriptor);
+const validator = new schema(descriptor);
 
 validator.validate({ address: {} })
   .catch(({ errors, fields }) => {
@@ -262,7 +262,7 @@ validator.validate({ address: {} })
 The parent rule is also validated so if you have a set of rules such as:
 
 ```javascript
-var descriptor = {
+const descriptor = {
   roles: {
     type: "array", required: true, len: 3,
     fields: {
@@ -282,7 +282,7 @@ The `defaultField` property can be used with the `array` or `object` type for va
 It may be an `object` or `array` containing validation rules. For example:
 
 ```javascript
-var descriptor = {
+const descriptor = {
   urls: {
     type: "array", required: true,
     defaultField: {type: "url"}
@@ -298,7 +298,7 @@ Sometimes it is necessary to transform a value before validation, possibly to co
 
 ```javascript
 import schema from 'async-validator';
-var descriptor = {
+const descriptor = {
   name: {
     type: "string",
     required: true, pattern: /^[a-z]+$/,
@@ -307,8 +307,8 @@ var descriptor = {
     }
   }
 }
-var validator = new schema(descriptor);
-var source = {name: " user  "};
+const validator = new schema(descriptor);
+const source = {name: " user  "};
 validator.validate(source)
   .then(() => assert.equal(source.name, "user"));
 ```
@@ -343,11 +343,11 @@ In this scenario you could just provide your own messages for the language and a
 
 ```javascript
 import schema from 'async-validator';
-var cn = {
+const cn = {
   required: '%s 必填',
 };
-var descriptor = {name:{type: "string", required: true}};
-var validator = new schema(descriptor);
+const descriptor = {name:{type: "string", required: true}};
+const validator = new schema(descriptor);
 // deep merge with defaultMessages
 validator.messages(cn);
 ...
