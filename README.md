@@ -70,7 +70,7 @@ validator.validate({ name: 'muji', age: 16 }).then(() => {
   // validation passed or without error message
 }).catch(({ errors, fields }) => {
   return handleErrors(errors, fields);
-})
+});
 ```
 
 ## API
@@ -130,7 +130,7 @@ const descriptor = {
     }
     return errors;
   }
-}
+};
 const validator = new schema(descriptor);
 validator.validate({ name: 'Firstname' }, (errors, fields) => {
   if (errors) {
@@ -155,7 +155,7 @@ const descriptor = {
       }
     }
   ]
-}
+};
 ```
 
 #### Type
@@ -205,7 +205,7 @@ To validate a value from a list of possible values use the `enum` type with a `e
 ```js
 const descriptor = {
   role: { type: 'enum', enum: ['admin', 'user', 'guest'] }
-}
+};
 ```
 
 #### Whitespace
@@ -230,7 +230,7 @@ const descriptor = {
     }
   },
   name: { type: 'string', required: true }
-}
+};
 const validator = new schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) => {
   // errors for address.street, address.city, address.zip
@@ -252,7 +252,7 @@ const descriptor = {
     }
   },
   name: { type: 'string', required: true }
-}
+};
 const validator = new schema(descriptor);
 
 validator.validate({ address: {} })
@@ -273,7 +273,7 @@ const descriptor = {
       2: { type: 'string', required: true }
     }
   }
-}
+};
 ```
 
 And supply a source object of `{ roles: ['admin', 'user'] }` then two errors will be created. One for the array length mismatch and one for the missing required array entry at index 2.
@@ -289,7 +289,7 @@ const descriptor = {
     type: 'array', required: true,
     defaultField: { type: 'url' }
   }
-}
+};
 ```
 
 Note that `defaultField` is expanded to `fields`, see [deep rules](#deep-rules).
@@ -308,7 +308,7 @@ const descriptor = {
       return value.trim();
     }
   }
-}
+};
 const validator = new schema(descriptor);
 const source = { name: ' user  ' };
 validator.validate(source)
