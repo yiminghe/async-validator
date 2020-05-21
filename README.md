@@ -44,14 +44,14 @@ const descriptor = {
   age: {
     type: 'number',
     asyncValidator: (rule, value) => {
-        return new Promise((resolve, reject) => {
-          if (value < 18) {
-            reject('too young');  // reject with error message
-          } else {
-            resolve();
-          }
-        });
-      }
+      return new Promise((resolve, reject) => {
+        if (value < 18) {
+          reject('too young');  // reject with error message
+        } else {
+          resolve();
+        }
+      });
+    }
   }
 };
 const validator = new schema(descriptor);
@@ -146,12 +146,14 @@ It is often useful to test against multiple validation rules for a single field,
 const descriptor = {
   email: [
     { type: 'string', required: true, pattern: schema.pattern.email },
-    { validator(rule, value, callback, source, options) {
-      const errors = [];
-      // test if email address already exists in a database
-      // and add a validation error to the errors array if it does
-      return errors;
-    }}
+    { 
+      validator(rule, value, callback, source, options) {
+        const errors = [];
+        // test if email address already exists in a database
+        // and add a validation error to the errors array if it does
+        return errors;
+      }
+    }
   ]
 }
 ```
