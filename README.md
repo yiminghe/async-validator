@@ -387,7 +387,7 @@ const fields = {
 
 #### validator
 
-you can custom validate function for specified field:
+You can custom validate function for specified field:
 
 ```js
 const fields = {
@@ -449,7 +449,7 @@ npm run chrome-test
 npm run coverage
 ```
 
-open coverage/ dir
+Open coverage/ dir
 
 ## License
 
