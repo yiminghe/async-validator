@@ -25,7 +25,7 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 
 ## Install
 
-```
+```bash
 npm i async-validator
 ```
 
@@ -33,7 +33,7 @@ npm i async-validator
 
 Basic usage involves defining a descriptor, assigning it to a schema and passing the object to be validated and a callback function to the `validate` method of the schema:
 
-```javascript
+```js
 import schema from 'async-validator';
 const descriptor = {
   name: {
@@ -77,7 +77,7 @@ validator.validate({ name: "muji", age: 16 }).then(() => {
 
 ### Validate
 
-```javascript
+```js
 function(source, [options], callback): Promise
 ```
 
@@ -104,7 +104,7 @@ no more validation rules of the same field are processed.  `true` means all fiel
 
 Rules may be functions that perform validation.
 
-```javascript
+```js
 function(rule, value, callback, source, options)
 ```
 
@@ -117,7 +117,7 @@ function(rule, value, callback, source, options)
 
 The options passed to `validate` or `asyncValidate` are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are `messages`, `exception` and `error`.
 
-```javascript
+```js
 import schema from 'async-validator';
 const descriptor = {
   name(rule, value, callback, source, options) {
@@ -142,7 +142,7 @@ validator.validate({name: "Firstname"}, (errors, fields) => {
 
 It is often useful to test against multiple validation rules for a single field, to do so make the rule an array of objects, for example:
 
-```javascript
+```js
 const descriptor = {
   email: [
     {type: "string", required: true, pattern: schema.pattern.email},
@@ -200,7 +200,7 @@ If the `len` property is combined with the `min` and `max` range properties, `le
 
 To validate a value from a list of possible values use the `enum` type with a `enum` property listing the valid values for the field, for example:
 
-```javascript
+```js
 const descriptor = {
   role: {type: "enum", enum: ['admin', 'user', 'guest']}
 }
@@ -217,7 +217,7 @@ You may wish to sanitize user input instead of testing for whitespace, see [tran
 
 If you need to validate deep object properties you may do so for validation rules that are of the `object` or `array` type by assigning nested rules to a `fields` property of the rule.
 
-```javascript
+```js
 const descriptor = {
   address: {
     type: "object", required: true,
@@ -239,7 +239,7 @@ Note that if you do not specify the `required` property on the parent rule it is
 
 Deep rule validation creates a schema for the nested rules so you can also specify the `options` passed to the `schema.validate()` method.
 
-```javascript
+```js
 const descriptor = {
   address: {
     type: "object", required: true, options: {first: true},
@@ -261,7 +261,7 @@ validator.validate({ address: {} })
 
 The parent rule is also validated so if you have a set of rules such as:
 
-```javascript
+```js
 const descriptor = {
   roles: {
     type: "array", required: true, len: 3,
@@ -281,7 +281,7 @@ And supply a source object of `{roles: ["admin", "user"]}` then two errors will 
 The `defaultField` property can be used with the `array` or `object` type for validating all values of the container.
 It may be an `object` or `array` containing validation rules. For example:
 
-```javascript
+```js
 const descriptor = {
   urls: {
     type: "array", required: true,
@@ -296,7 +296,7 @@ Note that `defaultField` is expanded to `fields`, see [deep rules](#deep-rules).
 
 Sometimes it is necessary to transform a value before validation, possibly to coerce the value or to sanitize it in some way. To do this add a `transform` function to the validation rule. The property is transformed prior to validation and re-assigned to the source object to mutate the value of the property in place.
 
-```javascript
+```js
 import schema from 'async-validator';
 const descriptor = {
   name: {
@@ -322,18 +322,18 @@ Depending upon your application requirements, you may need i18n support or you m
 
 The easiest way to achieve this is to assign a `message` to a rule:
 
-```javascript
+```js
 {name:{type: "string", required: true, message: "Name is required"}}
 ```
 
 Message can be any type, such as jsx format.
 
-```javascript
+```js
 {name:{type: "string", required: true, message: "<b>Name is required</b>"}}
 ```
 
 Message can also be a function, e.g. if you use vue-i18n:
-```javascript
+```js
 {name:{type: "string", required: true, message: () => this.$t( 'name is required' )}}
 ```
 
@@ -341,7 +341,7 @@ Potentially you may require the same schema validation rules for different langu
 
 In this scenario you could just provide your own messages for the language and assign it to the schema:
 
-```javascript
+```js
 import schema from 'async-validator';
 const cn = {
   required: '%s 必填',
@@ -438,14 +438,14 @@ Use `enum` type passing `true` as option.
 
 ## Test Case
 
-```
+```bash
 npm test
 npm run chrome-test
 ```
 
 ## Coverage
 
-```
+```bash
 npm run coverage
 ```
 
