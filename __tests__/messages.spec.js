@@ -63,6 +63,31 @@ describe('messages', () => {
     );
   });
 
+  it('messages can be without parameters', done => {
+    const messages = {
+      required: 'required!',
+    };
+    const schema = new Schema({
+      v: {
+        required: true,
+      },
+    });
+    schema.messages(messages);
+    schema.validate(
+      {
+        v: '',
+      },
+      errors => {
+        expect(errors).toBeTruthy();
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('required!');
+        expect(Object.keys(messages).length).toBe(1);
+        expect(messages.required).toBe('required!');
+        done();
+      },
+    );
+  });
+
   it('message can be object', done => {
     const atom = {};
     const messages = {
