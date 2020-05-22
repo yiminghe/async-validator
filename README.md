@@ -1,7 +1,4 @@
 # async-validator
----
-
-Validate form asynchronous. A variation of https://github.com/freeformsystems/async-validate
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -22,6 +19,8 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 [download-url]: https://npmjs.org/package/async-validator
 [bundlesize-image]: https://img.shields.io/bundlephobia/minzip/async-validator.svg?label=gzip%20size
 [bundlesize-url]: https://bundlephobia.com/result?p=async-validator
+
+Validate form asynchronous. A variation of https://github.com/freeformsystems/async-validate
 
 ## Install
 
