@@ -34,7 +34,7 @@ npm i async-validator
 Basic usage involves defining a descriptor, assigning it to a schema and passing the object to be validated and a callback function to the `validate` method of the schema:
 
 ```js
-import schema from 'async-validator';
+import Schema from 'async-validator';
 const descriptor = {
   name: {
     type: 'string',
@@ -54,7 +54,7 @@ const descriptor = {
     }
   }
 };
-const validator = new schema(descriptor);
+const validator = new Schema(descriptor);
 validator.validate({ name: 'muji' }, (errors, fields) => {
   if (errors) {
     // validation failed, errors is an array of all errors
@@ -118,7 +118,7 @@ function(rule, value, callback, source, options)
 The options passed to `validate` or `asyncValidate` are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are `messages`, `exception` and `error`.
 
 ```js
-import schema from 'async-validator';
+import Schema from 'async-validator';
 const descriptor = {
   name(rule, value, callback, source, options) {
     const errors = [];
@@ -131,7 +131,7 @@ const descriptor = {
     return errors;
   }
 };
-const validator = new schema(descriptor);
+const validator = new Schema(descriptor);
 validator.validate({ name: 'Firstname' }, (errors, fields) => {
   if (errors) {
     return handleErrors(errors, fields);
@@ -145,7 +145,7 @@ It is often useful to test against multiple validation rules for a single field,
 ```js
 const descriptor = {
   email: [
-    { type: 'string', required: true, pattern: schema.pattern.email },
+    { type: 'string', required: true, pattern: Schema.pattern.email },
     { 
       validator(rule, value, callback, source, options) {
         const errors = [];
@@ -231,7 +231,7 @@ const descriptor = {
   },
   name: { type: 'string', required: true }
 };
-const validator = new schema(descriptor);
+const validator = new Schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) => {
   // errors for address.street, address.city, address.zip
 });
@@ -253,7 +253,7 @@ const descriptor = {
   },
   name: { type: 'string', required: true }
 };
-const validator = new schema(descriptor);
+const validator = new Schema(descriptor);
 
 validator.validate({ address: {} })
   .catch(({ errors, fields }) => {
@@ -299,7 +299,7 @@ Note that `defaultField` is expanded to `fields`, see [deep rules](#deep-rules).
 Sometimes it is necessary to transform a value before validation, possibly to coerce the value or to sanitize it in some way. To do this add a `transform` function to the validation rule. The property is transformed prior to validation and re-assigned to the source object to mutate the value of the property in place.
 
 ```js
-import schema from 'async-validator';
+import Schema from 'async-validator';
 const descriptor = {
   name: {
     type: 'string',
@@ -309,7 +309,7 @@ const descriptor = {
     }
   }
 };
-const validator = new schema(descriptor);
+const validator = new Schema(descriptor);
 const source = { name: ' user  ' };
 validator.validate(source)
   .then(() => assert.equal(source.name, 'user'));
@@ -344,12 +344,12 @@ Potentially you may require the same schema validation rules for different langu
 In this scenario you could just provide your own messages for the language and assign it to the schema:
 
 ```js
-import schema from 'async-validator';
+import Schema from 'async-validator';
 const cn = {
   required: '%s 必填',
 };
 const descriptor = { name: { type: 'string', required: true } };
-const validator = new schema(descriptor);
+const validator = new Schema(descriptor);
 // deep merge with defaultMessages
 validator.messages(cn);
 ...
