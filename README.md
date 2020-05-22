@@ -303,7 +303,8 @@ import Schema from 'async-validator';
 const descriptor = {
   name: {
     type: 'string',
-    required: true, pattern: /^[a-z]+$/,
+    required: true,
+    pattern: /^[a-z]+$/,
     transform(value) {
       return value.trim();
     }
