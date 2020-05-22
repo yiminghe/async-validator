@@ -122,10 +122,9 @@ const descriptor = {
   name(rule, value, callback, source, options) {
     const errors = [];
     if (!/^[a-z0-9]+$/.test(value)) {
-      errors.push(
-        new Error(
-          util.format('%s must be lowercase alphanumeric characters',
-            rule.field)));
+      errors.push(new Error(
+        util.format('%s must be lowercase alphanumeric characters', rule.field),
+      ));
     }
     return errors;
   }
