@@ -402,7 +402,7 @@ const fields = {
 
   field2: {
     validator(rule, value, callback) {
-      return new Error(`'${value} is not equal to "test".'`);
+      return new Error(`${value} is not equal to 'test'.`);
     },
   },
  
