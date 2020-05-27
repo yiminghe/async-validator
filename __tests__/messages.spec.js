@@ -63,6 +63,30 @@ describe('messages', () => {
     );
   });
 
+  it('messages with parameters', done => {
+    const messages = {
+      required: 'Field %s required!',
+    };
+    const schema = new Schema({
+      v: {
+        required: true,
+      },
+    });
+    schema.messages(messages);
+    schema.validate(
+      {
+        v: '',
+      },
+      errors => {
+        expect(errors).toBeTruthy();
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('Field v required!');
+        expect(Object.keys(messages).length).toBe(1);
+        done();
+      },
+    );
+  });
+
   it('messages can be without parameters', done => {
     const messages = {
       required: 'required!',
