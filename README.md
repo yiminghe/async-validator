@@ -220,7 +220,8 @@ If you need to validate deep object properties you may do so for validation rule
 ```js
 const descriptor = {
   address: {
-    type: 'object', required: true,
+    type: 'object',
+    required: true,
     fields: {
       street: { type: 'string', required: true },
       city: { type: 'string', required: true },
@@ -242,7 +243,9 @@ Deep rule validation creates a schema for the nested rules so you can also speci
 ```js
 const descriptor = {
   address: {
-    type: 'object', required: true, options: { first: true },
+    type: 'object',
+    required: true,
+    options: { first: true },
     fields: {
       street: { type: 'string', required: true },
       city: { type: 'string', required: true },
@@ -264,7 +267,9 @@ The parent rule is also validated so if you have a set of rules such as:
 ```js
 const descriptor = {
   roles: {
-    type: 'array', required: true, len: 3,
+    type: 'array',
+    required: true,
+    len: 3,
     fields: {
       0: { type: 'string', required: true },
       1: { type: 'string', required: true },
@@ -284,7 +289,8 @@ It may be an `object` or `array` containing validation rules. For example:
 ```js
 const descriptor = {
   urls: {
-    type: 'array', required: true,
+    type: 'array',
+    required: true,
     defaultField: { type: 'url' }
   }
 };
