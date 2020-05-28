@@ -50,8 +50,8 @@ const descriptor = {
           resolve();
         }
       });
-    }
-  }
+    },
+  },
 };
 const validator = new Schema(descriptor);
 validator.validate({ name: 'muji' }, (errors, fields) => {
@@ -127,7 +127,7 @@ const descriptor = {
       ));
     }
     return errors;
-  }
+  },
 };
 const validator = new Schema(descriptor);
 validator.validate({ name: 'Firstname' }, (errors, fields) => {
@@ -150,9 +150,9 @@ const descriptor = {
         // test if email address already exists in a database
         // and add a validation error to the errors array if it does
         return errors;
-      }
-    }
-  ]
+      },
+    },
+  ],
 };
 ```
 
@@ -202,7 +202,7 @@ To validate a value from a list of possible values use the `enum` type with a `e
 
 ```js
 const descriptor = {
-  role: { type: 'enum', enum: ['admin', 'user', 'guest'] }
+  role: { type: 'enum', enum: ['admin', 'user', 'guest'] },
 };
 ```
 
@@ -225,10 +225,10 @@ const descriptor = {
     fields: {
       street: { type: 'string', required: true },
       city: { type: 'string', required: true },
-      zip: { type: 'string', required: true, len: 8, message: 'invalid zip' }
-    }
+      zip: { type: 'string', required: true, len: 8, message: 'invalid zip' },
+    },
   },
-  name: { type: 'string', required: true }
+  name: { type: 'string', required: true },
 };
 const validator = new Schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) => {
@@ -249,10 +249,10 @@ const descriptor = {
     fields: {
       street: { type: 'string', required: true },
       city: { type: 'string', required: true },
-      zip: { type: 'string', required: true, len: 8, message: 'invalid zip' }
-    }
+      zip: { type: 'string', required: true, len: 8, message: 'invalid zip' },
+    },
   },
-  name: { type: 'string', required: true }
+  name: { type: 'string', required: true },
 };
 const validator = new Schema(descriptor);
 
@@ -273,9 +273,9 @@ const descriptor = {
     fields: {
       0: { type: 'string', required: true },
       1: { type: 'string', required: true },
-      2: { type: 'string', required: true }
-    }
-  }
+      2: { type: 'string', required: true },
+    },
+  },
 };
 ```
 
@@ -291,8 +291,8 @@ const descriptor = {
   urls: {
     type: 'array',
     required: true,
-    defaultField: { type: 'url' }
-  }
+    defaultField: { type: 'url' },
+  },
 };
 ```
 
@@ -311,8 +311,8 @@ const descriptor = {
     pattern: /^[a-z]+$/,
     transform(value) {
       return value.trim();
-    }
-  }
+    },
+  },
 };
 const validator = new Schema(descriptor);
 const source = { name: ' user  ' };
@@ -372,23 +372,23 @@ const fields = {
     asyncValidator(rule, value, callback) {
       ajax({
         url: 'xx',
-        value: value
+        value: value,
       }).then(function(data) {
         callback();
       }, function(error) {
-        callback(new Error(error))
+        callback(new Error(error));
       });
-    }
+    },
   },
 
   promiseField: {
     asyncValidator(rule, value) {
       return ajax({
         url: 'xx',
-        value: value
+        value: value,
       });
-    }
-  }
+    },
+  },
 };
 ```
 
@@ -417,7 +417,7 @@ const fields = {
         new Error('Message 1'),
         new Error('Message 2'),
       ];
-    }
+    },
   },
 };
 ```
