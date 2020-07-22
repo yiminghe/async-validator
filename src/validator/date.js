@@ -15,10 +15,10 @@ function date(rule, value, callback, source, options) {
     if (!isEmptyValue(value)) {
       let dateObject;
 
-      if (typeof value === 'number') {
-        dateObject = new Date(value);
-      } else {
+      if (value instanceof Date) {
         dateObject = value;
+      } else {
+        dateObject = new Date(value);
       }
 
       rules.type(rule, dateObject, source, errors, options);
