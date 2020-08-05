@@ -37,7 +37,8 @@ const types = {
     return (
       typeof value.getTime === 'function' &&
       typeof value.getMonth === 'function' &&
-      typeof value.getYear === 'function'
+      typeof value.getYear === 'function' &&
+      !isNaN(value.getTime())
     );
   },
   number(value) {

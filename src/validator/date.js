@@ -8,11 +8,11 @@ function date(rule, value, callback, source, options) {
     rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   // console.log('validate on %s value', value);
   if (validate) {
-    if (isEmptyValue(value) && !rule.required) {
+    if (isEmptyValue(value, 'date') && !rule.required) {
       return callback();
     }
     rules.required(rule, value, source, errors, options);
-    if (!isEmptyValue(value)) {
+    if (!isEmptyValue(value, 'date')) {
       let dateObject;
 
       if (value instanceof Date) {

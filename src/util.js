@@ -2,8 +2,7 @@
 
 const formatRegExp = /%[sdj%]/g;
 
-export let warning = () => {
-};
+export let warning = () => {};
 
 // don't print warning message when in production env or node runtime
 if (
@@ -75,6 +74,7 @@ function isNativeStringType(type) {
     type === 'url' ||
     type === 'hex' ||
     type === 'email' ||
+    type === 'date' ||
     type === 'pattern'
   );
 }
@@ -157,10 +157,7 @@ export function asyncMap(objArr, option, func, callback) {
       const next = errors => {
         callback(errors);
         return errors.length
-          ? reject(new AsyncValidationError(
-              errors,
-              convertFieldsError(errors)
-            ))
+          ? reject(new AsyncValidationError(errors, convertFieldsError(errors)))
           : resolve();
       };
       const flattenArr = flattenObjArr(objArr);
@@ -184,16 +181,15 @@ export function asyncMap(objArr, option, func, callback) {
       if (total === objArrLength) {
         callback(results);
         return results.length
-          ? reject(new AsyncValidationError(
-              results,
-              convertFieldsError(results)
-            ))
+          ? reject(
+              new AsyncValidationError(results, convertFieldsError(results)),
+            )
           : resolve();
       }
     };
     if (!objArrKeys.length) {
-      callback(results)
-      resolve()
+      callback(results);
+      resolve();
     }
     objArrKeys.forEach(key => {
       const arr = objArr[key];
