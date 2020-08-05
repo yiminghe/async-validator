@@ -8,7 +8,7 @@
     "validate",
     "async"
   ],
-  "homepage": "http://github.com/yiminghe/async-validator",
+  "homepage": "https://github.com/yiminghe/async-validator",
   "author": "yiminghe@gmail.com",
   "repository": {
     "type": "git",
@@ -47,7 +47,7 @@
     ]
   },
   "bugs": {
-    "url": "http://github.com/yiminghe/async-validator/issues"
+    "url": "https://github.com/yiminghe/async-validator/issues"
   },
   "license": "MIT",
   "config": {
