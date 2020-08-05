@@ -1,6 +1,13 @@
 # History
 ----
 
+## 3.4.0 / 2020-08-05
+
+- https://github.com/yiminghe/async-validator/pull/247
+- https://github.com/yiminghe/async-validator/pull/246
+- https://github.com/yiminghe/async-validator/pull/245
+- https://github.com/yiminghe/async-validator/pull/240
+
 ## 3.3.0 / 2020-05-07
 
 - expose validators: https://github.com/yiminghe/async-validator/pull/232

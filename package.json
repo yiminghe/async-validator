@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "validate form asynchronous",
   "typings": "typings/index.d.ts",
   "keywords": [
@@ -60,6 +60,7 @@
     "build": "pika-pack build",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "coverage:gha": "jest --coverage",
     "version": "npm run build"

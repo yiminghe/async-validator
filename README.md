@@ -447,7 +447,6 @@ Use `enum` type passing `true` as option.
 
 ```bash
 npm test
-npm run chrome-test
 ```
 
 ## Coverage
