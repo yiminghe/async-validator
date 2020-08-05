@@ -1,7 +1,4 @@
 # async-validator
----
-
-Validate form asynchronous. A variation of https://github.com/freeformsystems/async-validate
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -23,9 +20,11 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 [bundlesize-image]: https://img.shields.io/bundlephobia/minzip/async-validator.svg?label=gzip%20size
 [bundlesize-url]: https://bundlephobia.com/result?p=async-validator
 
+Validate form asynchronous. A variation of https://github.com/freeformsystems/async-validate
+
 ## Install
 
-```
+```bash
 npm i async-validator
 ```
 
@@ -33,30 +32,30 @@ npm i async-validator
 
 Basic usage involves defining a descriptor, assigning it to a schema and passing the object to be validated and a callback function to the `validate` method of the schema:
 
-```javascript
-import schema from 'async-validator';
-var descriptor = {
+```js
+import Schema from 'async-validator';
+const descriptor = {
   name: {
-    type: "string",
+    type: 'string',
     required: true,
     validator: (rule, value) => value === 'muji',
   },
   age: {
-    type: "number",
+    type: 'number',
     asyncValidator: (rule, value) => {
-        return new Promise((resolve, reject) => {
-          if (value < 18) {
-            reject("too young");  // reject with error message
-          } else {
-            resolve();
-          }
-        });
-      }
-  }
+      return new Promise((resolve, reject) => {
+        if (value < 18) {
+          reject('too young');  // reject with error message
+        } else {
+          resolve();
+        }
+      });
+    },
+  },
 };
-var validator = new schema(descriptor);
-validator.validate({name: "muji"}, (errors, fields) => {
-  if(errors) {
+const validator = new Schema(descriptor);
+validator.validate({ name: 'muji' }, (errors, fields) => {
+  if (errors) {
     // validation failed, errors is an array of all errors
     // fields is an object keyed by field name with an array of
     // errors per field
@@ -66,18 +65,18 @@ validator.validate({name: "muji"}, (errors, fields) => {
 });
 
 // PROMISE USAGE
-validator.validate({ name: "muji", age: 16 }).then(() => {
+validator.validate({ name: 'muji', age: 16 }).then(() => {
   // validation passed or without error message
 }).catch(({ errors, fields }) => {
   return handleErrors(errors, fields);
-})
+});
 ```
 
 ## API
 
 ### Validate
 
-```javascript
+```js
 function(source, [options], callback): Promise
 ```
 
@@ -104,7 +103,7 @@ no more validation rules of the same field are processed.  `true` means all fiel
 
 Rules may be functions that perform validation.
 
-```javascript
+```js
 function(rule, value, callback, source, options)
 ```
 
@@ -117,23 +116,22 @@ function(rule, value, callback, source, options)
 
 The options passed to `validate` or `asyncValidate` are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are `messages`, `exception` and `error`.
 
-```javascript
-import schema from 'async-validator';
-var descriptor = {
+```js
+import Schema from 'async-validator';
+const descriptor = {
   name(rule, value, callback, source, options) {
-    var errors = [];
-    if(!/^[a-z0-9]+$/.test(value)) {
-      errors.push(
-        new Error(
-          util.format("%s must be lowercase alphanumeric characters",
-            rule.field)));
+    const errors = [];
+    if (!/^[a-z0-9]+$/.test(value)) {
+      errors.push(new Error(
+        util.format('%s must be lowercase alphanumeric characters', rule.field),
+      ));
     }
     return errors;
-  }
-}
-var validator = new schema(descriptor);
-validator.validate({name: "Firstname"}, (errors, fields) => {
-  if(errors) {
+  },
+};
+const validator = new Schema(descriptor);
+validator.validate({ name: 'Firstname' }, (errors, fields) => {
+  if (errors) {
     return handleErrors(errors, fields);
   }
   // validation passed
@@ -142,18 +140,20 @@ validator.validate({name: "Firstname"}, (errors, fields) => {
 
 It is often useful to test against multiple validation rules for a single field, to do so make the rule an array of objects, for example:
 
-```javascript
-var descriptor = {
+```js
+const descriptor = {
   email: [
-    {type: "string", required: true, pattern: schema.pattern.email},
-    {validator(rule, value, callback, source, options) {
-      var errors = [];
-      // test if email address already exists in a database
-      // and add a validation error to the errors array if it does
-      return errors;
-    }}
-  ]
-}
+    { type: 'string', required: true, pattern: Schema.pattern.email },
+    { 
+      validator(rule, value, callback, source, options) {
+        const errors = [];
+        // test if email address already exists in a database
+        // and add a validation error to the errors array if it does
+        return errors;
+      },
+    },
+  ],
+};
 ```
 
 #### Type
@@ -200,10 +200,10 @@ If the `len` property is combined with the `min` and `max` range properties, `le
 
 To validate a value from a list of possible values use the `enum` type with a `enum` property listing the valid values for the field, for example:
 
-```javascript
-var descriptor = {
-  role: {type: "enum", enum: ['admin', 'user', 'guest']}
-}
+```js
+const descriptor = {
+  role: { type: 'enum', enum: ['admin', 'user', 'guest'] },
+};
 ```
 
 #### Whitespace
@@ -217,19 +217,20 @@ You may wish to sanitize user input instead of testing for whitespace, see [tran
 
 If you need to validate deep object properties you may do so for validation rules that are of the `object` or `array` type by assigning nested rules to a `fields` property of the rule.
 
-```javascript
-var descriptor = {
+```js
+const descriptor = {
   address: {
-    type: "object", required: true,
+    type: 'object',
+    required: true,
     fields: {
-      street: {type: "string", required: true},
-      city: {type: "string", required: true},
-      zip: {type: "string", required: true, len: 8, message: "invalid zip"}
-    }
+      street: { type: 'string', required: true },
+      city: { type: 'string', required: true },
+      zip: { type: 'string', required: true, len: 8, message: 'invalid zip' },
+    },
   },
-  name: {type: "string", required: true}
-}
-var validator = new schema(descriptor);
+  name: { type: 'string', required: true },
+};
+const validator = new Schema(descriptor);
 validator.validate({ address: {} }, (errors, fields) => {
   // errors for address.street, address.city, address.zip
 });
@@ -239,19 +240,21 @@ Note that if you do not specify the `required` property on the parent rule it is
 
 Deep rule validation creates a schema for the nested rules so you can also specify the `options` passed to the `schema.validate()` method.
 
-```javascript
-var descriptor = {
+```js
+const descriptor = {
   address: {
-    type: "object", required: true, options: {first: true},
+    type: 'object',
+    required: true,
+    options: { first: true },
     fields: {
-      street: {type: "string", required: true},
-      city: {type: "string", required: true},
-      zip: {type: "string", required: true, len: 8, message: "invalid zip"}
-    }
+      street: { type: 'string', required: true },
+      city: { type: 'string', required: true },
+      zip: { type: 'string', required: true, len: 8, message: 'invalid zip' },
+    },
   },
-  name: {type: "string", required: true}
-}
-var validator = new schema(descriptor);
+  name: { type: 'string', required: true },
+};
+const validator = new Schema(descriptor);
 
 validator.validate({ address: {} })
   .catch(({ errors, fields }) => {
@@ -261,33 +264,36 @@ validator.validate({ address: {} })
 
 The parent rule is also validated so if you have a set of rules such as:
 
-```javascript
-var descriptor = {
+```js
+const descriptor = {
   roles: {
-    type: "array", required: true, len: 3,
+    type: 'array',
+    required: true,
+    len: 3,
     fields: {
-      0: {type: "string", required: true},
-      1: {type: "string", required: true},
-      2: {type: "string", required: true}
-    }
-  }
-}
+      0: { type: 'string', required: true },
+      1: { type: 'string', required: true },
+      2: { type: 'string', required: true },
+    },
+  },
+};
 ```
 
-And supply a source object of `{roles: ["admin", "user"]}` then two errors will be created. One for the array length mismatch and one for the missing required array entry at index 2.
+And supply a source object of `{ roles: ['admin', 'user'] }` then two errors will be created. One for the array length mismatch and one for the missing required array entry at index 2.
 
 #### defaultField
 
 The `defaultField` property can be used with the `array` or `object` type for validating all values of the container.
 It may be an `object` or `array` containing validation rules. For example:
 
-```javascript
-var descriptor = {
+```js
+const descriptor = {
   urls: {
-    type: "array", required: true,
-    defaultField: {type: "url"}
-  }
-}
+    type: 'array',
+    required: true,
+    defaultField: { type: 'url' },
+  },
+};
 ```
 
 Note that `defaultField` is expanded to `fields`, see [deep rules](#deep-rules).
@@ -296,21 +302,22 @@ Note that `defaultField` is expanded to `fields`, see [deep rules](#deep-rules).
 
 Sometimes it is necessary to transform a value before validation, possibly to coerce the value or to sanitize it in some way. To do this add a `transform` function to the validation rule. The property is transformed prior to validation and re-assigned to the source object to mutate the value of the property in place.
 
-```javascript
-import schema from 'async-validator';
-var descriptor = {
+```js
+import Schema from 'async-validator';
+const descriptor = {
   name: {
-    type: "string",
-    required: true, pattern: /^[a-z]+$/,
+    type: 'string',
+    required: true,
+    pattern: /^[a-z]+$/,
     transform(value) {
       return value.trim();
-    }
-  }
-}
-var validator = new schema(descriptor);
-var source = {name: " user  "};
+    },
+  },
+};
+const validator = new Schema(descriptor);
+const source = { name: ' user  ' };
 validator.validate(source)
-  .then(() => assert.equal(source.name, "user"));
+  .then(() => assert.equal(source.name, 'user'));
 ```
 
 Without the `transform` function validation would fail due to the pattern not matching as the input contains leading and trailing whitespace, but by adding the transform function validation passes and the field value is sanitized at the same time.
@@ -322,32 +329,32 @@ Depending upon your application requirements, you may need i18n support or you m
 
 The easiest way to achieve this is to assign a `message` to a rule:
 
-```javascript
-{name:{type: "string", required: true, message: "Name is required"}}
+```js
+{ name: { type: 'string', required: true, message: 'Name is required' } }
 ```
 
 Message can be any type, such as jsx format.
 
-```javascript
-{name:{type: "string", required: true, message: "<b>Name is required</b>"}}
+```js
+{ name: { type: 'string', required: true, message: '<b>Name is required</b>' } }
 ```
 
 Message can also be a function, e.g. if you use vue-i18n:
-```javascript
-{name:{type: "string", required: true, message: () => this.$t( 'name is required' )}}
+```js
+{ name: { type: 'string', required: true, message: () => this.$t( 'name is required' ) } }
 ```
 
 Potentially you may require the same schema validation rules for different languages, in which case duplicating the schema rules for each language does not make sense.
 
 In this scenario you could just provide your own messages for the language and assign it to the schema:
 
-```javascript
-import schema from 'async-validator';
-var cn = {
+```js
+import Schema from 'async-validator';
+const cn = {
   required: '%s 必填',
 };
-var descriptor = {name:{type: "string", required: true}};
-var validator = new schema(descriptor);
+const descriptor = { name: { type: 'string', required: true } };
+const validator = new Schema(descriptor);
 // deep merge with defaultMessages
 validator.messages(cn);
 ...
@@ -365,29 +372,29 @@ const fields = {
     asyncValidator(rule, value, callback) {
       ajax({
         url: 'xx',
-        value: value
+        value: value,
       }).then(function(data) {
         callback();
       }, function(error) {
-        callback(new Error(error))
+        callback(new Error(error));
       });
-    }
+    },
   },
 
   promiseField: {
     asyncValidator(rule, value) {
       return ajax({
         url: 'xx',
-        value: value
+        value: value,
       });
-    }
-  }
+    },
+  },
 };
 ```
 
 #### validator
 
-you can custom validate function for specified field:
+You can custom validate function for specified field:
 
 ```js
 const fields = {
@@ -400,7 +407,7 @@ const fields = {
 
   field2: {
     validator(rule, value, callback) {
-      return new Error(`'${value} is not equal to "test".'`);
+      return new Error(`${value} is not equal to 'test'.`);
     },
   },
  
@@ -410,7 +417,7 @@ const fields = {
         new Error('Message 1'),
         new Error('Message 2'),
       ];
-    }
+    },
   },
 };
 ```
@@ -438,18 +445,18 @@ Use `enum` type passing `true` as option.
 
 ## Test Case
 
-```
+```bash
 npm test
 npm run chrome-test
 ```
 
 ## Coverage
 
-```
+```bash
 npm run coverage
 ```
 
-open coverage/ dir
+Open coverage/ dir
 
 ## License
 
