@@ -34,11 +34,7 @@ const types = {
     }
   },
   date(value) {
-    return (
-      typeof value.getTime === 'function' &&
-      typeof value.getMonth === 'function' &&
-      typeof value.getYear === 'function'
-    );
+    return value.toString() !== 'Invalid Date';
   },
   number(value) {
     if (isNaN(value)) {
