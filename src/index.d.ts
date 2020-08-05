@@ -48,7 +48,7 @@ export interface RuleItem {
   whitespace?: boolean;
   fields?: Rules; // ignore when without required
   options?: ValidateOption;
-  defaultField?: { type: RuleType }; // 'object' or 'array' containing validation rules
+  defaultField?: RuleItem; // 'object' or 'array' containing validation rules
   transform?: (value: any) => any;
   message?: string;
   asyncValidator?: (
