@@ -161,7 +161,7 @@ Schema.prototype = {
           if (!options.suppressWarning && errors.length) {
             Schema.warning('async-validator:', errors);
           }
-          if (errors.length && rule.message) {
+          if (errors.length && rule.message !== undefined) {
             errors = [].concat(rule.message);
           }
 
@@ -178,7 +178,7 @@ Schema.prototype = {
             // does not exist fail at the rule level and don't
             // go deeper
             if (rule.required && !data.value) {
-              if (rule.message) {
+              if (rule.message !== undefined) {
                 errors = [].concat(rule.message).map(complementError(rule));
               } else if (options.error) {
                 errors = [
@@ -263,7 +263,8 @@ Schema.prototype = {
     }
     if (
       typeof rule.validator !== 'function' &&
-      rule.type && !validators.hasOwnProperty(rule.type)
+      rule.type &&
+      !validators.hasOwnProperty(rule.type)
     ) {
       throw new Error(format('Unknown rule type %s', rule.type));
     }
@@ -299,6 +300,5 @@ Schema.warning = warning;
 Schema.messages = defaultMessages;
 
 Schema.validators = validators;
-
 
 export default Schema;

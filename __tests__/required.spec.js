@@ -188,4 +188,22 @@ describe('required', () => {
       },
     );
   });
+
+  it('should support empty string message', done => {
+    new Schema({
+      v: {
+        required,
+        message: '',
+      },
+    }).validate(
+      {
+        v: '',
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('');
+        done();
+      },
+    );
+  });
 });
