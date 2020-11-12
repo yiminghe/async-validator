@@ -44,19 +44,27 @@ describe('validator', () => {
             return true;
           },
         },
+        // Customize with empty message
+        {
+          validator() {
+            return false;
+          },
+          message: '',
+        },
       ],
     }).validate(
       {
         v: 2,
       },
       errors => {
-        expect(errors.length).toBe(6);
+        expect(errors.length).toBe(7);
         expect(errors[0].message).toBe('e1');
         expect(errors[1].message).toBe('e2');
         expect(errors[2].message).toBe('e3');
         expect(errors[3].message).toBe('v3 fails');
         expect(errors[4].message).toBe('e5');
         expect(errors[5].message).toBe('e6');
+        expect(errors[6].message).toBe('');
         done();
       },
     );
