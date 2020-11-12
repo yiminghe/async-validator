@@ -1,6 +1,10 @@
 # History
 ----
 
+## 3.5.0 / 2020-11-12
+
+- https://github.com/yiminghe/async-validator/pull/256/files
+
 ## 3.4.0 / 2020-08-05
 
 - https://github.com/yiminghe/async-validator/pull/247
