@@ -123,4 +123,42 @@ describe('array', () => {
       },
     );
   });
+
+  it('works for empty array with min', done => {
+    new Schema({
+      v: {
+        min: 1,
+        max: 3,
+        type: 'array',
+      },
+    }).validate(
+      {
+        v: [],
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('v must be between 1 and 3 in length');
+        done();
+      },
+    );
+  });
+
+  it('works for empty array with max', done => {
+    new Schema({
+      v: {
+        min: 1,
+        max: 3,
+        type: 'array',
+      },
+    }).validate(
+      {
+        v: [1, 2, 3, 4],
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('v must be between 1 and 3 in length');
+        done();
+      },
+    );
+  });
 });
