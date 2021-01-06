@@ -163,7 +163,10 @@ export function asyncMap(objArr, option, func, callback) {
       const flattenArr = flattenObjArr(objArr);
       asyncSerialArray(flattenArr, func, next);
     });
-    pending.catch(e => e);
+    pending.catch(e => {
+      console.error(e);
+      return e;
+    });
     return pending;
   }
   let firstFields = option.firstFields || [];
@@ -200,7 +203,10 @@ export function asyncMap(objArr, option, func, callback) {
       }
     });
   });
-  pending.catch(e => e);
+  pending.catch(e => {
+    console.error(e);
+    return e;
+  });
   return pending;
 }
 
