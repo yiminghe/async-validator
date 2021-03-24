@@ -64,7 +64,7 @@ export interface RuleItem {
     callback: (error: string | string[] | void) => void,
     source: ValidateSource,
     options: ValidateOption,
-  ) => void;
+  ) => boolean | Error | Error[];
 }
 
 export interface Rules {
