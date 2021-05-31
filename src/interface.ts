@@ -70,7 +70,7 @@ export interface RuleItem {
 
 export type Rule = RuleItem | RuleItem[];
 
-export type Rules = Record<string, Rule>;
+export type Rules = Record<string, RuleItem>;
 
 // >>>>> Message
 type ValidateMessage = string | (() => string);

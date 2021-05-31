@@ -231,7 +231,7 @@ class Schema {
               return doIt(filledErrors);
             }
 
-            let fieldsSchema: Record<string, any> = {};
+            let fieldsSchema: Record<string, RuleItem> = {};
             if (rule.defaultField) {
               Object.keys(data.value).map(key => {
                 fieldsSchema[key] = rule.defaultField;
@@ -241,14 +241,16 @@ class Schema {
               ...fieldsSchema,
               ...data.rule.fields,
             };
-            for (const f in fieldsSchema) {
-              if (fieldsSchema.hasOwnProperty(f)) {
-                const fieldSchema = Array.isArray(fieldsSchema[f])
-                  ? fieldsSchema[f]
-                  : [fieldsSchema[f]];
-                fieldsSchema[f] = fieldSchema.map(addFullField.bind(null, f));
-              }
-            }
+
+            Object.keys(fieldsSchema).forEach(field => {
+              const fieldSchema = fieldsSchema[field];
+              const fieldSchemaList = Array.isArray(fieldSchema)
+                ? fieldSchema
+                : [fieldSchema];
+              fieldsSchema[field] = fieldSchemaList.map(
+                addFullField.bind(null, field),
+              );
+            });
             const schema = new Schema(fieldsSchema);
             schema.messages(options.messages);
             if (data.rule.options) {
