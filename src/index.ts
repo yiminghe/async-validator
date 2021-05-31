@@ -19,6 +19,8 @@ import {
   ValidateOption,
   Values,
   RuleValuePackage,
+  ValidateError,
+  ValidateFieldsError,
 } from './interface';
 
 /**
@@ -78,12 +80,11 @@ class Schema {
     source: Values,
     option: ValidateOption,
     callback: ValidateCallback,
-  ): Promise<any>;
-  validate(source: Values, callback: ValidateCallback): Promise<any>;
-  validate(source: Values): Promise<any>;
+  ): Promise<void>;
+  validate(source: Values, callback: ValidateCallback): Promise<void>;
+  validate(source: Values): Promise<void>;
 
-  // TODO: Fix Promise type
-  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<any> {
+  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<void> {
     let source: Values = source_;
     let options: ValidateOption = o;
     let callback: ValidateCallback = oc;
@@ -98,12 +99,11 @@ class Schema {
       return Promise.resolve();
     }
 
-    function complete(results) {
-      let i;
-      let errors = [];
-      let fields = {};
+    function complete(results: (ValidateError | ValidateError[])[]) {
+      let errors: ValidateError[] = [];
+      let fields: ValidateFieldsError = {};
 
-      function add(e) {
+      function add(e: ValidateError | ValidateError[]) {
         if (Array.isArray(e)) {
           errors = errors.concat(...e);
         } else {
@@ -111,7 +111,7 @@ class Schema {
         }
       }
 
-      for (i = 0; i < results.length; i++) {
+      for (let i = 0; i < results.length; i++) {
         add(results[i]);
       }
       if (!errors.length) {

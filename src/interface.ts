@@ -132,11 +132,14 @@ export type Values = any;
 
 // >>>>> Validate
 export interface ValidateError {
+  message: string;
   field: string;
 }
 
+export type ValidateFieldsError = Record<string, ValidateError[]>;
+
 export type ValidateCallback = (
-  errors?: string[],
+  errors?: ValidateError[],
   fields?: Record<string, ValidateError[]>,
 ) => void;
 
