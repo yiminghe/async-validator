@@ -154,13 +154,16 @@ class Schema {
         } else {
           rule = { ...rule };
         }
+
+        // Fill validator. Skip if nothing need to validate
         rule.validator = this.getValidationMethod(rule);
-        rule.field = z;
-        rule.fullField = rule.fullField || z;
-        rule.type = this.getType(rule);
         if (!rule.validator) {
           return;
         }
+
+        rule.field = z;
+        rule.fullField = rule.fullField || z;
+        rule.type = this.getType(rule);
         series[z] = series[z] || [];
         series[z].push({
           rule,
@@ -295,7 +298,7 @@ class Schema {
     );
   }
 
-  getType(rule) {
+  getType(rule: RuleItem) {
     if (rule.type === undefined && rule.pattern instanceof RegExp) {
       rule.type = 'pattern';
     }
@@ -309,7 +312,7 @@ class Schema {
     return rule.type || 'string';
   }
 
-  getValidationMethod(rule) {
+  getValidationMethod(rule: RuleItem) {
     if (typeof rule.validator === 'function') {
       return rule.validator;
     }
@@ -321,7 +324,7 @@ class Schema {
     if (keys.length === 1 && keys[0] === 'required') {
       return validators.required;
     }
-    return validators[this.getType(rule)] || false;
+    return validators[this.getType(rule)] || undefined;
   }
 }
 

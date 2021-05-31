@@ -15,6 +15,7 @@ export type RuleType =
   | 'url'
   | 'hex'
   | 'email'
+  | 'pattern'
   | 'any';
 
 export type ValidateSource = Record<string, any>;
@@ -34,7 +35,7 @@ export interface ValidateOption {
   /** The name of rules need to be trigger. Will validate all rules if leave empty */
   keys?: string[];
 
-  error?: (rule: Rule, message: string) => string;
+  error?: (rule: InternalRuleItem, message: string) => string;
 }
 
 export interface RuleItem {
