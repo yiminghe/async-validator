@@ -186,7 +186,7 @@ class Schema {
         deep = deep && (rule.required || (!rule.required && data.value));
         rule.field = data.field;
 
-        function addFullfield(key, schema) {
+        function addFullField(key: string, schema) {
           return {
             ...schema,
             fullField: `${rule.fullField}.${key}`,
@@ -194,41 +194,41 @@ class Schema {
         }
 
         function cb(e: string | string[] = []) {
-          let errors = e;
-          if (!Array.isArray(errors)) {
-            errors = [errors];
+          let errorList = Array.isArray(e) ? e : [e];
+          if (!options.suppressWarning && errorList.length) {
+            Schema.warning('async-validator:', errorList);
           }
-          if (!options.suppressWarning && errors.length) {
-            Schema.warning('async-validator:', errors);
-          }
-          if (errors.length && rule.message !== undefined) {
-            errors = [].concat(rule.message);
+          if (errorList.length && rule.message !== undefined) {
+            errorList = [].concat(rule.message);
           }
 
-          errors = errors.map(complementError(rule));
+          // Fill error info
+          let filledErrors = errorList.map(complementError(rule));
 
-          if (options.first && errors.length) {
+          if (options.first && filledErrors.length) {
             errorFields[rule.field] = 1;
-            return doIt(errors);
+            return doIt(filledErrors);
           }
           if (!deep) {
-            doIt(errors);
+            doIt(filledErrors);
           } else {
             // if rule is required but the target object
             // does not exist fail at the rule level and don't
             // go deeper
             if (rule.required && !data.value) {
               if (rule.message !== undefined) {
-                errors = [].concat(rule.message).map(complementError(rule));
+                filledErrors = []
+                  .concat(rule.message)
+                  .map(complementError(rule));
               } else if (options.error) {
-                errors = [
+                filledErrors = [
                   options.error(
                     rule,
                     format(options.messages.required, rule.field),
                   ),
                 ];
               }
-              return doIt(errors);
+              return doIt(filledErrors);
             }
 
             let fieldsSchema = {};
@@ -248,7 +248,7 @@ class Schema {
                 const fieldSchema = Array.isArray(fieldsSchema[f])
                   ? fieldsSchema[f]
                   : [fieldsSchema[f]];
-                fieldsSchema[f] = fieldSchema.map(addFullfield.bind(null, f));
+                fieldsSchema[f] = fieldSchema.map(addFullField.bind(null, f));
               }
             }
             const schema = new Schema(fieldsSchema);
@@ -259,8 +259,8 @@ class Schema {
             }
             schema.validate(data.value, data.rule.options || options, errs => {
               const finalErrors = [];
-              if (errors && errors.length) {
-                finalErrors.push(...errors);
+              if (filledErrors && filledErrors.length) {
+                finalErrors.push(...filledErrors);
               }
               if (errs && errs.length) {
                 finalErrors.push(...errs);

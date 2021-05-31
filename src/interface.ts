@@ -35,7 +35,7 @@ export interface ValidateOption {
   /** The name of rules need to be trigger. Will validate all rules if leave empty */
   keys?: string[];
 
-  error?: (rule: InternalRuleItem, message: string) => string;
+  error?: (rule: InternalRuleItem, message: string) => ValidateError;
 }
 
 export interface RuleItem {
@@ -55,14 +55,14 @@ export interface RuleItem {
   asyncValidator?: (
     rule: InternalRuleItem,
     value: any,
-    callback: (error?: string | string[]) => void,
+    callback: (error?: string) => void,
     source: ValidateSource,
     options: ValidateOption,
   ) => void | Promise<void>;
   validator?: (
     rule: InternalRuleItem,
     value: any,
-    callback: (error?: string | string[]) => void,
+    callback: (error?: string) => void,
     source: ValidateSource,
     options: ValidateOption,
   ) => boolean | Error | Error[];
@@ -132,8 +132,8 @@ export type Values = any;
 
 // >>>>> Validate
 export interface ValidateError {
-  message: string;
-  field: string;
+  message?: string;
+  field?: string;
 }
 
 export type ValidateFieldsError = Record<string, ValidateError[]>;

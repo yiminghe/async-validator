@@ -1,6 +1,11 @@
 /* eslint no-console:0 */
 
-import { ValidateError, ValidateOption, RuleValuePackage } from './interface';
+import {
+  ValidateError,
+  ValidateOption,
+  RuleValuePackage,
+  InternalRuleItem,
+} from './interface';
 
 const formatRegExp = /%[sdj%]/g;
 
@@ -166,7 +171,10 @@ export class AsyncValidationError extends Error {
 export function asyncMap(
   objArr: Record<string, RuleValuePackage[]>,
   option: ValidateOption,
-  func: (data: RuleValuePackage, doIt: (errors: string[]) => void) => void,
+  func: (
+    data: RuleValuePackage,
+    doIt: (errors: ValidateError[]) => void,
+  ) => void,
   callback: (errors: ValidateError[]) => void,
 ): Promise<void> {
   if (option.first) {
@@ -222,15 +230,22 @@ export function asyncMap(
   return pending;
 }
 
-export function complementError(rule) {
-  return oe => {
-    if (oe && oe.message) {
+function isErrorObj(
+  obj: ValidateError | string | (() => string),
+): obj is ValidateError {
+  return !!(obj && (obj as ValidateError).message);
+}
+
+export function complementError(rule: InternalRuleItem) {
+  return (oe: ValidateError | (() => string) | string): ValidateError => {
+    if (isErrorObj(oe)) {
       oe.field = oe.field || rule.fullField;
       return oe;
     }
+
     return {
       message: typeof oe === 'function' ? oe() : oe,
-      field: oe.field || rule.fullField,
+      field: ((oe as unknown) as ValidateError).field || rule.fullField,
     };
   };
 }
