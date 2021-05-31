@@ -1,4 +1,4 @@
-import rules from '../rule/index.js';
+import rules from '../rule';
 import { isEmptyValue } from '../util';
 
 function type(rule, value, callback, source, options) {

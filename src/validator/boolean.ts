@@ -1,5 +1,5 @@
 import { isEmptyValue } from '../util';
-import rules from '../rule/index.js';
+import rules from '../rule';
 
 /**
  *  Validates a boolean.

@@ -1,4 +1,4 @@
-import rules from '../rule/index.js';
+import rules from '../rule';
 
 function required(rule, value, callback, source, options) {
   const errors = [];
