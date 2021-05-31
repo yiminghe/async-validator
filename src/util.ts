@@ -36,15 +36,17 @@ export function convertFieldsError(
   return fields;
 }
 
-export function format(...args) {
-  let i = 1;
-  const f = args[0];
+export function format(
+  template: ((...args: any[]) => string) | string,
+  ...args: any[]
+): string {
+  let i = 0;
   const len = args.length;
-  if (typeof f === 'function') {
-    return f.apply(null, args.slice(1));
+  if (typeof template === 'function') {
+    return template.apply(null, args);
   }
-  if (typeof f === 'string') {
-    let str = String(f).replace(formatRegExp, x => {
+  if (typeof template === 'string') {
+    let str = template.replace(formatRegExp, x => {
       if (x === '%%') {
         return '%';
       }
@@ -55,7 +57,7 @@ export function format(...args) {
         case '%s':
           return String(args[i++]);
         case '%d':
-          return Number(args[i++]);
+          return (Number(args[i++]) as unknown) as string;
         case '%j':
           try {
             return JSON.stringify(args[i++]);
@@ -69,7 +71,7 @@ export function format(...args) {
     });
     return str;
   }
-  return f;
+  return template;
 }
 
 function isNativeStringType(type) {
@@ -148,7 +150,10 @@ function flattenObjArr(objArr) {
 }
 
 export class AsyncValidationError extends Error {
-  constructor(errors, fields) {
+  errors: string[];
+  fields: Record<string, ValidateError[]>;
+
+  constructor(errors: string[], fields: Record<string, ValidateError[]>) {
     super('Async Validation Error');
     this.errors = errors;
     this.fields = fields;

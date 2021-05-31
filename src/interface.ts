@@ -33,6 +33,8 @@ export interface ValidateOption {
 
   /** The name of rules need to be trigger. Will validate all rules if leave empty */
   keys?: string[];
+
+  error?: (rule: Rule, message: string) => string;
 }
 
 export interface RuleItem {

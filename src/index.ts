@@ -76,11 +76,12 @@ class Schema {
     source: Values,
     option: ValidateOption,
     callback: ValidateCallback,
-  ): Promise<void>;
-  validate(source: Values, callback: ValidateCallback): Promise<void>;
-  validate(source: Values): Promise<void>;
+  ): Promise<any>;
+  validate(source: Values, callback: ValidateCallback): Promise<any>;
+  validate(source: Values): Promise<any>;
 
-  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<void> {
+  // TODO: Fix Promise type
+  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<any> {
     let source: Values = source_;
     let options: ValidateOption = o;
     let callback: ValidateCallback = oc;
@@ -188,7 +189,7 @@ class Schema {
           };
         }
 
-        function cb(e = []) {
+        function cb(e: string | string[] = []) {
           let errors = e;
           if (!Array.isArray(errors)) {
             errors = [errors];
