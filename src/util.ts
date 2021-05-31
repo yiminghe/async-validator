@@ -217,7 +217,7 @@ export function complementError(rule) {
   };
 }
 
-export function deepMerge(target, source) {
+export function deepMerge<T extends object>(target: T, source: T): T {
   if (source) {
     for (const s in source) {
       if (source.hasOwnProperty(s)) {

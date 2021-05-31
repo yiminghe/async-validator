@@ -8,6 +8,7 @@ import {
 } from './util';
 import validators from './validator/index';
 import { messages as defaultMessages, newMessages } from './messages';
+import { ValidateMessages } from './interface';
 
 /**
  *  Encapsulates a validation schema.
@@ -22,7 +23,7 @@ function Schema(descriptor) {
 }
 
 Schema.prototype = {
-  messages(messages) {
+  messages(messages: ValidateMessages) {
     if (messages) {
       this._messages = deepMerge(newMessages(), messages);
     }
@@ -286,7 +287,7 @@ Schema.prototype = {
   },
 };
 
-Schema.register = function register(type, validator) {
+Schema.register = function register(type: string, validator) {
   if (typeof validator !== 'function') {
     throw new Error(
       'Cannot register a validator by type, validator is not a function',
