@@ -231,13 +231,11 @@ class Schema {
               return doIt(filledErrors);
             }
 
-            let fieldsSchema = {};
+            let fieldsSchema: Record<string, any> = {};
             if (rule.defaultField) {
-              for (const k in data.value) {
-                if (data.value.hasOwnProperty(k)) {
-                  fieldsSchema[k] = rule.defaultField;
-                }
-              }
+              Object.keys(data.value).map(key => {
+                fieldsSchema[key] = rule.defaultField;
+              });
             }
             fieldsSchema = {
               ...fieldsSchema,
