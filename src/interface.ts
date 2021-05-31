@@ -47,7 +47,7 @@ export interface RuleItem {
   len?: number; // Length of type 'string' and 'array'
   enum?: Array<string | number | boolean | null | undefined>; // possible values of type 'enum'
   whitespace?: boolean;
-  fields?: Rules; // ignore when without required
+  fields?: Record<string, RuleItem>; // ignore when without required
   options?: ValidateOption;
   defaultField?: RuleItem; // 'object' or 'array' containing validation rules
   transform?: (value: any) => any;
@@ -70,7 +70,7 @@ export interface RuleItem {
 
 export type Rule = RuleItem | RuleItem[];
 
-export type Rules = Record<string, RuleItem>;
+export type Rules = Record<string, Rule>;
 
 // >>>>> Message
 type ValidateMessage = string | (() => string);

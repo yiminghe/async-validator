@@ -242,16 +242,18 @@ class Schema {
               ...data.rule.fields,
             };
 
+            const paredFieldsSchema: Record<string, RuleItem[]> = {};
+
             Object.keys(fieldsSchema).forEach(field => {
               const fieldSchema = fieldsSchema[field];
               const fieldSchemaList = Array.isArray(fieldSchema)
                 ? fieldSchema
                 : [fieldSchema];
-              fieldsSchema[field] = fieldSchemaList.map(
+              paredFieldsSchema[field] = fieldSchemaList.map(
                 addFullField.bind(null, field),
               );
             });
-            const schema = new Schema(fieldsSchema);
+            const schema = new Schema(paredFieldsSchema);
             schema.messages(options.messages);
             if (data.rule.options) {
               data.rule.options.messages = options.messages;
