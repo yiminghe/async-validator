@@ -8,7 +8,7 @@ import {
 } from './util';
 import validators from './validator/index';
 import { messages as defaultMessages, newMessages } from './messages';
-import { ValidateMessages } from './interface';
+import { InternalValidateMessages, ValidateMessages } from './interface';
 
 /**
  *  Encapsulates a validation schema.
@@ -16,19 +16,38 @@ import { ValidateMessages } from './interface';
  *  @param descriptor An object declaring validation rules
  *  for this schema.
  */
-function Schema(descriptor) {
-  this.rules = null;
-  this._messages = defaultMessages;
-  this.define(descriptor);
-}
+class Schema {
+  // ========================= Static =========================
+  static register = function register(type: string, validator) {
+    if (typeof validator !== 'function') {
+      throw new Error(
+        'Cannot register a validator by type, validator is not a function',
+      );
+    }
+    validators[type] = validator;
+  };
 
-Schema.prototype = {
+  static warning = warning;
+
+  static messages = defaultMessages;
+
+  static validators = validators;
+
+  // ======================== Instance =========F===============
+  rules = null;
+  _messages: InternalValidateMessages = defaultMessages;
+
+  constructor(descriptor) {
+    this.define(descriptor);
+  }
+
   messages(messages: ValidateMessages) {
     if (messages) {
       this._messages = deepMerge(newMessages(), messages);
     }
     return this._messages;
-  },
+  }
+
   define(rules) {
     if (!rules) {
       throw new Error('Cannot configure a schema with no rules');
@@ -45,7 +64,8 @@ Schema.prototype = {
         this.rules[z] = Array.isArray(item) ? item : [item];
       }
     }
-  },
+  }
+
   validate(source_, o = {}, oc = () => {}) {
     let source = source_;
     let options = o;
@@ -257,7 +277,8 @@ Schema.prototype = {
         complete(results);
       },
     );
-  },
+  }
+
   getType(rule) {
     if (rule.type === undefined && rule.pattern instanceof RegExp) {
       rule.type = 'pattern';
@@ -270,7 +291,8 @@ Schema.prototype = {
       throw new Error(format('Unknown rule type %s', rule.type));
     }
     return rule.type || 'string';
-  },
+  }
+
   getValidationMethod(rule) {
     if (typeof rule.validator === 'function') {
       return rule.validator;
@@ -284,22 +306,7 @@ Schema.prototype = {
       return validators.required;
     }
     return validators[this.getType(rule)] || false;
-  },
-};
-
-Schema.register = function register(type: string, validator) {
-  if (typeof validator !== 'function') {
-    throw new Error(
-      'Cannot register a validator by type, validator is not a function',
-    );
   }
-  validators[type] = validator;
-};
-
-Schema.warning = warning;
-
-Schema.messages = defaultMessages;
-
-Schema.validators = validators;
+}
 
 export default Schema;
