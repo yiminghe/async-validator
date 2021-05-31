@@ -82,7 +82,7 @@ export function format(
   return template;
 }
 
-function isNativeStringType(type: RuleType) {
+function isNativeStringType(type: string) {
   return (
     type === 'string' ||
     type === 'url' ||
@@ -93,7 +93,7 @@ function isNativeStringType(type: RuleType) {
   );
 }
 
-export function isEmptyValue(value: Value, type?: RuleType) {
+export function isEmptyValue(value: Value, type?: string) {
   if (value === undefined || value === null) {
     return true;
   }

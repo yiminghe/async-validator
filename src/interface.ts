@@ -192,7 +192,8 @@ export interface RuleValuePackage {
   field: string;
 }
 
-export interface InternalRuleItem extends RuleItem {
+export interface InternalRuleItem extends Omit<RuleItem, 'validator'> {
   field?: string;
   fullField?: string;
+  validator?: RuleItem['validator'] | ExecuteValidator;
 }

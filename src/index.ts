@@ -302,7 +302,7 @@ class Schema {
     );
   }
 
-  getType(rule: RuleItem) {
+  getType(rule: InternalRuleItem) {
     if (rule.type === undefined && rule.pattern instanceof RegExp) {
       rule.type = 'pattern';
     }
@@ -316,7 +316,7 @@ class Schema {
     return rule.type || 'string';
   }
 
-  getValidationMethod(rule: RuleItem) {
+  getValidationMethod(rule: InternalRuleItem) {
     if (typeof rule.validator === 'function') {
       return rule.validator;
     }
