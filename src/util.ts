@@ -1,6 +1,6 @@
 /* eslint no-console:0 */
 
-import { ValidateError } from './interface';
+import { ValidateError, ValidateOption, RuleValuePackage } from './interface';
 
 const formatRegExp = /%[sdj%]/g;
 
@@ -150,20 +150,28 @@ function flattenObjArr(objArr) {
 }
 
 export class AsyncValidationError extends Error {
-  errors: string[];
+  errors: ValidateError[];
   fields: Record<string, ValidateError[]>;
 
-  constructor(errors: string[], fields: Record<string, ValidateError[]>) {
+  constructor(
+    errors: ValidateError[],
+    fields: Record<string, ValidateError[]>,
+  ) {
     super('Async Validation Error');
     this.errors = errors;
     this.fields = fields;
   }
 }
 
-export function asyncMap(objArr, option, func, callback) {
+export function asyncMap(
+  objArr: Record<string, RuleValuePackage[]>,
+  option: ValidateOption,
+  func: (data: RuleValuePackage, doIt: (errors: string[]) => void) => void,
+  callback: (errors: ValidateError[]) => void,
+): Promise<void> {
   if (option.first) {
-    const pending = new Promise((resolve, reject) => {
-      const next = errors => {
+    const pending = new Promise<void>((resolve, reject) => {
+      const next = (errors: ValidateError[]) => {
         callback(errors);
         return errors.length
           ? reject(new AsyncValidationError(errors, convertFieldsError(errors)))
@@ -175,16 +183,17 @@ export function asyncMap(objArr, option, func, callback) {
     pending.catch(e => e);
     return pending;
   }
-  let firstFields = option.firstFields || [];
-  if (firstFields === true) {
-    firstFields = Object.keys(objArr);
-  }
+  const firstFields =
+    option.firstFields === true
+      ? Object.keys(objArr)
+      : option.firstFields || [];
+
   const objArrKeys = Object.keys(objArr);
   const objArrLength = objArrKeys.length;
   let total = 0;
-  const results = [];
-  const pending = new Promise((resolve, reject) => {
-    const next = errors => {
+  const results: ValidateError[] = [];
+  const pending = new Promise<void>((resolve, reject) => {
+    const next = (errors: string[]) => {
       results.push.apply(results, errors);
       total++;
       if (total === objArrLength) {

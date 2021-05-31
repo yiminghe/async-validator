@@ -50,18 +50,18 @@ export interface RuleItem {
   options?: ValidateOption;
   defaultField?: RuleItem; // 'object' or 'array' containing validation rules
   transform?: (value: any) => any;
-  message?: string | (() => string);
+  message?: string;
   asyncValidator?: (
-    rule: Rules,
+    rule: InternalRuleItem,
     value: any,
-    callback: (error: string | string[] | void) => void,
+    callback: (error?: string | string[]) => void,
     source: ValidateSource,
     options: ValidateOption,
   ) => void | Promise<void>;
   validator?: (
-    rule: Rules,
+    rule: InternalRuleItem,
     value: any,
-    callback: (error: string | string[] | void) => void,
+    callback: (error?: string | string[]) => void,
     source: ValidateSource,
     options: ValidateOption,
   ) => boolean | Error | Error[];
@@ -138,3 +138,15 @@ export type ValidateCallback = (
   errors?: string[],
   fields?: Record<string, ValidateError[]>,
 ) => void;
+
+export interface RuleValuePackage {
+  rule: InternalRuleItem;
+  value: any;
+  source: Values;
+  field: string;
+}
+
+export interface InternalRuleItem extends RuleItem {
+  field?: string;
+  fullField?: string;
+}

@@ -9,6 +9,7 @@ import {
 import validators from './validator/index';
 import { messages as defaultMessages, newMessages } from './messages';
 import {
+  InternalRuleItem,
   InternalValidateMessages,
   Rule,
   RuleItem,
@@ -17,6 +18,7 @@ import {
   ValidateMessages,
   ValidateOption,
   Values,
+  RuleValuePackage,
 } from './interface';
 
 /**
@@ -131,15 +133,14 @@ class Schema {
     } else {
       options.messages = this.messages();
     }
-    let arr;
-    let value;
-    const series = {};
+
+    const series: Record<string, RuleValuePackage[]> = {};
     const keys = options.keys || Object.keys(this.rules);
     keys.forEach(z => {
-      arr = this.rules[z];
-      value = source[z];
+      const arr = this.rules[z];
+      let value = source[z];
       arr.forEach(r => {
-        let rule = r;
+        let rule: InternalRuleItem = r;
         if (typeof rule.transform === 'function') {
           if (source === source_) {
             source = { ...source };
