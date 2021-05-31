@@ -120,7 +120,7 @@ function asyncParallelArray(
   const arrLength = arr.length;
 
   function count(errors: ValidateError[]) {
-    results.push(...errors);
+    results.push(...(errors || []));
     total++;
     if (total === arrLength) {
       callback(results);
@@ -160,7 +160,7 @@ function asyncSerialArray(
 function flattenObjArr(objArr: Record<string, RuleValuePackage[]>) {
   const ret: RuleValuePackage[] = [];
   Object.keys(objArr).forEach(k => {
-    ret.push(...objArr[k]);
+    ret.push(...(objArr[k] || []));
   });
   return ret;
 }
