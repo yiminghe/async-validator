@@ -1,18 +1,9 @@
+import { ExecuteValidator } from '../interface';
 import rules from '../rule';
 import { isEmptyValue } from '../util';
 
-/**
- *  Performs validation for any type.
- *
- *  @param rule The validation rule.
- *  @param value The value of the field on the source object.
- *  @param callback The callback function.
- *  @param source The source object being validated.
- *  @param options The validation options.
- *  @param options.messages The validation messages.
- */
-function any(rule, value, callback, source, options) {
-  const errors = [];
+const any: ExecuteValidator = (rule, value, callback, source, options) => {
+  const errors: string[] = [];
   const validate =
     rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
@@ -22,6 +13,6 @@ function any(rule, value, callback, source, options) {
     rules.required(rule, value, source, errors, options);
   }
   callback(errors);
-}
+};
 
 export default any;

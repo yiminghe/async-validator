@@ -92,7 +92,25 @@ export type ExecuteRule = (
   source: Values,
   errors: string[],
   options: ValidateOption,
-  type?: RuleType,
+  type?: string,
+) => void;
+
+/**
+ *  Performs validation for any type.
+ *
+ *  @param rule The validation rule.
+ *  @param value The value of the field on the source object.
+ *  @param callback The callback function.
+ *  @param source The source object being validated.
+ *  @param options The validation options.
+ *  @param options.messages The validation messages.
+ */
+export type ExecuteValidator = (
+  rule: InternalRuleItem,
+  value: Value,
+  callback: (error?: string[]) => void,
+  source: Values,
+  options: ValidateOption,
 ) => void;
 
 // >>>>> Message

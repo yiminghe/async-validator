@@ -93,7 +93,7 @@ function isNativeStringType(type: RuleType) {
   );
 }
 
-export function isEmptyValue(value: Value, type: RuleType) {
+export function isEmptyValue(value: Value, type?: RuleType) {
   if (value === undefined || value === null) {
     return true;
   }

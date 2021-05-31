@@ -1,20 +1,17 @@
+import { ExecuteValidator } from '../interface';
 import rules from '../rule';
 import { isEmptyValue } from '../util';
 
-const ENUM = 'enum';
+const ENUM = 'enum' as const;
 
-/**
- *  Validates an enumerable list.
- *
- *  @param rule The validation rule.
- *  @param value The value of the field on the source object.
- *  @param callback The callback function.
- *  @param source The source object being validated.
- *  @param options The validation options.
- *  @param options.messages The validation messages.
- */
-function enumerable(rule, value, callback, source, options) {
-  const errors = [];
+const enumerable: ExecuteValidator = (
+  rule,
+  value,
+  callback,
+  source,
+  options,
+) => {
+  const errors: string[] = [];
   const validate =
     rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
@@ -27,6 +24,6 @@ function enumerable(rule, value, callback, source, options) {
     }
   }
   callback(errors);
-}
+};
 
 export default enumerable;
