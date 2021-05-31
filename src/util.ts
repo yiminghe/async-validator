@@ -1,8 +1,10 @@
 /* eslint no-console:0 */
 
+import { ValidateError } from './interface';
+
 const formatRegExp = /%[sdj%]/g;
 
-export let warning = () => {};
+export let warning: (type: string, errors: string[]) => void = () => {};
 
 // don't print warning message when in production env or node runtime
 if (
@@ -21,7 +23,9 @@ if (
   };
 }
 
-export function convertFieldsError(errors) {
+export function convertFieldsError(
+  errors: ValidateError[],
+): Record<string, ValidateError[]> {
   if (!errors || !errors.length) return null;
   const fields = {};
   errors.forEach(error => {

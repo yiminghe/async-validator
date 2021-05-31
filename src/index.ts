@@ -8,7 +8,16 @@ import {
 } from './util';
 import validators from './validator/index';
 import { messages as defaultMessages, newMessages } from './messages';
-import { InternalValidateMessages, ValidateMessages } from './interface';
+import {
+  InternalValidateMessages,
+  Rule,
+  RuleItem,
+  Rules,
+  ValidateCallback,
+  ValidateMessages,
+  ValidateOption,
+  Values,
+} from './interface';
 
 /**
  *  Encapsulates a validation schema.
@@ -33,22 +42,15 @@ class Schema {
 
   static validators = validators;
 
-  // ======================== Instance =========F===============
-  rules = null;
+  // ======================== Instance ========================
+  rules: Record<string, RuleItem[]> = null;
   _messages: InternalValidateMessages = defaultMessages;
 
-  constructor(descriptor) {
+  constructor(descriptor: Rules) {
     this.define(descriptor);
   }
 
-  messages(messages: ValidateMessages) {
-    if (messages) {
-      this._messages = deepMerge(newMessages(), messages);
-    }
-    return this._messages;
-  }
-
-  define(rules) {
+  define(rules: Rules) {
     if (!rules) {
       throw new Error('Cannot configure a schema with no rules');
     }
@@ -56,20 +58,32 @@ class Schema {
       throw new Error('Rules must be an object');
     }
     this.rules = {};
-    let z;
-    let item;
-    for (z in rules) {
-      if (rules.hasOwnProperty(z)) {
-        item = rules[z];
-        this.rules[z] = Array.isArray(item) ? item : [item];
-      }
-    }
+
+    Object.keys(rules).forEach(name => {
+      const item: Rule = rules[name];
+      this.rules[name] = Array.isArray(item) ? item : [item];
+    });
   }
 
-  validate(source_, o = {}, oc = () => {}) {
-    let source = source_;
-    let options = o;
-    let callback = oc;
+  messages(messages?: ValidateMessages) {
+    if (messages) {
+      this._messages = deepMerge(newMessages(), messages);
+    }
+    return this._messages;
+  }
+
+  validate(
+    source: Values,
+    option: ValidateOption,
+    callback: ValidateCallback,
+  ): Promise<void>;
+  validate(source: Values, callback: ValidateCallback): Promise<void>;
+  validate(source: Values): Promise<void>;
+
+  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<void> {
+    let source: Values = source_;
+    let options: ValidateOption = o;
+    let callback: ValidateCallback = oc;
     if (typeof options === 'function') {
       callback = options;
       options = {};
