@@ -1,5 +1,5 @@
 // >>>>> Rule
-// Rule definition source of https://github.com/yiminghe/async-validator/blob/0d51d60086a127b21db76f44dff28ae18c165c47/src/index.d.ts
+// Modified from https://github.com/yiminghe/async-validator/blob/0d51d60086a127b21db76f44dff28ae18c165c47/src/index.d.ts
 export type RuleType =
   | 'string'
   | 'number'
@@ -17,8 +17,6 @@ export type RuleType =
   | 'email'
   | 'pattern'
   | 'any';
-
-export type ValidateSource = Record<string, any>;
 
 export interface ValidateOption {
   // whether to suppress internal warning
@@ -38,6 +36,10 @@ export interface ValidateOption {
   error?: (rule: InternalRuleItem, message: string) => ValidateError;
 }
 
+export type SyncErrorType = Error | string;
+export type SyncValidateResult = boolean | SyncErrorType | SyncErrorType[];
+export type ValidateResult = void | Promise<void> | SyncValidateResult;
+
 export interface RuleItem {
   type?: RuleType; // default type is 'string'
   required?: boolean;
@@ -50,27 +52,48 @@ export interface RuleItem {
   fields?: Record<string, RuleItem>; // ignore when without required
   options?: ValidateOption;
   defaultField?: RuleItem; // 'object' or 'array' containing validation rules
-  transform?: (value: any) => any;
+  transform?: (value: Value) => Value;
   message?: string;
   asyncValidator?: (
     rule: InternalRuleItem,
-    value: any,
+    value: Value,
     callback: (error?: string) => void,
-    source: ValidateSource,
+    source: Values,
     options: ValidateOption,
   ) => void | Promise<void>;
   validator?: (
     rule: InternalRuleItem,
-    value: any,
+    value: Value,
     callback: (error?: string) => void,
-    source: ValidateSource,
+    source: Values,
     options: ValidateOption,
-  ) => boolean | Error | Error[];
+  ) => SyncValidateResult;
 }
 
 export type Rule = RuleItem | RuleItem[];
 
 export type Rules = Record<string, Rule>;
+
+/**
+ *  Rule for validating a value exists in an enumerable list.
+ *
+ *  @param rule The validation rule.
+ *  @param value The value of the field on the source object.
+ *  @param source The source object being validated.
+ *  @param errors An array of errors that this rule may add
+ *  validation errors to.
+ *  @param options The validation options.
+ *  @param options.messages The validation messages.
+ *  @param type Rule type
+ */
+export type ExecuteRule = (
+  rule: InternalRuleItem,
+  value: Value,
+  source: Values,
+  errors: string[],
+  options: ValidateOption,
+  type?: RuleType,
+) => void;
 
 // >>>>> Message
 type ValidateMessage = string | (() => string);
@@ -128,7 +151,8 @@ export interface InternalValidateMessages extends ValidateMessages {
 }
 
 // >>>>> Values
-export type Values = any;
+export type Value = any;
+export type Values = Record<string, Value>;
 
 // >>>>> Validate
 export interface ValidateError {
@@ -145,7 +169,7 @@ export type ValidateCallback = (
 
 export interface RuleValuePackage {
   rule: InternalRuleItem;
-  value: any;
+  value: Value;
   source: Values;
   field: string;
 }

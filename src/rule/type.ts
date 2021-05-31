@@ -1,4 +1,5 @@
-import * as util from '../util';
+import { ExecuteRule, Value } from '../interface';
+import { format } from '../util';
 import required from './required';
 
 /* eslint max-len:0 */
@@ -14,16 +15,16 @@ const pattern = {
 };
 
 const types = {
-  integer(value) {
+  integer(value: Value) {
     return types.number(value) && parseInt(value, 10) === value;
   },
-  float(value) {
+  float(value: Value) {
     return types.number(value) && !types.integer(value);
   },
-  array(value) {
+  array(value: Value) {
     return Array.isArray(value);
   },
-  regexp(value) {
+  regexp(value: Value) {
     if (value instanceof RegExp) {
       return true;
     }
@@ -33,7 +34,7 @@ const types = {
       return false;
     }
   },
-  date(value) {
+  date(value: Value) {
     return (
       typeof value.getTime === 'function' &&
       typeof value.getMonth === 'function' &&
@@ -41,45 +42,34 @@ const types = {
       !isNaN(value.getTime())
     );
   },
-  number(value) {
+  number(value: Value) {
     if (isNaN(value)) {
       return false;
     }
     return typeof value === 'number';
   },
-  object(value) {
+  object(value: Value) {
     return typeof value === 'object' && !types.array(value);
   },
-  method(value) {
+  method(value: Value) {
     return typeof value === 'function';
   },
-  email(value) {
+  email(value: Value) {
     return (
       typeof value === 'string' &&
       !!value.match(pattern.email) &&
       value.length < 255
     );
   },
-  url(value) {
+  url(value: Value) {
     return typeof value === 'string' && !!value.match(pattern.url);
   },
-  hex(value) {
+  hex(value: Value) {
     return typeof value === 'string' && !!value.match(pattern.hex);
   },
 };
 
-/**
- *  Rule for validating the type of a value.
- *
- *  @param rule The validation rule.
- *  @param value The value of the field on the source object.
- *  @param source The source object being validated.
- *  @param errors An array of errors that this rule may add
- *  validation errors to.
- *  @param options The validation options.
- *  @param options.messages The validation messages.
- */
-function type(rule, value, source, errors, options) {
+const type: ExecuteRule = (rule, value, source, errors, options) => {
   if (rule.required && value === undefined) {
     required(rule, value, source, errors, options);
     return;
@@ -101,19 +91,15 @@ function type(rule, value, source, errors, options) {
   if (custom.indexOf(ruleType) > -1) {
     if (!types[ruleType](value)) {
       errors.push(
-        util.format(
-          options.messages.types[ruleType],
-          rule.fullField,
-          rule.type,
-        ),
+        format(options.messages.types[ruleType], rule.fullField, rule.type),
       );
     }
     // straight typeof check
   } else if (ruleType && typeof value !== rule.type) {
     errors.push(
-      util.format(options.messages.types[ruleType], rule.fullField, rule.type),
+      format(options.messages.types[ruleType], rule.fullField, rule.type),
     );
   }
-}
+};
 
 export default type;

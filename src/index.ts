@@ -21,6 +21,8 @@ import {
   RuleValuePackage,
   ValidateError,
   ValidateFieldsError,
+  SyncErrorType,
+  ValidateResult,
 } from './interface';
 
 /**
@@ -193,7 +195,7 @@ class Schema {
           };
         }
 
-        function cb(e: string | string[] = []) {
+        function cb(e: SyncErrorType | SyncErrorType[] = []) {
           let errorList = Array.isArray(e) ? e : [e];
           if (!options.suppressWarning && errorList.length) {
             Schema.warning('async-validator:', errorList);
@@ -272,7 +274,7 @@ class Schema {
           }
         }
 
-        let res;
+        let res: ValidateResult;
         if (rule.asyncValidator) {
           res = rule.asyncValidator(rule, data.value, cb, data.source, options);
         } else if (rule.validator) {
@@ -287,8 +289,8 @@ class Schema {
             cb(res.message);
           }
         }
-        if (res && res.then) {
-          res.then(
+        if (res && (res as Promise<void>).then) {
+          (res as Promise<void>).then(
             () => cb(),
             e => cb(e),
           );

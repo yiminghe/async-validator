@@ -5,11 +5,14 @@ import {
   ValidateOption,
   RuleValuePackage,
   InternalRuleItem,
+  SyncErrorType,
+  RuleType,
+  Value,
 } from './interface';
 
 const formatRegExp = /%[sdj%]/g;
 
-export let warning: (type: string, errors: string[]) => void = () => {};
+export let warning: (type: string, errors: SyncErrorType[]) => void = () => {};
 
 // don't print warning message when in production env or node runtime
 if (
@@ -79,7 +82,7 @@ export function format(
   return template;
 }
 
-function isNativeStringType(type) {
+function isNativeStringType(type: RuleType) {
   return (
     type === 'string' ||
     type === 'url' ||
@@ -90,7 +93,7 @@ function isNativeStringType(type) {
   );
 }
 
-export function isEmptyValue(value, type) {
+export function isEmptyValue(value: Value, type: RuleType) {
   if (value === undefined || value === null) {
     return true;
   }
@@ -103,17 +106,21 @@ export function isEmptyValue(value, type) {
   return false;
 }
 
-export function isEmptyObject(obj) {
+export function isEmptyObject(obj: object) {
   return Object.keys(obj).length === 0;
 }
 
-function asyncParallelArray(arr, func, callback) {
-  const results = [];
+function asyncParallelArray(
+  arr: RuleValuePackage[],
+  func: ValidateFunc,
+  callback: (errors: ValidateError[]) => void,
+) {
+  const results: ValidateError[] = [];
   let total = 0;
   const arrLength = arr.length;
 
-  function count(errors) {
-    results.push.apply(results, errors);
+  function count(errors: ValidateError[]) {
+    results.push(...errors);
     total++;
     if (total === arrLength) {
       callback(results);
@@ -125,11 +132,15 @@ function asyncParallelArray(arr, func, callback) {
   });
 }
 
-function asyncSerialArray(arr, func, callback) {
+function asyncSerialArray(
+  arr: RuleValuePackage[],
+  func: ValidateFunc,
+  callback: (errors: ValidateError[]) => void,
+) {
   let index = 0;
   const arrLength = arr.length;
 
-  function next(errors) {
+  function next(errors: ValidateError[]) {
     if (errors && errors.length) {
       callback(errors);
       return;
@@ -146,10 +157,10 @@ function asyncSerialArray(arr, func, callback) {
   next([]);
 }
 
-function flattenObjArr(objArr) {
-  const ret = [];
+function flattenObjArr(objArr: Record<string, RuleValuePackage[]>) {
+  const ret: RuleValuePackage[] = [];
   Object.keys(objArr).forEach(k => {
-    ret.push.apply(ret, objArr[k]);
+    ret.push(...objArr[k]);
   });
   return ret;
 }
@@ -168,13 +179,15 @@ export class AsyncValidationError extends Error {
   }
 }
 
+type ValidateFunc = (
+  data: RuleValuePackage,
+  doIt: (errors: ValidateError[]) => void,
+) => void;
+
 export function asyncMap(
   objArr: Record<string, RuleValuePackage[]>,
   option: ValidateOption,
-  func: (
-    data: RuleValuePackage,
-    doIt: (errors: ValidateError[]) => void,
-  ) => void,
+  func: ValidateFunc,
   callback: (errors: ValidateError[]) => void,
 ): Promise<void> {
   if (option.first) {
@@ -201,7 +214,7 @@ export function asyncMap(
   let total = 0;
   const results: ValidateError[] = [];
   const pending = new Promise<void>((resolve, reject) => {
-    const next = (errors: string[]) => {
+    const next = (errors: ValidateError[]) => {
       results.push.apply(results, errors);
       total++;
       if (total === objArrLength) {
