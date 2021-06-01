@@ -1,17 +1,7 @@
-import * as util from '../util';
+import { ExecuteRule } from '../interface';
+import { format } from '../util';
 
-/**
- *  Rule for validating minimum and maximum allowed values.
- *
- *  @param rule The validation rule.
- *  @param value The value of the field on the source object.
- *  @param source The source object being validated.
- *  @param errors An array of errors that this rule may add
- *  validation errors to.
- *  @param options The validation options.
- *  @param options.messages The validation messages.
- */
-function range(rule, value, source, errors, options) {
+const range: ExecuteRule = (rule, value, source, errors, options) => {
   const len = typeof rule.len === 'number';
   const min = typeof rule.min === 'number';
   const max = typeof rule.max === 'number';
@@ -44,28 +34,17 @@ function range(rule, value, source, errors, options) {
   }
   if (len) {
     if (val !== rule.len) {
-      errors.push(
-        util.format(options.messages[key].len, rule.fullField, rule.len),
-      );
+      errors.push(format(options.messages[key].len, rule.fullField, rule.len));
     }
   } else if (min && !max && val < rule.min) {
-    errors.push(
-      util.format(options.messages[key].min, rule.fullField, rule.min),
-    );
+    errors.push(format(options.messages[key].min, rule.fullField, rule.min));
   } else if (max && !min && val > rule.max) {
-    errors.push(
-      util.format(options.messages[key].max, rule.fullField, rule.max),
-    );
+    errors.push(format(options.messages[key].max, rule.fullField, rule.max));
   } else if (min && max && (val < rule.min || val > rule.max)) {
     errors.push(
-      util.format(
-        options.messages[key].range,
-        rule.fullField,
-        rule.min,
-        rule.max,
-      ),
+      format(options.messages[key].range, rule.fullField, rule.min, rule.max),
     );
   }
-}
+};
 
 export default range;

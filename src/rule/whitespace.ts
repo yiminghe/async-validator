@@ -1,4 +1,5 @@
-import * as util from '../util';
+import { ExecuteRule } from '../interface';
+import { format } from '../util';
 
 /**
  *  Rule for validating whitespace.
@@ -11,10 +12,10 @@ import * as util from '../util';
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-function whitespace(rule, value, source, errors, options) {
+const whitespace: ExecuteRule = (rule, value, source, errors, options) => {
   if (/^\s+$/.test(value) || value === '') {
-    errors.push(util.format(options.messages.whitespace, rule.fullField));
+    errors.push(format(options.messages.whitespace, rule.fullField));
   }
-}
+};
 
 export default whitespace;

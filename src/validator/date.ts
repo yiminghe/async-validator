@@ -1,9 +1,10 @@
-import rules from '../rule/index.js';
+import { ExecuteValidator } from '../interface';
+import rules from '../rule';
 import { isEmptyValue } from '../util';
 
-function date(rule, value, callback, source, options) {
+const date: ExecuteValidator = (rule, value, callback, source, options) => {
   // console.log('integer rule called %j', rule);
-  const errors = [];
+  const errors: string[] = [];
   const validate =
     rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   // console.log('validate on %s value', value);
@@ -28,6 +29,6 @@ function date(rule, value, callback, source, options) {
     }
   }
   callback(errors);
-}
+};
 
 export default date;

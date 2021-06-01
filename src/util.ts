@@ -1,8 +1,18 @@
 /* eslint no-console:0 */
 
+import {
+  ValidateError,
+  ValidateOption,
+  RuleValuePackage,
+  InternalRuleItem,
+  SyncErrorType,
+  RuleType,
+  Value,
+} from './interface';
+
 const formatRegExp = /%[sdj%]/g;
 
-export let warning = () => {};
+export let warning: (type: string, errors: SyncErrorType[]) => void = () => {};
 
 // don't print warning message when in production env or node runtime
 if (
@@ -21,7 +31,9 @@ if (
   };
 }
 
-export function convertFieldsError(errors) {
+export function convertFieldsError(
+  errors: ValidateError[],
+): Record<string, ValidateError[]> {
   if (!errors || !errors.length) return null;
   const fields = {};
   errors.forEach(error => {
@@ -32,15 +44,17 @@ export function convertFieldsError(errors) {
   return fields;
 }
 
-export function format(...args) {
-  let i = 1;
-  const f = args[0];
+export function format(
+  template: ((...args: any[]) => string) | string,
+  ...args: any[]
+): string {
+  let i = 0;
   const len = args.length;
-  if (typeof f === 'function') {
-    return f.apply(null, args.slice(1));
+  if (typeof template === 'function') {
+    return template.apply(null, args);
   }
-  if (typeof f === 'string') {
-    let str = String(f).replace(formatRegExp, x => {
+  if (typeof template === 'string') {
+    let str = template.replace(formatRegExp, x => {
       if (x === '%%') {
         return '%';
       }
@@ -51,7 +65,7 @@ export function format(...args) {
         case '%s':
           return String(args[i++]);
         case '%d':
-          return Number(args[i++]);
+          return (Number(args[i++]) as unknown) as string;
         case '%j':
           try {
             return JSON.stringify(args[i++]);
@@ -65,10 +79,10 @@ export function format(...args) {
     });
     return str;
   }
-  return f;
+  return template;
 }
 
-function isNativeStringType(type) {
+function isNativeStringType(type: string) {
   return (
     type === 'string' ||
     type === 'url' ||
@@ -79,7 +93,7 @@ function isNativeStringType(type) {
   );
 }
 
-export function isEmptyValue(value, type) {
+export function isEmptyValue(value: Value, type?: string) {
   if (value === undefined || value === null) {
     return true;
   }
@@ -92,17 +106,21 @@ export function isEmptyValue(value, type) {
   return false;
 }
 
-export function isEmptyObject(obj) {
+export function isEmptyObject(obj: object) {
   return Object.keys(obj).length === 0;
 }
 
-function asyncParallelArray(arr, func, callback) {
-  const results = [];
+function asyncParallelArray(
+  arr: RuleValuePackage[],
+  func: ValidateFunc,
+  callback: (errors: ValidateError[]) => void,
+) {
+  const results: ValidateError[] = [];
   let total = 0;
   const arrLength = arr.length;
 
-  function count(errors) {
-    results.push.apply(results, errors);
+  function count(errors: ValidateError[]) {
+    results.push(...(errors || []));
     total++;
     if (total === arrLength) {
       callback(results);
@@ -114,11 +132,15 @@ function asyncParallelArray(arr, func, callback) {
   });
 }
 
-function asyncSerialArray(arr, func, callback) {
+function asyncSerialArray(
+  arr: RuleValuePackage[],
+  func: ValidateFunc,
+  callback: (errors: ValidateError[]) => void,
+) {
   let index = 0;
   const arrLength = arr.length;
 
-  function next(errors) {
+  function next(errors: ValidateError[]) {
     if (errors && errors.length) {
       callback(errors);
       return;
@@ -135,26 +157,42 @@ function asyncSerialArray(arr, func, callback) {
   next([]);
 }
 
-function flattenObjArr(objArr) {
-  const ret = [];
+function flattenObjArr(objArr: Record<string, RuleValuePackage[]>) {
+  const ret: RuleValuePackage[] = [];
   Object.keys(objArr).forEach(k => {
-    ret.push.apply(ret, objArr[k]);
+    ret.push(...(objArr[k] || []));
   });
   return ret;
 }
 
 export class AsyncValidationError extends Error {
-  constructor(errors, fields) {
+  errors: ValidateError[];
+  fields: Record<string, ValidateError[]>;
+
+  constructor(
+    errors: ValidateError[],
+    fields: Record<string, ValidateError[]>,
+  ) {
     super('Async Validation Error');
     this.errors = errors;
     this.fields = fields;
   }
 }
 
-export function asyncMap(objArr, option, func, callback) {
+type ValidateFunc = (
+  data: RuleValuePackage,
+  doIt: (errors: ValidateError[]) => void,
+) => void;
+
+export function asyncMap(
+  objArr: Record<string, RuleValuePackage[]>,
+  option: ValidateOption,
+  func: ValidateFunc,
+  callback: (errors: ValidateError[]) => void,
+): Promise<void> {
   if (option.first) {
-    const pending = new Promise((resolve, reject) => {
-      const next = errors => {
+    const pending = new Promise<void>((resolve, reject) => {
+      const next = (errors: ValidateError[]) => {
         callback(errors);
         return errors.length
           ? reject(new AsyncValidationError(errors, convertFieldsError(errors)))
@@ -166,16 +204,17 @@ export function asyncMap(objArr, option, func, callback) {
     pending.catch(e => e);
     return pending;
   }
-  let firstFields = option.firstFields || [];
-  if (firstFields === true) {
-    firstFields = Object.keys(objArr);
-  }
+  const firstFields =
+    option.firstFields === true
+      ? Object.keys(objArr)
+      : option.firstFields || [];
+
   const objArrKeys = Object.keys(objArr);
   const objArrLength = objArrKeys.length;
   let total = 0;
-  const results = [];
-  const pending = new Promise((resolve, reject) => {
-    const next = errors => {
+  const results: ValidateError[] = [];
+  const pending = new Promise<void>((resolve, reject) => {
+    const next = (errors: ValidateError[]) => {
       results.push.apply(results, errors);
       total++;
       if (total === objArrLength) {
@@ -204,20 +243,27 @@ export function asyncMap(objArr, option, func, callback) {
   return pending;
 }
 
-export function complementError(rule) {
-  return oe => {
-    if (oe && oe.message) {
+function isErrorObj(
+  obj: ValidateError | string | (() => string),
+): obj is ValidateError {
+  return !!(obj && (obj as ValidateError).message);
+}
+
+export function complementError(rule: InternalRuleItem) {
+  return (oe: ValidateError | (() => string) | string): ValidateError => {
+    if (isErrorObj(oe)) {
       oe.field = oe.field || rule.fullField;
       return oe;
     }
+
     return {
       message: typeof oe === 'function' ? oe() : oe,
-      field: oe.field || rule.fullField,
+      field: ((oe as unknown) as ValidateError).field || rule.fullField,
     };
   };
 }
 
-export function deepMerge(target, source) {
+export function deepMerge<T extends object>(target: T, source: Partial<T>): T {
   if (source) {
     for (const s in source) {
       if (source.hasOwnProperty(s)) {

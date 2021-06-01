@@ -1,4 +1,6 @@
-export function newMessages() {
+import { InternalValidateMessages } from './interface';
+
+export function newMessages(): InternalValidateMessages {
   return {
     default: 'Validation error on field %s',
     required: '%s is required',

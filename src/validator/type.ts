@@ -1,9 +1,10 @@
-import rules from '../rule/index.js';
+import { ExecuteValidator } from '../interface';
+import rules from '../rule';
 import { isEmptyValue } from '../util';
 
-function type(rule, value, callback, source, options) {
+const type: ExecuteValidator = (rule, value, callback, source, options) => {
   const ruleType = rule.type;
-  const errors = [];
+  const errors: string[] = [];
   const validate =
     rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
@@ -16,6 +17,6 @@ function type(rule, value, callback, source, options) {
     }
   }
   callback(errors);
-}
+};
 
 export default type;

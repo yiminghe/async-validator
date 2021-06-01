@@ -8,6 +8,22 @@ import {
 } from './util';
 import validators from './validator/index';
 import { messages as defaultMessages, newMessages } from './messages';
+import {
+  InternalRuleItem,
+  InternalValidateMessages,
+  Rule,
+  RuleItem,
+  Rules,
+  ValidateCallback,
+  ValidateMessages,
+  ValidateOption,
+  Values,
+  RuleValuePackage,
+  ValidateError,
+  ValidateFieldsError,
+  SyncErrorType,
+  ValidateResult,
+} from './interface';
 
 /**
  *  Encapsulates a validation schema.
@@ -15,20 +31,32 @@ import { messages as defaultMessages, newMessages } from './messages';
  *  @param descriptor An object declaring validation rules
  *  for this schema.
  */
-function Schema(descriptor) {
-  this.rules = null;
-  this._messages = defaultMessages;
-  this.define(descriptor);
-}
-
-Schema.prototype = {
-  messages(messages) {
-    if (messages) {
-      this._messages = deepMerge(newMessages(), messages);
+class Schema {
+  // ========================= Static =========================
+  static register = function register(type: string, validator) {
+    if (typeof validator !== 'function') {
+      throw new Error(
+        'Cannot register a validator by type, validator is not a function',
+      );
     }
-    return this._messages;
-  },
-  define(rules) {
+    validators[type] = validator;
+  };
+
+  static warning = warning;
+
+  static messages = defaultMessages;
+
+  static validators = validators;
+
+  // ======================== Instance ========================
+  rules: Record<string, RuleItem[]> = null;
+  _messages: InternalValidateMessages = defaultMessages;
+
+  constructor(descriptor: Rules) {
+    this.define(descriptor);
+  }
+
+  define(rules: Rules) {
     if (!rules) {
       throw new Error('Cannot configure a schema with no rules');
     }
@@ -36,19 +64,32 @@ Schema.prototype = {
       throw new Error('Rules must be an object');
     }
     this.rules = {};
-    let z;
-    let item;
-    for (z in rules) {
-      if (rules.hasOwnProperty(z)) {
-        item = rules[z];
-        this.rules[z] = Array.isArray(item) ? item : [item];
-      }
+
+    Object.keys(rules).forEach(name => {
+      const item: Rule = rules[name];
+      this.rules[name] = Array.isArray(item) ? item : [item];
+    });
+  }
+
+  messages(messages?: ValidateMessages) {
+    if (messages) {
+      this._messages = deepMerge(newMessages(), messages);
     }
-  },
-  validate(source_, o = {}, oc = () => {}) {
-    let source = source_;
-    let options = o;
-    let callback = oc;
+    return this._messages;
+  }
+
+  validate(
+    source: Values,
+    option: ValidateOption,
+    callback: ValidateCallback,
+  ): Promise<void>;
+  validate(source: Values, callback: ValidateCallback): Promise<void>;
+  validate(source: Values): Promise<void>;
+
+  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<void> {
+    let source: Values = source_;
+    let options: ValidateOption = o;
+    let callback: ValidateCallback = oc;
     if (typeof options === 'function') {
       callback = options;
       options = {};
@@ -60,12 +101,11 @@ Schema.prototype = {
       return Promise.resolve();
     }
 
-    function complete(results) {
-      let i;
-      let errors = [];
-      let fields = {};
+    function complete(results: (ValidateError | ValidateError[])[]) {
+      let errors: ValidateError[] = [];
+      let fields: ValidateFieldsError = {};
 
-      function add(e) {
+      function add(e: ValidateError | ValidateError[]) {
         if (Array.isArray(e)) {
           errors = errors.concat(...e);
         } else {
@@ -73,7 +113,7 @@ Schema.prototype = {
         }
       }
 
-      for (i = 0; i < results.length; i++) {
+      for (let i = 0; i < results.length; i++) {
         add(results[i]);
       }
       if (!errors.length) {
@@ -95,15 +135,14 @@ Schema.prototype = {
     } else {
       options.messages = this.messages();
     }
-    let arr;
-    let value;
-    const series = {};
+
+    const series: Record<string, RuleValuePackage[]> = {};
     const keys = options.keys || Object.keys(this.rules);
     keys.forEach(z => {
-      arr = this.rules[z];
-      value = source[z];
+      const arr = this.rules[z];
+      let value = source[z];
       arr.forEach(r => {
-        let rule = r;
+        let rule: InternalRuleItem = r;
         if (typeof rule.transform === 'function') {
           if (source === source_) {
             source = { ...source };
@@ -117,13 +156,16 @@ Schema.prototype = {
         } else {
           rule = { ...rule };
         }
+
+        // Fill validator. Skip if nothing need to validate
         rule.validator = this.getValidationMethod(rule);
-        rule.field = z;
-        rule.fullField = rule.fullField || z;
-        rule.type = this.getType(rule);
         if (!rule.validator) {
           return;
         }
+
+        rule.field = z;
+        rule.fullField = rule.fullField || z;
+        rule.type = this.getType(rule);
         series[z] = series[z] || [];
         series[z].push({
           rule,
@@ -146,72 +188,74 @@ Schema.prototype = {
         deep = deep && (rule.required || (!rule.required && data.value));
         rule.field = data.field;
 
-        function addFullfield(key, schema) {
+        function addFullField(key: string, schema) {
           return {
             ...schema,
             fullField: `${rule.fullField}.${key}`,
           };
         }
 
-        function cb(e = []) {
-          let errors = e;
-          if (!Array.isArray(errors)) {
-            errors = [errors];
+        function cb(e: SyncErrorType | SyncErrorType[] = []) {
+          let errorList = Array.isArray(e) ? e : [e];
+          if (!options.suppressWarning && errorList.length) {
+            Schema.warning('async-validator:', errorList);
           }
-          if (!options.suppressWarning && errors.length) {
-            Schema.warning('async-validator:', errors);
-          }
-          if (errors.length && rule.message !== undefined) {
-            errors = [].concat(rule.message);
+          if (errorList.length && rule.message !== undefined) {
+            errorList = [].concat(rule.message);
           }
 
-          errors = errors.map(complementError(rule));
+          // Fill error info
+          let filledErrors = errorList.map(complementError(rule));
 
-          if (options.first && errors.length) {
+          if (options.first && filledErrors.length) {
             errorFields[rule.field] = 1;
-            return doIt(errors);
+            return doIt(filledErrors);
           }
           if (!deep) {
-            doIt(errors);
+            doIt(filledErrors);
           } else {
             // if rule is required but the target object
             // does not exist fail at the rule level and don't
             // go deeper
             if (rule.required && !data.value) {
               if (rule.message !== undefined) {
-                errors = [].concat(rule.message).map(complementError(rule));
+                filledErrors = []
+                  .concat(rule.message)
+                  .map(complementError(rule));
               } else if (options.error) {
-                errors = [
+                filledErrors = [
                   options.error(
                     rule,
                     format(options.messages.required, rule.field),
                   ),
                 ];
               }
-              return doIt(errors);
+              return doIt(filledErrors);
             }
 
-            let fieldsSchema = {};
+            let fieldsSchema: Record<string, RuleItem> = {};
             if (rule.defaultField) {
-              for (const k in data.value) {
-                if (data.value.hasOwnProperty(k)) {
-                  fieldsSchema[k] = rule.defaultField;
-                }
-              }
+              Object.keys(data.value).map(key => {
+                fieldsSchema[key] = rule.defaultField;
+              });
             }
             fieldsSchema = {
               ...fieldsSchema,
               ...data.rule.fields,
             };
-            for (const f in fieldsSchema) {
-              if (fieldsSchema.hasOwnProperty(f)) {
-                const fieldSchema = Array.isArray(fieldsSchema[f])
-                  ? fieldsSchema[f]
-                  : [fieldsSchema[f]];
-                fieldsSchema[f] = fieldSchema.map(addFullfield.bind(null, f));
-              }
-            }
-            const schema = new Schema(fieldsSchema);
+
+            const paredFieldsSchema: Record<string, RuleItem[]> = {};
+
+            Object.keys(fieldsSchema).forEach(field => {
+              const fieldSchema = fieldsSchema[field];
+              const fieldSchemaList = Array.isArray(fieldSchema)
+                ? fieldSchema
+                : [fieldSchema];
+              paredFieldsSchema[field] = fieldSchemaList.map(
+                addFullField.bind(null, field),
+              );
+            });
+            const schema = new Schema(paredFieldsSchema);
             schema.messages(options.messages);
             if (data.rule.options) {
               data.rule.options.messages = options.messages;
@@ -219,8 +263,8 @@ Schema.prototype = {
             }
             schema.validate(data.value, data.rule.options || options, errs => {
               const finalErrors = [];
-              if (errors && errors.length) {
-                finalErrors.push(...errors);
+              if (filledErrors && filledErrors.length) {
+                finalErrors.push(...filledErrors);
               }
               if (errs && errs.length) {
                 finalErrors.push(...errs);
@@ -230,7 +274,7 @@ Schema.prototype = {
           }
         }
 
-        let res;
+        let res: ValidateResult;
         if (rule.asyncValidator) {
           res = rule.asyncValidator(rule, data.value, cb, data.source, options);
         } else if (rule.validator) {
@@ -245,8 +289,8 @@ Schema.prototype = {
             cb(res.message);
           }
         }
-        if (res && res.then) {
-          res.then(
+        if (res && (res as Promise<void>).then) {
+          (res as Promise<void>).then(
             () => cb(),
             e => cb(e),
           );
@@ -256,8 +300,9 @@ Schema.prototype = {
         complete(results);
       },
     );
-  },
-  getType(rule) {
+  }
+
+  getType(rule: InternalRuleItem) {
     if (rule.type === undefined && rule.pattern instanceof RegExp) {
       rule.type = 'pattern';
     }
@@ -269,8 +314,9 @@ Schema.prototype = {
       throw new Error(format('Unknown rule type %s', rule.type));
     }
     return rule.type || 'string';
-  },
-  getValidationMethod(rule) {
+  }
+
+  getValidationMethod(rule: InternalRuleItem) {
     if (typeof rule.validator === 'function') {
       return rule.validator;
     }
@@ -282,23 +328,8 @@ Schema.prototype = {
     if (keys.length === 1 && keys[0] === 'required') {
       return validators.required;
     }
-    return validators[this.getType(rule)] || false;
-  },
-};
-
-Schema.register = function register(type, validator) {
-  if (typeof validator !== 'function') {
-    throw new Error(
-      'Cannot register a validator by type, validator is not a function',
-    );
+    return validators[this.getType(rule)] || undefined;
   }
-  validators[type] = validator;
-};
-
-Schema.warning = warning;
-
-Schema.messages = defaultMessages;
-
-Schema.validators = validators;
+}
 
 export default Schema;
