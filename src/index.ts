@@ -188,7 +188,7 @@ class Schema {
         deep = deep && (rule.required || (!rule.required && data.value));
         rule.field = data.field;
 
-        function addFullField(key: string, schema) {
+        function addFullField(key: string, schema: RuleItem) {
           return {
             ...schema,
             fullField: `${rule.fullField}.${key}`,
