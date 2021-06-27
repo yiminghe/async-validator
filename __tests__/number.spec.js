@@ -84,4 +84,24 @@ describe('number', () => {
       done();
     });
   });
+
+  it('return transformed value in promise.then', done => {
+    const value = {
+      v: '1',
+    };
+    new Schema({
+      v: {
+        type: 'number',
+        transform: () => 2,
+      },
+    })
+      .validate(value, errors => {
+        expect(value.v).toBe('1');
+        expect(errors).toBeFalsy();
+      })
+      .then(source => {
+        expect(source.v).toBe(2);
+        done();
+      });
+  });
 });
