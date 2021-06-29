@@ -73,6 +73,22 @@ describe('array', () => {
   it('works for undefined array', done => {
     new Schema({
       v: {
+        type: 'array',
+      },
+    }).validate(
+      {
+        v: undefined,
+      },
+      errors => {
+        expect(errors).toBe(null);
+        done();
+      },
+    );
+  });
+
+  it('works for undefined array and required', done => {
+    new Schema({
+      v: {
         required: true,
         type: 'array',
       },
@@ -83,6 +99,23 @@ describe('array', () => {
       errors => {
         expect(errors.length).toBe(1);
         expect(errors[0].message).toBe('v is required');
+        done();
+      },
+    );
+  });
+
+  it('works for undefined array and defaultField', done => {
+    new Schema({
+      v: {
+        type: 'array',
+        defaultField: { type: 'string' },
+      },
+    }).validate(
+      {
+        v: undefined,
+      },
+      errors => {
+        expect(errors).toBe(null);
         done();
       },
     );
