@@ -114,53 +114,60 @@ export type ExecuteValidator = (
 ) => void;
 
 // >>>>> Message
-type ValidateMessage = string | (() => string);
+type ValidateMessage<T extends any[] = unknown[]> =
+  | string
+  | ((...args: T) => string);
+type FullField = string | undefined;
+type EnumString = string | undefined;
+type Pattern = string | RegExp | undefined;
+type Range = number | undefined;
+type Type = string | undefined;
 
 export interface ValidateMessages {
   default?: ValidateMessage;
-  required?: ValidateMessage;
-  enum?: ValidateMessage;
-  whitespace?: ValidateMessage;
+  required?: ValidateMessage<[FullField]>;
+  enum?: ValidateMessage<[FullField, EnumString]>;
+  whitespace?: ValidateMessage<[FullField]>;
   date?: {
     format?: ValidateMessage;
     parse?: ValidateMessage;
     invalid?: ValidateMessage;
   };
   types?: {
-    string?: ValidateMessage;
-    method?: ValidateMessage;
-    array?: ValidateMessage;
-    object?: ValidateMessage;
-    number?: ValidateMessage;
-    date?: ValidateMessage;
-    boolean?: ValidateMessage;
-    integer?: ValidateMessage;
-    float?: ValidateMessage;
-    regexp?: ValidateMessage;
-    email?: ValidateMessage;
-    url?: ValidateMessage;
-    hex?: ValidateMessage;
+    string?: ValidateMessage<[FullField, Type]>;
+    method?: ValidateMessage<[FullField, Type]>;
+    array?: ValidateMessage<[FullField, Type]>;
+    object?: ValidateMessage<[FullField, Type]>;
+    number?: ValidateMessage<[FullField, Type]>;
+    date?: ValidateMessage<[FullField, Type]>;
+    boolean?: ValidateMessage<[FullField, Type]>;
+    integer?: ValidateMessage<[FullField, Type]>;
+    float?: ValidateMessage<[FullField, Type]>;
+    regexp?: ValidateMessage<[FullField, Type]>;
+    email?: ValidateMessage<[FullField, Type]>;
+    url?: ValidateMessage<[FullField, Type]>;
+    hex?: ValidateMessage<[FullField, Type]>;
   };
   string?: {
-    len?: ValidateMessage;
-    min?: ValidateMessage;
-    max?: ValidateMessage;
-    range?: ValidateMessage;
+    len?: ValidateMessage<[FullField, Range]>;
+    min?: ValidateMessage<[FullField, Range]>;
+    max?: ValidateMessage<[FullField, Range]>;
+    range?: ValidateMessage<[FullField, Range, Range]>;
   };
   number?: {
-    len?: ValidateMessage;
-    min?: ValidateMessage;
-    max?: ValidateMessage;
-    range?: ValidateMessage;
+    len?: ValidateMessage<[FullField, Range]>;
+    min?: ValidateMessage<[FullField, Range]>;
+    max?: ValidateMessage<[FullField, Range]>;
+    range?: ValidateMessage<[FullField, Range, Range]>;
   };
   array?: {
-    len?: ValidateMessage;
-    min?: ValidateMessage;
-    max?: ValidateMessage;
-    range?: ValidateMessage;
+    len?: ValidateMessage<[FullField, Range]>;
+    min?: ValidateMessage<[FullField, Range]>;
+    max?: ValidateMessage<[FullField, Range]>;
+    range?: ValidateMessage<[FullField, Range, Range]>;
   };
   pattern?: {
-    mismatch?: ValidateMessage;
+    mismatch?: ValidateMessage<[FullField, Value, Pattern]>;
   };
 }
 
