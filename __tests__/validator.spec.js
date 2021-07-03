@@ -434,8 +434,8 @@ describe('validator', () => {
             v: 2,
             v2: 1,
           })
-          .then(e => {
-            expect(e).toBeUndefined();
+          .then(source => {
+            expect(source).toMatchObject({ v: 2, v2: 1 });
             done();
           });
       });

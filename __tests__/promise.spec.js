@@ -131,7 +131,8 @@ describe('asyncValidator', () => {
       new Schema({
         v: [
           {
-            asyncValidator(rule, value) {
+            asyncValidator: (rule, value) => {
+              console.log(rule)
               return Promise.reject(new Error('e1'));
             },
           },

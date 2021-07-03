@@ -25,6 +25,8 @@ import {
   ValidateResult,
 } from './interface';
 
+export * from './interface';
+
 /**
  *  Encapsulates a validation schema.
  *
@@ -82,11 +84,11 @@ class Schema {
     source: Values,
     option: ValidateOption,
     callback: ValidateCallback,
-  ): Promise<void>;
-  validate(source: Values, callback: ValidateCallback): Promise<void>;
-  validate(source: Values): Promise<void>;
+  ): Promise<Values>;
+  validate(source: Values, callback: ValidateCallback): Promise<Values>;
+  validate(source: Values): Promise<Values>;
 
-  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<void> {
+  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<Values> {
     let source: Values = source_;
     let options: ValidateOption = o;
     let callback: ValidateCallback = oc;
@@ -98,7 +100,7 @@ class Schema {
       if (callback) {
         callback();
       }
-      return Promise.resolve();
+      return Promise.resolve(source);
     }
 
     function complete(results: (ValidateError | ValidateError[])[]) {
@@ -299,6 +301,7 @@ class Schema {
       results => {
         complete(results);
       },
+      source,
     );
   }
 
