@@ -57,17 +57,17 @@ export interface RuleItem {
   asyncValidator?: (
     rule: InternalRuleItem,
     value: Value,
-    callback: (error?: string) => void,
+    callback: (error?: string | Error) => void,
     source: Values,
     options: ValidateOption,
   ) => void | Promise<void>;
   validator?: (
     rule: InternalRuleItem,
     value: Value,
-    callback: (error?: string) => void,
+    callback: (error?: string | Error) => void,
     source: Values,
     options: ValidateOption,
-  ) => SyncValidateResult;
+  ) => SyncValidateResult | void;
 }
 
 export type Rule = RuleItem | RuleItem[];
