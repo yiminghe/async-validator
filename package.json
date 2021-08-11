@@ -18,7 +18,9 @@
     "pipeline": [
       [
         "pika-plugin-ts-types",
-        {}
+        {
+          "args": ["--rootDir", "src"]
+        }
       ],
       [
         "pika-plugin-build-web-babel",
