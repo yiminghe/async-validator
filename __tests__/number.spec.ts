@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 describe('number', () => {
   it('works', done => {
@@ -78,10 +78,35 @@ describe('number', () => {
         type: 'number',
         transform: Number,
       },
-    }).validate(value, errors => {
+    }).validate(value, (errors, data) => {
+      expect(data).toEqual({
+        v: 1,
+      });
       expect(value.v).toBe('1');
       expect(errors).toBeFalsy();
       done();
     });
+  });
+
+  it('return transformed value in promise.then', done => {
+    const value = {
+      v: '1',
+    };
+    new Schema({
+      v: {
+        type: 'number',
+        transform: Number,
+      },
+    })
+      .validate(value, errors => {
+        expect(value.v).toBe('1');
+        expect(errors).toBeFalsy();
+      })
+      .then(source => {
+        expect(source).toEqual({
+          v: 1,
+        });
+        done();
+      });
   });
 });

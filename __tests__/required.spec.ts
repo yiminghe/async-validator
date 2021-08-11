@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 const required = true;
 
 describe('required', () => {

@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema, { ValidateMessages } from '../src';
 
 describe('messages', () => {
   it('can call messages', done => {
@@ -107,34 +107,6 @@ describe('messages', () => {
         expect(errors[0].message).toBe('required!');
         expect(Object.keys(messages).length).toBe(1);
         expect(messages.required).toBe('required!');
-        done();
-      },
-    );
-  });
-
-  it('message can be object', done => {
-    const atom = {};
-    const messages = {
-      required: atom,
-    };
-    const schema = new Schema({
-      v: {
-        required: true,
-      },
-    });
-    schema.validate(
-      {
-        v: '',
-      },
-      {
-        messages,
-      },
-      errors => {
-        expect(errors).toBeTruthy();
-        expect(errors.length).toBe(1);
-        expect(errors[0].message).toBe(atom);
-        expect(Object.keys(messages).length).toBe(1);
-        expect(messages.required).toBe(atom);
         done();
       },
     );

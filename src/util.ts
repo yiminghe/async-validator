@@ -8,6 +8,7 @@ import {
   SyncErrorType,
   RuleType,
   Value,
+  Values,
 } from './interface';
 
 const formatRegExp = /%[sdj%]/g;
@@ -189,14 +190,15 @@ export function asyncMap(
   option: ValidateOption,
   func: ValidateFunc,
   callback: (errors: ValidateError[]) => void,
-): Promise<void> {
+  source: Values,
+): Promise<Values> {
   if (option.first) {
-    const pending = new Promise<void>((resolve, reject) => {
+    const pending = new Promise<Values>((resolve, reject) => {
       const next = (errors: ValidateError[]) => {
         callback(errors);
         return errors.length
           ? reject(new AsyncValidationError(errors, convertFieldsError(errors)))
-          : resolve();
+          : resolve(source);
       };
       const flattenArr = flattenObjArr(objArr);
       asyncSerialArray(flattenArr, func, next);
@@ -213,7 +215,7 @@ export function asyncMap(
   const objArrLength = objArrKeys.length;
   let total = 0;
   const results: ValidateError[] = [];
-  const pending = new Promise<void>((resolve, reject) => {
+  const pending = new Promise<Values>((resolve, reject) => {
     const next = (errors: ValidateError[]) => {
       results.push.apply(results, errors);
       total++;
@@ -223,12 +225,12 @@ export function asyncMap(
           ? reject(
               new AsyncValidationError(results, convertFieldsError(results)),
             )
-          : resolve();
+          : resolve(source);
       }
     };
     if (!objArrKeys.length) {
       callback(results);
-      resolve();
+      resolve(source);
     }
     objArrKeys.forEach(key => {
       const arr = objArr[key];
@@ -249,15 +251,33 @@ function isErrorObj(
   return !!(obj && (obj as ValidateError).message);
 }
 
-export function complementError(rule: InternalRuleItem) {
+function getValue(value: Values, path: string[]) {
+  let v = value;
+  for (let i = 0; i < path.length; i++) {
+    if (v == undefined) {
+      return v;
+    }
+    v = v[path[i]];
+  }
+  return v;
+}
+
+export function complementError(rule: InternalRuleItem, source: Values) {
   return (oe: ValidateError | (() => string) | string): ValidateError => {
+    let fieldValue;
+    if (rule.fullFields) {
+      fieldValue = getValue(source, rule.fullFields);
+    } else {
+      fieldValue = source[(oe as any).field || rule.fullField];
+    }
     if (isErrorObj(oe)) {
       oe.field = oe.field || rule.fullField;
+      oe.fieldValue = fieldValue;
       return oe;
     }
-
     return {
       message: typeof oe === 'function' ? oe() : oe,
+      fieldValue,
       field: ((oe as unknown) as ValidateError).field || rule.fullField,
     };
   };

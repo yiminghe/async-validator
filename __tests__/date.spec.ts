@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 describe('date', () => {
   it('required works for undefined', done => {

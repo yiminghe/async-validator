@@ -49,25 +49,25 @@ export interface RuleItem {
   len?: number; // Length of type 'string' and 'array'
   enum?: Array<string | number | boolean | null | undefined>; // possible values of type 'enum'
   whitespace?: boolean;
-  fields?: Record<string, RuleItem>; // ignore when without required
+  fields?: Record<string, Rule>; // ignore when without required
   options?: ValidateOption;
-  defaultField?: RuleItem; // 'object' or 'array' containing validation rules
+  defaultField?: Rule; // 'object' or 'array' containing validation rules
   transform?: (value: Value) => Value;
-  message?: string;
+  message?: string | ((a?: string) => string);
   asyncValidator?: (
     rule: InternalRuleItem,
     value: Value,
-    callback: (error?: string) => void,
+    callback: (error?: string | Error) => void,
     source: Values,
     options: ValidateOption,
   ) => void | Promise<void>;
   validator?: (
     rule: InternalRuleItem,
     value: Value,
-    callback: (error?: string) => void,
+    callback: (error?: string | Error) => void,
     source: Values,
     options: ValidateOption,
-  ) => SyncValidateResult;
+  ) => SyncValidateResult | void;
 }
 
 export type Rule = RuleItem | RuleItem[];
@@ -114,53 +114,60 @@ export type ExecuteValidator = (
 ) => void;
 
 // >>>>> Message
-type ValidateMessage = string | (() => string);
+type ValidateMessage<T extends any[] = unknown[]> =
+  | string
+  | ((...args: T) => string);
+type FullField = string | undefined;
+type EnumString = string | undefined;
+type Pattern = string | RegExp | undefined;
+type Range = number | undefined;
+type Type = string | undefined;
 
 export interface ValidateMessages {
   default?: ValidateMessage;
-  required?: ValidateMessage;
-  enum?: ValidateMessage;
-  whitespace?: ValidateMessage;
+  required?: ValidateMessage<[FullField]>;
+  enum?: ValidateMessage<[FullField, EnumString]>;
+  whitespace?: ValidateMessage<[FullField]>;
   date?: {
     format?: ValidateMessage;
     parse?: ValidateMessage;
     invalid?: ValidateMessage;
   };
   types?: {
-    string?: ValidateMessage;
-    method?: ValidateMessage;
-    array?: ValidateMessage;
-    object?: ValidateMessage;
-    number?: ValidateMessage;
-    date?: ValidateMessage;
-    boolean?: ValidateMessage;
-    integer?: ValidateMessage;
-    float?: ValidateMessage;
-    regexp?: ValidateMessage;
-    email?: ValidateMessage;
-    url?: ValidateMessage;
-    hex?: ValidateMessage;
+    string?: ValidateMessage<[FullField, Type]>;
+    method?: ValidateMessage<[FullField, Type]>;
+    array?: ValidateMessage<[FullField, Type]>;
+    object?: ValidateMessage<[FullField, Type]>;
+    number?: ValidateMessage<[FullField, Type]>;
+    date?: ValidateMessage<[FullField, Type]>;
+    boolean?: ValidateMessage<[FullField, Type]>;
+    integer?: ValidateMessage<[FullField, Type]>;
+    float?: ValidateMessage<[FullField, Type]>;
+    regexp?: ValidateMessage<[FullField, Type]>;
+    email?: ValidateMessage<[FullField, Type]>;
+    url?: ValidateMessage<[FullField, Type]>;
+    hex?: ValidateMessage<[FullField, Type]>;
   };
   string?: {
-    len?: ValidateMessage;
-    min?: ValidateMessage;
-    max?: ValidateMessage;
-    range?: ValidateMessage;
+    len?: ValidateMessage<[FullField, Range]>;
+    min?: ValidateMessage<[FullField, Range]>;
+    max?: ValidateMessage<[FullField, Range]>;
+    range?: ValidateMessage<[FullField, Range, Range]>;
   };
   number?: {
-    len?: ValidateMessage;
-    min?: ValidateMessage;
-    max?: ValidateMessage;
-    range?: ValidateMessage;
+    len?: ValidateMessage<[FullField, Range]>;
+    min?: ValidateMessage<[FullField, Range]>;
+    max?: ValidateMessage<[FullField, Range]>;
+    range?: ValidateMessage<[FullField, Range, Range]>;
   };
   array?: {
-    len?: ValidateMessage;
-    min?: ValidateMessage;
-    max?: ValidateMessage;
-    range?: ValidateMessage;
+    len?: ValidateMessage<[FullField, Range]>;
+    min?: ValidateMessage<[FullField, Range]>;
+    max?: ValidateMessage<[FullField, Range]>;
+    range?: ValidateMessage<[FullField, Range, Range]>;
   };
   pattern?: {
-    mismatch?: ValidateMessage;
+    mismatch?: ValidateMessage<[FullField, Value, Pattern]>;
   };
 }
 
@@ -175,14 +182,15 @@ export type Values = Record<string, Value>;
 // >>>>> Validate
 export interface ValidateError {
   message?: string;
+  fieldValue?: Value;
   field?: string;
 }
 
 export type ValidateFieldsError = Record<string, ValidateError[]>;
 
 export type ValidateCallback = (
-  errors?: ValidateError[],
-  fields?: Record<string, ValidateError[]>,
+  errors: ValidateError[] | null,
+  fields: ValidateFieldsError | Values,
 ) => void;
 
 export interface RuleValuePackage {
@@ -195,5 +203,6 @@ export interface RuleValuePackage {
 export interface InternalRuleItem extends Omit<RuleItem, 'validator'> {
   field?: string;
   fullField?: string;
+  fullFields?: string[];
   validator?: RuleItem['validator'] | ExecuteValidator;
 }

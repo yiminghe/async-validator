@@ -25,6 +25,8 @@ import {
   ValidateResult,
 } from './interface';
 
+export * from './interface';
+
 /**
  *  Encapsulates a validation schema.
  *
@@ -80,13 +82,13 @@ class Schema {
 
   validate(
     source: Values,
-    option: ValidateOption,
-    callback: ValidateCallback,
-  ): Promise<void>;
-  validate(source: Values, callback: ValidateCallback): Promise<void>;
-  validate(source: Values): Promise<void>;
+    option?: ValidateOption,
+    callback?: ValidateCallback,
+  ): Promise<Values>;
+  validate(source: Values, callback: ValidateCallback): Promise<Values>;
+  validate(source: Values): Promise<Values>;
 
-  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<void> {
+  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<Values> {
     let source: Values = source_;
     let options: ValidateOption = o;
     let callback: ValidateCallback = oc;
@@ -96,9 +98,9 @@ class Schema {
     }
     if (!this.rules || Object.keys(this.rules).length === 0) {
       if (callback) {
-        callback();
+        callback(null, source);
       }
-      return Promise.resolve();
+      return Promise.resolve(source);
     }
 
     function complete(results: (ValidateError | ValidateError[])[]) {
@@ -117,12 +119,14 @@ class Schema {
         add(results[i]);
       }
       if (!errors.length) {
-        errors = null;
-        fields = null;
+        callback(null, source);
       } else {
         fields = convertFieldsError(errors);
+        (callback as (
+          errors: ValidateError[],
+          fields: ValidateFieldsError,
+        ) => void)(errors, fields);
       }
-      callback(errors, fields);
     }
 
     if (options.messages) {
@@ -192,6 +196,7 @@ class Schema {
           return {
             ...schema,
             fullField: `${rule.fullField}.${key}`,
+            fullFields: rule.fullFields ? [...rule.fullFields, key] : [key],
           };
         }
 
@@ -205,7 +210,7 @@ class Schema {
           }
 
           // Fill error info
-          let filledErrors = errorList.map(complementError(rule));
+          let filledErrors = errorList.map(complementError(rule, source));
 
           if (options.first && filledErrors.length) {
             errorFields[rule.field] = 1;
@@ -221,7 +226,7 @@ class Schema {
               if (rule.message !== undefined) {
                 filledErrors = []
                   .concat(rule.message)
-                  .map(complementError(rule));
+                  .map(complementError(rule, source));
               } else if (options.error) {
                 filledErrors = [
                   options.error(
@@ -233,7 +238,7 @@ class Schema {
               return doIt(filledErrors);
             }
 
-            let fieldsSchema: Record<string, RuleItem> = {};
+            let fieldsSchema: Record<string, Rule> = {};
             if (rule.defaultField) {
               Object.keys(data.value).map(key => {
                 fieldsSchema[key] = rule.defaultField;
@@ -282,7 +287,11 @@ class Schema {
           if (res === true) {
             cb();
           } else if (res === false) {
-            cb(rule.message || `${rule.field} fails`);
+            cb(
+              typeof rule.message === 'function'
+                ? rule.message(rule.fullField || rule.field)
+                : rule.message || `${rule.fullField || rule.field} fails`,
+            );
           } else if (res instanceof Array) {
             cb(res);
           } else if (res instanceof Error) {
@@ -299,6 +308,7 @@ class Schema {
       results => {
         complete(results);
       },
+      source,
     );
   }
 

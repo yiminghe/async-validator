@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 describe('validator', () => {
   it('works', done => {
@@ -265,7 +265,7 @@ describe('validator', () => {
         .validate({
           v: 2,
         })
-        .catch(({ errors }) => {
+        .catch(({ errors, fields }) => {
           expect(errors.length).toBe(6);
           expect(errors[0].message).toBe('e1');
           expect(errors[1].message).toBe('e2');
@@ -273,6 +273,35 @@ describe('validator', () => {
           expect(errors[3].message).toBe('v3 fails');
           expect(errors[4].message).toBe('e5');
           expect(errors[5].message).toBe('e6');
+          expect(fields.v[0].fieldValue).toBe(2);
+          expect(fields).toMatchInlineSnapshot(`
+            Object {
+              "v": Array [
+                [Error: e1],
+                [Error: e2],
+              ],
+              "v2": Array [
+                [Error: e3],
+              ],
+              "v3": Array [
+                Object {
+                  "field": "v3",
+                  "fieldValue": undefined,
+                  "message": "v3 fails",
+                },
+                Object {
+                  "field": "v3",
+                  "fieldValue": undefined,
+                  "message": "e5",
+                },
+                Object {
+                  "field": "v3",
+                  "fieldValue": undefined,
+                  "message": "e6",
+                },
+              ],
+            }
+          `);
           done();
         });
     });
@@ -434,8 +463,8 @@ describe('validator', () => {
             v: 2,
             v2: 1,
           })
-          .then(e => {
-            expect(e).toBeUndefined();
+          .then(source => {
+            expect(source).toMatchObject({ v: 2, v2: 1 });
             done();
           });
       });

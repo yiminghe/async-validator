@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 const testNoErrorsFor = value => done => {
   new Schema({

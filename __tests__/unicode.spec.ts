@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 describe('unicode', () => {
   it('works for unicode U+0000 to U+FFFF ', done => {

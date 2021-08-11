@@ -300,7 +300,7 @@ Note that `defaultField` is expanded to `fields`, see [deep rules](#deep-rules).
 
 #### Transform
 
-Sometimes it is necessary to transform a value before validation, possibly to coerce the value or to sanitize it in some way. To do this add a `transform` function to the validation rule. The property is transformed prior to validation and re-assigned to the source object to mutate the value of the property in place.
+Sometimes it is necessary to transform a value before validation, possibly to coerce the value or to sanitize it in some way. To do this add a `transform` function to the validation rule. The property is transformed prior to validation and returned as promise result or callback result when pass validation.
 
 ```js
 import Schema from 'async-validator';
@@ -316,8 +316,13 @@ const descriptor = {
 };
 const validator = new Schema(descriptor);
 const source = { name: ' user  ' };
+
 validator.validate(source)
-  .then(() => assert.equal(source.name, 'user'));
+  .then((data) => assert.equal(data.name, 'user'));
+
+validator.validate(source,(errors, data)=>{
+  assert.equal(data.name, 'user'));
+});
 ```
 
 Without the `transform` function validation would fail due to the pattern not matching as the input contains leading and trailing whitespace, but by adding the transform function validation passes and the field value is sanitized at the same time.

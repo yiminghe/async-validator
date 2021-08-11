@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 describe('asyncValidator', () => {
   it('works', done => {
@@ -131,7 +131,7 @@ describe('asyncValidator', () => {
       new Schema({
         v: [
           {
-            asyncValidator(rule, value) {
+            asyncValidator: (rule, value) => {
               return Promise.reject(new Error('e1'));
             },
           },
@@ -195,7 +195,7 @@ describe('asyncValidator', () => {
         },
       );
     });
-    it("Whether to remove the 'Uncaught (in promise)' warning", async done => {
+    it("Whether to remove the 'Uncaught (in promise)' warning", async () => {
       let allCorrect = true;
       try {
         await new Schema({
@@ -203,7 +203,13 @@ describe('asyncValidator', () => {
             asyncValidator(rule, value) {
               return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                  reject([new Error(rule.message)]);
+                  reject([
+                    new Error(
+                      typeof rule.message === 'function'
+                        ? rule.message()
+                        : rule.message,
+                    ),
+                  ]);
                 }, 100);
               });
             },
@@ -216,7 +222,6 @@ describe('asyncValidator', () => {
         allCorrect = errors.length === 1;
       }
       expect(allCorrect).toBe(true);
-      done();
     });
   });
 });
