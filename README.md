@@ -10,7 +10,7 @@
 [npm-image]: https://img.shields.io/npm/v/async-validator.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/async-validator
 [travis-image]: https://img.shields.io/travis/yiminghe/async-validator.svg?style=flat-square
-[travis-url]: https://travis-ci.org/yiminghe/async-validator
+[travis-url]: https://travis-ci.com/yiminghe/async-validator
 [coveralls-image]: https://img.shields.io/coveralls/yiminghe/async-validator.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/yiminghe/async-validator?branch=master
 [node-image]: https://img.shields.io/badge/node.js-%3E=4.0.0-green.svg?style=flat-square

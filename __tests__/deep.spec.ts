@@ -222,7 +222,6 @@ describe('deep', () => {
       };
       const validator = new Schema(descriptor);
       validator.validate(record, (errors, fields) => {
-        console.log(errors, fields);
         done();
       });
     });
