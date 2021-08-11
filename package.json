@@ -49,7 +49,7 @@
   "scripts": {
     "lint-staged": "lint-staged",
     "prettier": "prettier --write \"{src,__tests__}/**/*.{js,tsx}\"",
-    "pub": "np --no-publish --no-release-draft && npm run build && npm publish pkg",
+    "pub": "np --no-publish --no-release-draft && npm run build && cd pkg && npm publish",
     "build": "pika-pack build",
     "test": "jest",
     "test:watch": "jest --watch",
