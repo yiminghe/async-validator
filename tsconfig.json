@@ -11,18 +11,12 @@
     "jsx": "preserve",
     "resolveJsonModule": true,
     "experimentalDecorators": true,
-    "noImplicitAny": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
     "declaration": true,
     "strictFunctionTypes": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "strict": true,
-    "strictPropertyInitialization": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "plugins": [
       {
         "transform": "@zerollup/ts-transform-paths"
