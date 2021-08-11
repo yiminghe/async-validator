@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "validate form asynchronous",
   "typings": "typings/index.d.ts",
   "keywords": [
@@ -19,7 +19,10 @@
       [
         "pika-plugin-ts-types",
         {
-          "args": ["--rootDir", "src"]
+          "args": [
+            "--rootDir",
+            "src"
+          ]
         }
       ],
       [
