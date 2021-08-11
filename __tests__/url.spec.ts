@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 describe('url', () => {
   it('works for empty string', done => {

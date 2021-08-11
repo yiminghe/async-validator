@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 describe('pattern', () => {
   it('works for non-required empty string', done => {

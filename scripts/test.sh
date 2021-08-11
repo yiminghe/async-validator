@@ -1,0 +1,1 @@
+NODE_ENV=test npx babel-node -x ".ts,.js,.jsx" scripts/runTest.ts

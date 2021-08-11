@@ -6,11 +6,6 @@
     "jsx": "preserve",
     "declaration": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
-      "rc-table": ["src/index.ts"]
-    }
+    "esModuleInterop": true
   }
 }

@@ -251,15 +251,33 @@ function isErrorObj(
   return !!(obj && (obj as ValidateError).message);
 }
 
-export function complementError(rule: InternalRuleItem) {
+function getValue(value: Values, path: string[]) {
+  let v = value;
+  for (let i = 0; i < path.length; i++) {
+    if (v == undefined) {
+      return v;
+    }
+    v = v[path[i]];
+  }
+  return v;
+}
+
+export function complementError(rule: InternalRuleItem, source: Values) {
   return (oe: ValidateError | (() => string) | string): ValidateError => {
+    let fieldValue;
+    if (rule.fullFields) {
+      fieldValue = getValue(source, rule.fullFields);
+    } else {
+      fieldValue = source[(oe as any).field || rule.fullField];
+    }
     if (isErrorObj(oe)) {
       oe.field = oe.field || rule.fullField;
+      oe.fieldValue = fieldValue;
       return oe;
     }
-
     return {
       message: typeof oe === 'function' ? oe() : oe,
+      fieldValue,
       field: ((oe as unknown) as ValidateError).field || rule.fullField,
     };
   };

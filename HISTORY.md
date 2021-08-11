@@ -1,6 +1,11 @@
 # History
 ----
 
+## 4.0.0 / 2021-08-11
+
+- full ts support
+- support return transformed value when pass validation(promise and callback): https://github.com/yiminghe/async-validator/pull/277
+
 ## 3.5.0 / 2020-11-12
 
 - https://github.com/yiminghe/async-validator/pull/256/files

@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 describe('object', () => {
   it('works for the required object with fields in case of empty string', done => {

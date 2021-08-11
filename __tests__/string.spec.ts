@@ -1,20 +1,19 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 describe('string', () => {
   it('works for none require', done => {
+    let data = {
+      v: '',
+    };
     new Schema({
       v: {
         type: 'string',
       },
-    }).validate(
-      {
-        v: '',
-      },
-      errors => {
-        expect(errors).toBe(null);
-        done();
-      },
-    );
+    }).validate(data, (errors, d) => {
+      expect(errors).toBe(null);
+      expect(d).toEqual(data);
+      done();
+    });
   });
 
   it('works for empty string', done => {

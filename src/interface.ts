@@ -49,11 +49,11 @@ export interface RuleItem {
   len?: number; // Length of type 'string' and 'array'
   enum?: Array<string | number | boolean | null | undefined>; // possible values of type 'enum'
   whitespace?: boolean;
-  fields?: Record<string, RuleItem>; // ignore when without required
+  fields?: Record<string, Rule>; // ignore when without required
   options?: ValidateOption;
-  defaultField?: RuleItem; // 'object' or 'array' containing validation rules
+  defaultField?: Rule; // 'object' or 'array' containing validation rules
   transform?: (value: Value) => Value;
-  message?: string;
+  message?: string | ((a?: string) => string);
   asyncValidator?: (
     rule: InternalRuleItem,
     value: Value,
@@ -182,14 +182,15 @@ export type Values = Record<string, Value>;
 // >>>>> Validate
 export interface ValidateError {
   message?: string;
+  fieldValue?: Value;
   field?: string;
 }
 
 export type ValidateFieldsError = Record<string, ValidateError[]>;
 
 export type ValidateCallback = (
-  errors?: ValidateError[],
-  fields?: Record<string, ValidateError[]>,
+  errors: ValidateError[] | null,
+  fields: ValidateFieldsError | Values,
 ) => void;
 
 export interface RuleValuePackage {
@@ -202,5 +203,6 @@ export interface RuleValuePackage {
 export interface InternalRuleItem extends Omit<RuleItem, 'validator'> {
   field?: string;
   fullField?: string;
+  fullFields?: string[];
   validator?: RuleItem['validator'] | ExecuteValidator;
 }

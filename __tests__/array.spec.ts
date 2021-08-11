@@ -1,4 +1,4 @@
-import Schema from '../src/';
+import Schema from '../src';
 
 describe('array', () => {
   it('works for type', done => {
@@ -28,8 +28,19 @@ describe('array', () => {
       {
         v: '',
       },
-      errors => {
+      (errors, fields) => {
         expect(errors.length).toBe(1);
+        expect(fields).toMatchInlineSnapshot(`
+          Object {
+            "v": Array [
+              Object {
+                "field": "v",
+                "fieldValue": "",
+                "message": "v is not an array",
+              },
+            ],
+          }
+        `);
         expect(errors[0].message).toBe('v is not an array');
         done();
       },
