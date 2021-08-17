@@ -248,7 +248,7 @@ export function asyncMap(
 function isErrorObj(
   obj: ValidateError | string | (() => string),
 ): obj is ValidateError {
-  return !!(obj && (obj as ValidateError).message);
+  return !!(obj && (obj as ValidateError).message !== undefined);
 }
 
 function getValue(value: Values, path: string[]) {
