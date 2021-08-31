@@ -429,11 +429,16 @@ const fields = {
 
 ## FAQ
 
-### How to avoid warning
+### How to avoid global warning
 
 ```js
 import Schema from 'async-validator';
 Schema.warning = function(){};
+```
+
+or
+```js
+globalThis.ASYNC_VALIDATOR_NO_WARNING = 1;
 ```
 
 ### How to check if it is `true`
