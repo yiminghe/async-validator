@@ -55,11 +55,7 @@ const types = {
     return typeof value === 'function';
   },
   email(value: Value) {
-    return (
-      typeof value === 'string' &&
-      !!value.match(pattern.email) &&
-      value.length < 255
-    );
+    return typeof value === 'string' && !!value.match(pattern.email);
   },
   url(value: Value) {
     return typeof value === 'string' && !!value.match(pattern.url);
