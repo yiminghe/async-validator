@@ -98,7 +98,7 @@ class Schema {
     }
     if (!this.rules || Object.keys(this.rules).length === 0) {
       if (callback) {
-        callback(null, source);
+        callback(null, null);
       }
       return Promise.resolve(source);
     }
@@ -119,7 +119,7 @@ class Schema {
         add(results[i]);
       }
       if (!errors.length) {
-        callback(null, source);
+        callback(null, null);
       } else {
         fields = convertFieldsError(errors);
         (callback as (

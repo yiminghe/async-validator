@@ -79,9 +79,7 @@ describe('number', () => {
         transform: Number,
       },
     }).validate(value, (errors, data) => {
-      expect(data).toEqual({
-        v: 1,
-      });
+      expect(data).toBe(null);
       expect(value.v).toBe('1');
       expect(errors).toBeFalsy();
       done();

@@ -11,7 +11,7 @@ describe('string', () => {
       },
     }).validate(data, (errors, d) => {
       expect(errors).toBe(null);
-      expect(d).toEqual(data);
+      expect(d).toBe(null);
       done();
     });
   });
