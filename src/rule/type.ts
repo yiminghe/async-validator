@@ -53,10 +53,18 @@ const types = {
     return typeof value === 'function';
   },
   email(value: Value) {
-    return typeof value === 'string' && !!value.match(pattern.email);
+    return (
+      typeof value === 'string' &&
+      value.length <= 320 &&
+      !!value.match(pattern.email)
+    );
   },
   url(value: Value) {
-    return typeof value === 'string' && value.length <= 2048 && !!value.match(pattern.url);
+    return (
+      typeof value === 'string' &&
+      value.length <= 2048 &&
+      !!value.match(pattern.url)
+    );
   },
   hex(value: Value) {
     return typeof value === 'string' && !!value.match(pattern.hex);
