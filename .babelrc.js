@@ -6,12 +6,10 @@ module.exports = api => {
     presets: [
       [
         '@babel/preset-env',
-        api.env('test')
-          ? { targets: { node: true } }
-          : {
-              loose: true,
-              modules: false,
-            },
+        {
+          loose: true,
+          modules: false,
+        },
       ],
       '@babel/preset-typescript',
     ],
