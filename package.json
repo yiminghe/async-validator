@@ -89,8 +89,5 @@
   },
   "pre-commit": [
     "lint-staged"
-  ],
-  "dependencies": {
-    "url-regex": "^5.0.0"
-  }
+  ]
 }
