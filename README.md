@@ -86,7 +86,7 @@ function(source, [options], callback): Promise
 
 The method will return a Promise object like:
 * `then()`，validation passed
-* `catch({ errors, fields })`，validation failed, errors is an array of all errors, fields is an object keyed by field name with an array of
+* `catch({ errors, fields })`，validation failed, errors is an array of all errors, fields is an object keyed by field name with an array of errors per field
 
 ### Options
 
