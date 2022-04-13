@@ -470,4 +470,22 @@ describe('validator', () => {
       });
     });
   });
+
+  it('custom validate function throw error', done => {
+    new Schema({
+      v: [
+        {
+          validator(rule, value, callback) {
+            throw new Error('something wrong');
+          },
+        },
+      ],
+    })
+      .validate({ v: '' })
+      .catch(({ errors }) => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('something wrong');
+        done();
+      });
+  });
 });

@@ -283,7 +283,11 @@ class Schema {
         if (rule.asyncValidator) {
           res = rule.asyncValidator(rule, data.value, cb, data.source, options);
         } else if (rule.validator) {
-          res = rule.validator(rule, data.value, cb, data.source, options);
+          try {
+            res = rule.validator(rule, data.value, cb, data.source, options);
+          } catch (error) {
+            cb(error.message);
+          }
           if (res === true) {
             cb();
           } else if (res === false) {
