@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "4.0.8",
+  "version": "4.1.0",
   "description": "validate form asynchronous",
   "typings": "typings/index.d.ts",
   "keywords": [
