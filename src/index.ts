@@ -88,7 +88,7 @@ class Schema {
   validate(source: Values, callback: ValidateCallback): Promise<Values>;
   validate(source: Values): Promise<Values>;
 
-  validate(source_: Values, o: any = {}, oc: any = () => {}): Promise<Values> {
+  validate(source_: Values, o: any = {}, oc: any = () => { }): Promise<Values> {
     let source: Values = source_;
     let options: ValidateOption = o;
     let callback: ValidateCallback = oc;
@@ -286,6 +286,11 @@ class Schema {
           try {
             res = rule.validator(rule, data.value, cb, data.source, options);
           } catch (error) {
+            console.error?.(error);
+            // rethrow to report error
+            setTimeout(() => {
+              throw error;
+            }, 0);
             cb(error.message);
           }
           if (res === true) {
