@@ -1,30 +1,14 @@
 language: node_js
 
-sudo: false
-
 notifications:
-  email:
-  - yiminghe@gmail.com
+    email:
+        - yiminghe@gmail.com
 
 node_js:
-- 10.15.0
+  - 16.13.1
 
 before_install:
-- |
-    if ! git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(\.md$)|(^(docs|examples))/'
-    then
-      echo "Only docs were updated, stopping build process."
-      exit
-    fi
-    phantomjs --version
+  - corepack enable
+
 script:
-- |
-    if [ "$TEST_TYPE" = test ]; then
-      npm test
-    else
-      npm run $TEST_TYPE
-    fi
-env:
-  matrix:
-  - TEST_TYPE=test
-  - TEST_TYPE=coverage
+  - yarn run coverage
