@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "lib",
-    "module": "ESNext",
+    "module": "commonjs",
     "target": "ES2020",
     "lib": [
       "es2016",

@@ -15,7 +15,7 @@ const formatRegExp = /%[sdj%]/g;
 
 declare var ASYNC_VALIDATOR_NO_WARNING;
 
-export let warning: (type: string, errors: SyncErrorType[]) => void = () => { };
+export let warning: (type: string, errors: SyncErrorType[]) => void = () => {};
 
 // don't print warning message when in production env or node runtime
 if (
@@ -26,7 +26,9 @@ if (
   typeof document !== 'undefined'
 ) {
   warning = (type, errors) => {
-    if (typeof console !== 'undefined' && console.warn &&
+    if (
+      typeof console !== 'undefined' &&
+      console.warn &&
       typeof ASYNC_VALIDATOR_NO_WARNING === 'undefined'
     ) {
       if (errors.every(e => typeof e === 'string')) {
@@ -227,8 +229,8 @@ export function asyncMap(
         callback(results);
         return results.length
           ? reject(
-            new AsyncValidationError(results, convertFieldsError(results)),
-          )
+              new AsyncValidationError(results, convertFieldsError(results)),
+            )
           : resolve(source);
       }
     };

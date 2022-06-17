@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "4.1.1",
+  "version": "4.2.2",
   "description": "validate form asynchronous",
   "typings": "typings/index.d.ts",
   "keywords": [
@@ -52,8 +52,9 @@
     "port": 8010
   },
   "scripts": {
+    "test-url":"yarn ts-node tests/url.ts",
     "lint-staged": "lint-staged",
-    "prettier": "prettier --write \"{src,__tests__}/**/*.{js,tsx}\"",
+    "prettier": "prettier --write \"{src,__tests__,tests}/**/*.{js,tsx,ts}\"",
     "pub": "np --no-publish --no-release-draft && npm run build && cd pkg && npm publish",
     "build": "pika-pack build",
     "test": "jest",
@@ -79,6 +80,7 @@
     "pika-plugin-ts-types": "0.1.x",
     "pre-commit": "^1.2.2",
     "prettier": "^1.11.1",
+    "ts-node": "^10.8.1",
     "typescript": "^4.3.2"
   },
   "lint-staged": {
