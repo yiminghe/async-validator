@@ -288,9 +288,11 @@ class Schema {
           } catch (error) {
             console.error?.(error);
             // rethrow to report error
-            setTimeout(() => {
-              throw error;
-            }, 0);
+            if (!options.suppressValidatorError) {
+              setTimeout(() => {
+                throw error;
+              }, 0);
+            }
             cb(error.message);
           }
           if (res === true) {

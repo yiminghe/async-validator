@@ -481,7 +481,12 @@ describe('validator', () => {
         },
       ],
     })
-      .validate({ v: '' })
+      .validate(
+        { v: '' },
+        {
+          suppressValidatorError: true,
+        },
+      )
       .catch(({ errors }) => {
         expect(errors.length).toBe(1);
         expect(errors[0].message).toBe('something wrong');
