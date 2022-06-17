@@ -1,6 +1,6 @@
 {
   "name": "async-validator",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "validate form asynchronous",
   "typings": "typings/index.d.ts",
   "keywords": [
@@ -52,7 +52,7 @@
     "port": 8010
   },
   "scripts": {
-    "test-url":"yarn ts-node tests/url.ts",
+    "test-url": "yarn ts-node tests/url.ts",
     "lint-staged": "lint-staged",
     "prettier": "prettier --write \"{src,__tests__,tests}/**/*.{js,tsx,ts}\"",
     "pub": "np --no-publish --no-release-draft && npm run build && cd pkg && npm publish",
