@@ -9,7 +9,7 @@
 
 [npm-image]: https://img.shields.io/npm/v/async-validator.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/async-validator
-[travis-image]:https://app.travis-ci.com/yiminghe/async-validator.svg?branch=master
+[travis-image]: https://app.travis-ci.com/yiminghe/async-validator.svg?branch=master
 [travis-url]: https://app.travis-ci.com/github/yiminghe/async-validator
 [coveralls-image]: https://img.shields.io/coveralls/yiminghe/async-validator.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/yiminghe/async-validator?branch=master
@@ -45,7 +45,7 @@ const descriptor = {
     asyncValidator: (rule, value) => {
       return new Promise((resolve, reject) => {
         if (value < 18) {
-          reject('too young');  // reject with error message
+          reject('too young'); // reject with error message
         } else {
           resolve();
         }
@@ -65,11 +65,14 @@ validator.validate({ name: 'muji' }, (errors, fields) => {
 });
 
 // PROMISE USAGE
-validator.validate({ name: 'muji', age: 16 }).then(() => {
-  // validation passed or without error message
-}).catch(({ errors, fields }) => {
-  return handleErrors(errors, fields);
-});
+validator
+  .validate({ name: 'muji', age: 16 })
+  .then(() => {
+    // validation passed or without error message
+  })
+  .catch(({ errors, fields }) => {
+    return handleErrors(errors, fields);
+  });
 ```
 
 ## API
@@ -80,24 +83,25 @@ validator.validate({ name: 'muji', age: 16 }).then(() => {
 function(source, [options], callback): Promise
 ```
 
-* `source`: The object to validate (required).
-* `options`: An object describing processing options for the validation (optional).
-* `callback`: A callback function to invoke when validation completes (optional).
+- `source`: The object to validate (required).
+- `options`: An object describing processing options for the validation (optional).
+- `callback`: A callback function to invoke when validation completes (optional).
 
 The method will return a Promise object like:
-* `then()`，validation passed
-* `catch({ errors, fields })`，validation failed, errors is an array of all errors, fields is an object keyed by field name with an array of errors per field
+
+- `then()`，validation passed
+- `catch({ errors, fields })`，validation failed, errors is an array of all errors, fields is an object keyed by field name with an array of errors per field
 
 ### Options
 
-* `suppressWarning`: Boolean, whether to suppress internal warning about invalid value.
+- `suppressWarning`: Boolean, whether to suppress internal warning about invalid value.
 
-* `first`: Boolean, Invoke `callback` when the first validation rule generates an error,
-no more validation rules are processed.
-If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.
+- `first`: Boolean, Invoke `callback` when the first validation rule generates an error,
+  no more validation rules are processed.
+  If your validation involves multiple asynchronous calls (for example, database queries) and you only need the first error use this option.
 
-* `firstFields`: Boolean|String[], Invoke `callback` when the first validation rule of the specified field generates an error,
-no more validation rules of the same field are processed.  `true` means all fields.
+- `firstFields`: Boolean|String[], Invoke `callback` when the first validation rule of the specified field generates an error,
+  no more validation rules of the same field are processed. `true` means all fields.
 
 ### Rules
 
@@ -107,12 +111,12 @@ Rules may be functions that perform validation.
 function(rule, value, callback, source, options)
 ```
 
-* `rule`: The validation rule in the source descriptor that corresponds to the field name being validated. It is always assigned a `field` property with the name of the field being validated.
-* `value`: The value of the source object property being validated.
-* `callback`: A callback function to invoke once validation is complete. It expects to be passed an array of `Error` instances to indicate validation failure. If the check is synchronous, you can directly return a ` false ` or ` Error ` or ` Error Array `.
-* `source`: The source object that was passed to the `validate` method.
-* `options`: Additional options.
-* `options.messages`: The object containing validation error messages, will be deep merged with defaultMessages.
+- `rule`: The validation rule in the source descriptor that corresponds to the field name being validated. It is always assigned a `field` property with the name of the field being validated.
+- `value`: The value of the source object property being validated.
+- `callback`: A callback function to invoke once validation is complete. It expects to be passed an array of `Error` instances to indicate validation failure. If the check is synchronous, you can directly return a `false` or `Error` or `Error Array`.
+- `source`: The source object that was passed to the `validate` method.
+- `options`: Additional options.
+- `options.messages`: The object containing validation error messages, will be deep merged with defaultMessages.
 
 The options passed to `validate` or `asyncValidate` are passed on to the validation functions so that you may reference transient data (such as model references) in validation functions. However, some option names are reserved; if you use these properties of the options object they are overwritten. The reserved properties are `messages`, `exception` and `error`.
 
@@ -122,9 +126,14 @@ const descriptor = {
   name(rule, value, callback, source, options) {
     const errors = [];
     if (!/^[a-z0-9]+$/.test(value)) {
-      errors.push(new Error(
-        util.format('%s must be lowercase alphanumeric characters', rule.field),
-      ));
+      errors.push(
+        new Error(
+          util.format(
+            '%s must be lowercase alphanumeric characters',
+            rule.field,
+          ),
+        ),
+      );
     }
     return errors;
   },
@@ -144,7 +153,7 @@ It is often useful to test against multiple validation rules for a single field,
 const descriptor = {
   email: [
     { type: 'string', required: true, pattern: Schema.pattern.email },
-    { 
+    {
       validator(rule, value, callback, source, options) {
         const errors = [];
         // test if email address already exists in a database
@@ -160,21 +169,21 @@ const descriptor = {
 
 Indicates the `type` of validator to use. Recognised type values are:
 
-* `string`: Must be of type `string`. `This is the default type.`
-* `number`: Must be of type `number`.
-* `boolean`: Must be of type `boolean`.
-* `method`: Must be of type `function`.
-* `regexp`: Must be an instance of `RegExp` or a string that does not generate an exception when creating a new `RegExp`.
-* `integer`: Must be of type `number` and an integer.
-* `float`: Must be of type `number` and a floating point number.
-* `array`: Must be an array as determined by `Array.isArray`.
-* `object`: Must be of type `object` and not `Array.isArray`.
-* `enum`: Value must exist in the `enum`.
-* `date`: Value must be valid as determined by `Date`
-* `url`: Must be of type `url`.
-* `hex`: Must be of type `hex`.
-* `email`: Must be of type `email`.
-* `any`: Can be any type.
+- `string`: Must be of type `string`. `This is the default type.`
+- `number`: Must be of type `number`.
+- `boolean`: Must be of type `boolean`.
+- `method`: Must be of type `function`.
+- `regexp`: Must be an instance of `RegExp` or a string that does not generate an exception when creating a new `RegExp`.
+- `integer`: Must be of type `number` and an integer.
+- `float`: Must be of type `number` and a floating point number.
+- `array`: Must be an array as determined by `Array.isArray`.
+- `object`: Must be of type `object` and not `Array.isArray`.
+- `enum`: Value must exist in the `enum`.
+- `date`: Value must be valid as determined by `Date`
+- `url`: Must be of type `url`.
+- `hex`: Must be of type `hex`.
+- `email`: Must be of type `email`.
+- `any`: Can be any type.
 
 #### Required
 
@@ -212,6 +221,9 @@ It is typical to treat required fields that only contain whitespace as errors. T
 
 You may wish to sanitize user input instead of testing for whitespace, see [transform](#transform) for an example that would allow you to strip whitespace.
 
+#### zero
+
+`0` is an required
 
 #### Deep Rules
 
@@ -256,10 +268,9 @@ const descriptor = {
 };
 const validator = new Schema(descriptor);
 
-validator.validate({ address: {} })
-  .catch(({ errors, fields }) => {
-    // now only errors for street and name    
-  });
+validator.validate({ address: {} }).catch(({ errors, fields }) => {
+  // now only errors for street and name
+});
 ```
 
 The parent rule is also validated so if you have a set of rules such as:
@@ -327,7 +338,6 @@ validator.validate(source,(errors, data)=>{
 
 Without the `transform` function validation would fail due to the pattern not matching as the input contains leading and trailing whitespace, but by adding the transform function validation passes and the field value is sanitized at the same time.
 
-
 #### Messages
 
 Depending upon your application requirements, you may need i18n support or you may prefer different validation error messages.
@@ -345,6 +355,7 @@ Message can be any type, such as jsx format.
 ```
 
 Message can also be a function, e.g. if you use vue-i18n:
+
 ```js
 { name: { type: 'string', required: true, message: () => this.$t( 'name is required' ) } }
 ```
@@ -378,11 +389,14 @@ const fields = {
       ajax({
         url: 'xx',
         value: value,
-      }).then(function(data) {
-        callback();
-      }, function(error) {
-        callback(new Error(error));
-      });
+      }).then(
+        function(data) {
+          callback();
+        },
+        function(error) {
+          callback(new Error(error));
+        },
+      );
     },
   },
 
@@ -415,13 +429,10 @@ const fields = {
       return new Error(`${value} is not equal to 'test'.`);
     },
   },
- 
+
   arrField: {
     validator(rule, value) {
-      return [
-        new Error('Message 1'),
-        new Error('Message 2'),
-      ];
+      return [new Error('Message 1'), new Error('Message 2')];
     },
   },
 };
@@ -433,10 +444,11 @@ const fields = {
 
 ```js
 import Schema from 'async-validator';
-Schema.warning = function(){};
+Schema.warning = function() {};
 ```
 
 or
+
 ```js
 globalThis.ASYNC_VALIDATOR_NO_WARNING = 1;
 ```

@@ -18,6 +18,9 @@ const string: ExecuteValidator = (rule, value, callback, source, options) => {
       if (rule.whitespace === true) {
         rules.whitespace(rule, value, source, errors, options);
       }
+      if (rule.zero === true) {
+        rules.zero(rule, value, source, errors, options);
+      }
     }
   }
   callback(errors);

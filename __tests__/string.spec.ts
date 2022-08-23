@@ -126,4 +126,23 @@ describe('string', () => {
       },
     );
   });
+  it('works for zero', done => {
+    new Schema({
+      v: {
+        required: true,
+        type: 'string',
+        zero: true,
+        message: 'haha',
+      },
+    }).validate(
+      {
+        v: '0',
+      },
+      errors => {
+        expect(errors.length).toBe(1);
+        expect(errors[0].message).toBe('haha');
+        done();
+      },
+    );
+  });
 });

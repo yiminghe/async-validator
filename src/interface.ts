@@ -52,6 +52,7 @@ export interface RuleItem {
   len?: number; // Length of type 'string' and 'array'
   enum?: Array<string | number | boolean | null | undefined>; // possible values of type 'enum'
   whitespace?: boolean;
+  zero?: boolean;
   fields?: Record<string, Rule>; // ignore when without required
   options?: ValidateOption;
   defaultField?: Rule; // 'object' or 'array' containing validation rules
@@ -131,6 +132,7 @@ export interface ValidateMessages {
   required?: ValidateMessage<[FullField]>;
   enum?: ValidateMessage<[FullField, EnumString]>;
   whitespace?: ValidateMessage<[FullField]>;
+  zero?: ValidateMessage<[FullField]>;
   date?: {
     format?: ValidateMessage;
     parse?: ValidateMessage;
