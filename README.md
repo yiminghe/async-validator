@@ -25,7 +25,7 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 ## Install
 
 ```bash
-npm i omni-validator
+npm i async-validator-new
 ```
 
 ## Usage
