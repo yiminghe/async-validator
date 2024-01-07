@@ -26,6 +26,7 @@ import {
 } from './interface';
 
 export * from './interface';
+export { AsyncValidationError } from './util';
 
 /**
  *  Encapsulates a validation schema.
