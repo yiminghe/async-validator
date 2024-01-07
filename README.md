@@ -1,4 +1,4 @@
-# async-validator
+# omni-validator
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -25,7 +25,7 @@ Validate form asynchronous. A variation of https://github.com/freeformsystems/as
 ## Install
 
 ```bash
-npm i async-validator
+npm i omni-validator
 ```
 
 ## Usage
