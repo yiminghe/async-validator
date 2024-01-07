@@ -1,5 +1,5 @@
 {
-  "name": "omni-validator",
+  "name": "@omni/validator",
   "version": "4.2.6",
   "description": "validate form asynchronous",
   "typings": "typings/index.d.ts",
